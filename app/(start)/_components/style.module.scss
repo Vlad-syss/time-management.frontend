@@ -1,0 +1,59 @@
+.link {
+	position: relative;
+	&::before {
+		position: absolute;
+		content: '';
+		left: 50%;
+		bottom: -5px;
+		width: 0;
+		height: 1.4px;
+		background: #222222;
+		transition: all 0.3s;
+		// color:#f97a48
+	}
+	&:hover::before {
+		width: 100%;
+		left: 0;
+	}
+}
+
+.get {
+	&:hover svg {
+		transform: translateX(10px);
+	}
+	svg {
+		transition: all 0.3s;
+	}
+}
+
+.block::after {
+	content: '';
+	position: fixed;
+	z-index: -1;
+	background-image: linear-gradient(
+		0deg,
+		hsl(24deg 100% 55%) 0%,
+		hsl(16deg 100% 74%) 3%,
+		hsl(14deg 100% 84%) 7%,
+		hsl(13deg 100% 92%) 13%,
+		hsl(13deg 100% 98%) 19%,
+		hsl(13deg 100% 100%) 24%
+	);
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	animation: gradient-animation 5s ease infinite;
+}
+
+@keyframes gradient-animation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
