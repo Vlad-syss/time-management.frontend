@@ -8,12 +8,12 @@ const StartLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<div
 			className={cn(
-				'flex flex-auto h-full flex-col overflow-hidden overflow-y-auto relative z-[1]',
+				'flex flex-auto h-full flex-col overflow-hidden overflow-y-auto relative z-[1] dark:text-[#fff]/95 dark:bg-[#344955]/80 transition-all dark:after:bg-gradient-to-t dark:from-purple-500/50 dark:to-pink-500/0',
 				style.block
 			)}
 		>
 			<Navbar />
-			<main className='h-full px-4 flex flex-col w-full mx-auto max-w-[1400px] pt-[80px] relative md:pt-[150px]'>
+			<main className='h-full px-4 flex flex-col w-full mx-auto max-w-[1400px] pt-[80px] relative md:pt-[150px]  transition-colors'>
 				{children}
 			</main>
 			<Footer />

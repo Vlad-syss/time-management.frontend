@@ -32,7 +32,6 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 							backgroundColor: 'rgba(100, 0, 0, 0.45)',
 							display: 'flex',
 							justifyContent: 'center',
-							paddingTop: '40px',
 							zIndex: '1000',
 							backdropFilter: 'blur(2px)',
 						},
@@ -55,17 +54,17 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 						}}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className='bg-orange-200 p-5 mx-2'
+						className='bg-orange-200 p-2 py-3 md:p-5 md:mx-2 md:mt-10'
 					>
 						<div className='flex gap-2 items-start mb-12'>
-							<span className='flex items-center justify-center p-4 mx-4 rounded-full bg-blue-500/30'>
-								<BellRing size={35} />
+							<span className='flex items-center justify-center p-3 md:p-4 mx-4 rounded-full bg-blue-500/30'>
+								<BellRing className='w-6 h-6 md:w-9 md:h-9' />
 							</span>
 							<div className='flex flex-col gap-1'>
-								<p className='font-semibold text-[18px] leading-[1.4rem]'>
+								<p className='font-semibold md:text-[18px] text-[16px] leading-[1.4rem]'>
 									{message}
 								</p>
-								<span className=' text-sm text-gray-900/80'>
+								<span className=' text-xs md:text-sm text-gray-900/80'>
 									All the data stayed in security so dont worry about it ;)
 								</span>
 							</div>

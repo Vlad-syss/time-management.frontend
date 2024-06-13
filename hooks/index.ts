@@ -1,4 +1,5 @@
 export { axiosInstance, useAxios } from './useAnxios'
 export { useAuth } from './useAuth'
 export { useConfirmModal } from './useConfirmModal'
+export { useTheme } from './useTheme'
 export { useWidth } from './useWidth'

@@ -23,7 +23,7 @@ const config: Config = {
 				input: 'rgb(234, 88, 12 )', // Bisque
 				ring: '#FFDEAD', // NavajoWhite
 				background: 'transparent', // PeachPuff
-				foreground: '#FFA07A', // LightSalmon
+				foreground: '#FFB07A', // LightSalmon
 				primary: {
 					DEFAULT: '#f97a48', // LightSalmon
 					foreground: '#FFFFFF',
@@ -33,7 +33,7 @@ const config: Config = {
 					foreground: '#FFFFFF',
 				},
 				destructive: {
-					DEFAULT: '#FF6347', // Tomato
+					DEFAULT: '#FF3347', // Tomato
 					foreground: '#FFFFFF',
 				},
 				muted: {
@@ -66,6 +66,10 @@ const config: Config = {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
+			},
+			gridTemplateColumns: {
+				open: '300px 1fr',
+				collapsed: '80px 1fr',
 			},
 		},
 	},

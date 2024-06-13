@@ -1,17 +1,19 @@
 'use client'
 
 import { ConfirmModal } from '@/components/modals/ConfirmModal'
-import { useAuthContext } from '@/components/providers'
+import { useAuthContext, useThemeContext } from '@/components/providers'
 import { Button } from '@/components/ui/button'
+import { MainTitle } from '@/components/ui/mainTitle'
 import { useConfirmModal, useWidth } from '@/hooks'
 import { RouteLink } from '@/types'
 import cn from 'classnames'
 import {
 	ChevronRight,
-	LayoutTemplate,
 	LoaderPinwheel,
 	LogIn,
 	LogOut,
+	Moon,
+	Sun,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -35,6 +37,7 @@ const routes: RouteLink[] = [
 
 export const Navbar: React.FC = () => {
 	const { isOpen, openModal, closeModal } = useConfirmModal()
+	const { theme, toggleTheme } = useThemeContext()
 	const router = useRouter()
 	const width = useWidth()
 	const { isAuthenticated, isLoading, logout } = useAuthContext()
@@ -69,7 +72,7 @@ export const Navbar: React.FC = () => {
 						variant='default'
 						size={width <= 768 ? 'sm' : 'lg'}
 						className={cn(
-							'hover:text-white flex items-center gap-2',
+							'hover:text-white flex items-center gap-2 dark:bg-[#222222]/80',
 							style.get
 						)}
 					>
@@ -122,18 +125,24 @@ export const Navbar: React.FC = () => {
 
 	return (
 		<>
-			<div className='px-2 py-3 border-b-2 border-slate-900/40 w-full fixed z-50 l-0 t-0 backdrop-blur-sm shadow-lg md:py-7 md:px-4'>
-				<div className='flex w-full justify-between items-center mx-auto max-w-[1400px]'>
-					<Link
-						href='/'
-						className='flex gap-1 items-center font-bold text-[18px] md:text-2xl'
-					>
-						<LayoutTemplate className='w-5 h-5 md:w-7 md:h-7' />
-						<p>
-							Take<span className='text-orange-600'>Time</span>
-						</p>
-					</Link>
+			<div className='px-2 py-3 border-b-2 border-slate-900/40 w-full fixed z-50 l-0 t-0 backdrop-blur-sm shadow-lg md:py-7 md:px-4 dark:bg-[#35374B]/80 dark:border-white/70'>
+				<div className='flex w-full justify-between items-center mx-auto max-w-[1400px] relative'>
+					<MainTitle />
 					<ul className='flex items-center gap-2 md:gap-8'>{renderedRoutes}</ul>
+					{isAuthenticated && !isLoading && (
+						<Button
+							variant='ghost'
+							size='icon'
+							onClick={toggleTheme}
+							className='absolute right-0 top-[74px] hover:dark:bg-[#222222]/80 hover:text-white bg-transparent/10'
+						>
+							{theme === 'dark' ? (
+								<Moon className='w-4 h-4 md:w-5 md:h-5' />
+							) : (
+								<Sun className='w-4 h-4 md:w-5 md:h-5' />
+							)}
+						</Button>
+					)}
 				</div>
 			</div>
 			<ConfirmModal

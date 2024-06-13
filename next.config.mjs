@@ -6,6 +6,16 @@ const nextConfig = {
 	env: {
 		DB_URL: process.env.DB_URL,
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'http',
+				hostname: 'localhost',
+				port: '4444',
+				pathname: '/uploads/**',
+			},
+		],
+	},
 }
 
 export default nextConfig

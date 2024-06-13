@@ -31,14 +31,14 @@ export default function Home() {
 
 	return (
 		<>
-			<main className='md:text-center text-start h-full flex md:items-center flex-col gap-3 relative z-10'>
+			<main className='md:text-center text-start h-full flex md:items-center flex-col gap-3 relative z-10 '>
 				<h1 className='font-semibold text-2xl md:text-4xl leading-8 md:leading-10 relative z-10'>
 					Hello, it's a project called "Take
-					<span className='text-orange-600'>Time</span>"
+					<span className='text-orange-600 dark:text-orange-400'>Time</span>"
 					{width <= 768 ? ' ' : <br />}
 					here to assist you with your time management!
 				</h1>
-				<p className='text-[15px] md:text-[19px] text-emerald-800 font-medium drop-shadow-lg tracking-[1px] relative z-10'>
+				<p className='text-[15px] md:text-[19px] text-emerald-800 dark:text-emerald-200 transition-colors font-medium drop-shadow-lg tracking-[1px] relative z-10'>
 					Supercharge your day with our time management app. Plan, track,
 					achieve.
 				</p>
@@ -48,7 +48,10 @@ export default function Home() {
 						<Button
 							size={width <= 768 ? 'sm' : 'lg'}
 							variant='default'
-							className={cn('mt-3 relative z-10 w-full md:w-auto', style.get)}
+							className={cn(
+								'mt-3 relative z-10 w-full md:w-auto dark:bg-[#222222]/80',
+								style.get
+							)}
 						>
 							Start Road Now!
 						</Button>
@@ -59,7 +62,7 @@ export default function Home() {
 						<Button
 							size={width <= 768 ? 'sm' : 'lg'}
 							variant='default'
-							className='mt-3 relative z-10 w-full md:w-auto'
+							className='mt-3 relative z-10 w-full md:w-auto hover:dark:bg-[#222222]/60 dark:bg-[#222222]/80'
 						>
 							Enter Now!
 						</Button>

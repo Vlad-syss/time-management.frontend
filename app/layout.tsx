@@ -1,4 +1,9 @@
-import { AuthProvider, TanstackClientProvider } from '@/components/providers'
+import {
+	AuthProvider,
+	TanstackClientProvider,
+	ThemeProvider,
+	ToastProvider,
+} from '@/components/providers'
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
@@ -33,7 +38,11 @@ export default function RootLayout({
 		<html lang='en' suppressHydrationWarning>
 			<body className={montserrat.className}>
 				<AuthProvider>
-					<TanstackClientProvider>{children}</TanstackClientProvider>
+					<ThemeProvider>
+						<ToastProvider>
+							<TanstackClientProvider>{children}</TanstackClientProvider>
+						</ToastProvider>
+					</ThemeProvider>
 				</AuthProvider>
 			</body>
 		</html>

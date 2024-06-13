@@ -1,4 +1,3 @@
-// axiosInstance.ts
 import axios from 'axios'
 
 const DB_URL = process.env.DB_URL
@@ -9,6 +8,22 @@ export const axiosInstance = axios.create({
 		'Content-Type': 'application/json',
 	},
 })
+
+// Set up request interceptor to include the token dynamically
+axiosInstance.interceptors.request.use(
+	config => {
+		if (typeof window !== 'undefined') {
+			const token = localStorage.getItem('jwtToken')
+			if (token) {
+				config.headers.Authorization = `Bearer ${token}`
+			}
+		}
+		return config
+	},
+	error => {
+		return Promise.reject(error)
+	}
+)
 
 export const useAxios = () => {
 	const get = async (url: string) => {
@@ -21,8 +36,14 @@ export const useAxios = () => {
 		return response.data
 	}
 
+	const put = async (url: string, data: any) => {
+		const response = await axiosInstance.put(url, data)
+		return response.data
+	}
+
 	return {
 		get,
 		post,
+		put,
 	}
 }
