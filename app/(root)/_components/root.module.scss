@@ -1,0 +1,33 @@
+.link {
+	&::after {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: 50%;
+		transform: translateY(-50%);
+		height: 70%;
+		width: 10px;
+		border-radius: 5px;
+		transition: all 0.3s;
+	}
+
+	&.active {
+		background-color: rgb(249 122 72 / 0.25);
+		&::after {
+			background: #ff3347;
+		}
+	}
+
+	&:hover::after {
+		background: #ff3347;
+	}
+	&.logout {
+		&:hover::after {
+			background: #22222290;
+		}
+		color: #222222;
+		&:hover {
+			background: #2222221a;
+		}
+	}
+}
