@@ -71,6 +71,9 @@ const config: Config = {
 				open: '300px 1fr',
 				collapsed: '80px 1fr',
 			},
+			gridTemplateRows: {
+				mode: '1fr 40px 40px',
+			},
 		},
 	},
 	plugins: [require('tailwindcss-animate')],

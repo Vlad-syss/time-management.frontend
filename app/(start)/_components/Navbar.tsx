@@ -19,8 +19,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment, useMemo } from 'react'
 import { toast } from 'react-hot-toast'
+import Switch from 'react-switch'
 import style from './style.module.scss'
-
 const routes: RouteLink[] = [
 	{
 		name: 'Login',
@@ -130,18 +130,27 @@ export const Navbar: React.FC = () => {
 					<MainTitle />
 					<ul className='flex items-center gap-2 md:gap-8'>{renderedRoutes}</ul>
 					{isAuthenticated && !isLoading && (
-						<Button
-							variant='ghost'
-							size='icon'
-							onClick={toggleTheme}
-							className='absolute right-0 top-[74px] hover:dark:bg-[#222222]/80 hover:text-white bg-transparent/10'
-						>
-							{theme === 'dark' ? (
-								<Moon className='w-4 h-4 md:w-5 md:h-5' />
-							) : (
-								<Sun className='w-4 h-4 md:w-5 md:h-5' />
+						<Switch
+							onChange={toggleTheme}
+							checked={theme === 'dark' ? true : false}
+							className={cn(
+								'right-0 top-[80px] text-orange-500 dark:text-blue-600 ',
+								style.switch
 							)}
-						</Button>
+							offColor='#FFDB00'
+							onColor='#23423'
+							uncheckedIcon={<></>}
+							checkedIcon={<></>}
+							checkedHandleIcon={
+								<Moon className='ml-[2px] pt-[3px]' size={22} />
+							}
+							uncheckedHandleIcon={
+								<Sun
+									className='px-[4px] pl-[4px] pr-0 pt-[3px] pb-0'
+									size={22}
+								/>
+							}
+						/>
 					)}
 				</div>
 			</div>
@@ -154,5 +163,3 @@ export const Navbar: React.FC = () => {
 		</>
 	)
 }
-
-export default Navbar

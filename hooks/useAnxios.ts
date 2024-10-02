@@ -31,7 +31,7 @@ export const useAxios = () => {
 		return response.data
 	}
 
-	const post = async (url: string, data: any) => {
+	const post = async (url: string, data?: any) => {
 		const response = await axiosInstance.post(url, data)
 		return response.data
 	}

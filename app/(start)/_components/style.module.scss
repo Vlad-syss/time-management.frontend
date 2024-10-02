@@ -26,6 +26,10 @@
 	}
 }
 
+.switch {
+	position: absolute !important;
+}
+
 .block::after {
 	content: '';
 	position: fixed;

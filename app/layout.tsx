@@ -6,6 +6,7 @@ import {
 } from '@/components/providers'
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
+import 'rsuite/dist/rsuite-no-reset.min.css'
 import './globals.css'
 
 const montserrat = Montserrat({ subsets: ['latin'] })

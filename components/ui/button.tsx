@@ -7,21 +7,24 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+				default:
+					'bg-primary text-primary-foreground hover:bg-primary/90 dark:bg-slate-500 dark:hover:bg-slate-400',
 				destructive:
 					'bg-destructive text-destructive-foreground hover:bg-destructive/90',
 				outline:
-					'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+					'border border-input bg-background hover:bg-accent hover:text-accent-foreground dark:border-slate-800 dark:text-slate-800 dark:bg-slate-400/30 dark:hover:bg-slate-800/60 dark:hover:text-white',
 				secondary:
 					'bg-secondary text-secondary-foreground hover:bg-secondary/80',
 				ghost: 'hover:bg-accent hover:text-accent-foreground',
 				link: 'text-primary underline-offset-4 hover:underline',
+				add: 'bg-gray-300/70 border-[1px] border-stone-400 hover:bg-gray-300/90',
 			},
 			size: {
 				default: 'h-10 px-4 py-2 rounded-[5px]',
 				sm: 'h-9 rounded-[5px] px-3',
 				lg: 'h-11 rounded-[5px] px-6 text-[17px]',
 				icon: 'h-10 w-10',
+				add: 'py-3 ',
 			},
 		},
 		defaultVariants: {

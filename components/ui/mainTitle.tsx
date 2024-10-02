@@ -8,12 +8,14 @@ interface mainTitleProps {
 	className?: string
 	iconSize?: string
 	isCollapsed?: boolean
+	isMobile?: boolean
 }
 
 export const MainTitle: FC<mainTitleProps> = ({
 	className,
 	iconSize,
 	isCollapsed,
+	isMobile,
 }) => {
 	return (
 		<Link
@@ -24,8 +26,8 @@ export const MainTitle: FC<mainTitleProps> = ({
 				isCollapsed && 'justify-center'
 			)}
 		>
-			<LayoutTemplate className={cn('w-5 h-5 md:w-7 md:h-7', iconSize)} />
-			{!isCollapsed && (
+			<LayoutTemplate className={cn('', iconSize)} />
+			{!isCollapsed && !isMobile && (
 				<p>
 					Take
 					<span className='text-orange-500 dark:text-orange-400'>Time</span>

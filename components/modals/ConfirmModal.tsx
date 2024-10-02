@@ -54,7 +54,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 						}}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className='bg-orange-200 p-2 py-3 md:p-5 md:mx-2 md:mt-10'
+						className='bg-orange-200 p-2 py-3 md:p-5 md:mx-2 md:mt-10 dark:text-white dark:bg-slate-600'
 					>
 						<div className='flex gap-2 items-start mb-12'>
 							<span className='flex items-center justify-center p-3 md:p-4 mx-4 rounded-full bg-blue-500/30'>

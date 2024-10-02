@@ -6,18 +6,21 @@ export const useTheme = () => {
 	const { isAuthenticated } = useAuth()
 	const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
+	// Fetch theme from API when user is authenticated
 	useEffect(() => {
-		if (isAuthenticated) {
-			const loadTheme = async () => {
+		const loadTheme = async () => {
+			if (isAuthenticated) {
 				try {
-					const theme = await fetchTheme()
-					setTheme(theme)
+					const userTheme = await fetchTheme()
+					setTheme(userTheme)
 				} catch (error) {
 					console.error('Failed to load theme:', error)
 				}
+			} else {
+				setTheme('light')
 			}
-			loadTheme()
 		}
+		loadTheme()
 	}, [isAuthenticated])
 
 	const toggleTheme = async () => {
@@ -28,6 +31,7 @@ export const useTheme = () => {
 				await updateTheme(newTheme)
 			} catch (error) {
 				console.error('Failed to update theme:', error)
+				setTheme(theme)
 			}
 		}
 	}

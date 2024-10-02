@@ -1,5 +1,11 @@
+import { Overall } from '../../_components/Overall'
+
 const HomePage = () => {
-	return <div>Home!</div>
+	return (
+		<div className='py-3'>
+			<Overall />
+		</div>
+	)
 }
 
 export default HomePage
