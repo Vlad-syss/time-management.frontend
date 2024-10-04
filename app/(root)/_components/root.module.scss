@@ -90,7 +90,11 @@
 }
 
 .isArchiving {
-	@apply bg-red-600/40 pl-2 text-white #{!important};
+	@apply bg-red-600/30 border-red-600 pl-2 text-white #{!important};
+}
+
+.completed {
+	@apply border-green-600 bg-green-600/30 pl-2 text-white #{!important};
 }
 
 .addTask {

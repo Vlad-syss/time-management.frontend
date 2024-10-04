@@ -64,6 +64,15 @@ export const createTask = async (data: any) => {
 	}
 }
 
+export const deleteTask = async (id: string) => {
+	try {
+		return await useAxios().remove(`/tasks/${id}`)
+	} catch (error) {
+		console.error('Failed to delete task:', error)
+		throw error
+	}
+}
+
 export const searchTasks = async (searchValue: string) => {
 	try {
 		return await useAxios().get(`/tasks/search?query=${searchValue}`)

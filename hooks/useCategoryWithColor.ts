@@ -18,8 +18,9 @@ export const useCategoriesWithColors = (
 
 		categories.forEach((category: Category) => {
 			newCategoriesWithColors[category.name] = randomColor({
-				hue: theme === 'light' ? 'orange' : 'blue',
+				hue: theme === 'light' ? 'orange' : 'orange',
 				format: 'hex',
+				luminosity: theme === 'light' ? 'bright' : 'dark',
 			})
 		})
 

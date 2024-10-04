@@ -9,7 +9,6 @@ export const axiosInstance = axios.create({
 	},
 })
 
-// Set up request interceptor to include the token dynamically
 axiosInstance.interceptors.request.use(
 	config => {
 		if (typeof window !== 'undefined') {
@@ -41,9 +40,15 @@ export const useAxios = () => {
 		return response.data
 	}
 
+	const remove = async (url: string) => {
+		const response = await axiosInstance.delete(url)
+		return response.data
+	}
+
 	return {
 		get,
 		post,
 		put,
+		remove,
 	}
 }

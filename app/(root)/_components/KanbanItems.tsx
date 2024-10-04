@@ -39,7 +39,7 @@ export const KanbanItems: FC<KanbanItemProps> = ({ task, color }) => {
 				'flex flex-col w-full py-2 border-y-2 border-x-0 gap-2 min-h-[100px] relative',
 				{
 					'opacity-75 bg-red-500/80 text-stone-100': task.status.isArchiving,
-					'bg-transparent/20': !task.status.isArchiving,
+					'bg-transparent/10': !task.status.isArchiving,
 				}
 			)}
 			style={{ borderColor: color }}

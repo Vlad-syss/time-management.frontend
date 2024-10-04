@@ -1,5 +1,6 @@
 import {
 	createTask,
+	deleteTask,
 	getTaskById,
 	getTasks,
 	searchTasks,
@@ -75,5 +76,13 @@ export const useCreateTask = (refetchFn: () => Promise<void>) => {
 		mutationFn: createTask,
 		onSuccess: () => handleSuccess('Created successfully', refetchFn),
 		onError: (error: any) => handleError(error, 'Failed to create task'),
+	})
+}
+
+export const useDeleteTask = (refetchFn: () => Promise<void>) => {
+	return useMutation({
+		mutationFn: (id: string) => deleteTask(id),
+		onSuccess: () => handleSuccess('Deleted successfully', refetchFn),
+		onError: (error: any) => handleError(error, 'Failed to delete task'),
 	})
 }

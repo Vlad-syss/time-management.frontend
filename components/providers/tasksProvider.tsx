@@ -4,6 +4,7 @@ import {
 	useArchiveTasks,
 	useCompleteTasks,
 	useCreateTask,
+	useDeleteTask,
 	useGetTasks,
 	useUpdateTask,
 } from '@/hooks/useTasks'
@@ -24,6 +25,7 @@ interface TaskTypes {
 	isPending: boolean
 	handleArchive: (id: string) => Promise<void>
 	handleComplete: (id: string) => Promise<void>
+	handleDelete: (id: string) => Promise<void>
 	handleCreate: (data: createData) => Promise<void>
 	handleUpdate: (id: string, data: changeData) => Promise<void>
 }
@@ -60,6 +62,15 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 	const { mutate: completeMutate } = useCompleteTasks(refetchTasks)
 	const { mutate: createMutate } = useCreateTask(refetchTasks)
 	const { mutate: updateMutate } = useUpdateTask(refetchTasks)
+	const { mutate: deleteMutate } = useDeleteTask(refetchTasks)
+
+	const handleDelete = async (id: string) => {
+		try {
+			await deleteMutate(id)
+		} catch (error) {
+			console.error('Failed to delete task:', error)
+		}
+	}
 
 	const handleArchive = async (id: string) => {
 		try {
@@ -72,6 +83,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 	const handleComplete = async (id: string) => {
 		try {
 			await completeMutate(id)
+			refetch()
 		} catch (error) {
 			console.error('Failed to complete task:', error)
 		}
@@ -113,6 +125,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 				handleCreate,
 				handleUpdate,
 				allCategories,
+				handleDelete,
 			}}
 		>
 			{children}

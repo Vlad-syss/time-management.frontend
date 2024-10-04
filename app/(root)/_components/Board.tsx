@@ -3,48 +3,35 @@
 import { useThemeContext } from '@/components/providers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-// import cn from 'classnames'
 import { Bell, Moon, Search, Sun } from 'lucide-react'
-import { FC, memo } from 'react'
+import { useRouter } from 'next/navigation'
+import { FC, FormEventHandler, memo, useState } from 'react'
+import { toast } from 'react-hot-toast'
 import Switch from 'react-switch'
-// import style from './root.module.scss'
 
-interface BoardProps {
-	// onBurger: boolean
-	// setOnBurger: Dispatch<SetStateAction<boolean>>
-	// isMobile: boolean
-}
+interface BoardProps {}
 
-export const Board: FC<BoardProps> = memo(function Board(
-	{
-		// isMobile,
-		// onBurger,
-		// setOnBurger,
-	}
-) {
+export const Board: FC<BoardProps> = memo(function Board() {
 	const { theme, toggleTheme } = useThemeContext()
-
-	// const onClickBurger = () => {
-	// 	setOnBurger(prev => !prev)
-	// 	if (onBurger) {
-	// 		document.body.classList.remove('lock')
-	// 	} else {
-	// 		document.body.classList.add('lock')
-	// 	}
-	// }
+	const [value, setValue] = useState('')
+	const router = useRouter()
+	const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
+		e.preventDefault()
+		const sanitizedValue = value
+			.replace(/[^a-zA-Z0-9\s]/g, '')
+			.trim()
+			.replace(/\s+/g, '-')
+		if (sanitizedValue) {
+			router.push(`/search/${sanitizedValue}`)
+		} else {
+			toast.error('Search value is empty!')
+		}
+	}
 
 	return (
 		<div className=' relative z-[5] w-full bg-foreground dark:bg-[#35374B]/80'>
 			<div className='flex items-center gap-3 justify-between max-w-[1200px] mx-auto py-4 px-2'>
-				<div className='flex items-center flex-auto'>
-					{/* {isMobile && (
-						<p
-							className={cn(style.burger, onBurger && style.active)}
-							onClick={onClickBurger}
-						>
-							<span />
-						</p>
-					)} */}
+				<form className='flex items-center flex-auto' onSubmit={handleSubmit}>
 					<Button
 						size='icon'
 						className='rounded-r-none rounded-l-md border-2 dark:bg-slate-500 border-orange-600 dark:border-slate-900'
@@ -53,9 +40,11 @@ export const Board: FC<BoardProps> = memo(function Board(
 					</Button>
 					<Input
 						placeholder='Search all tasks by name, category...'
+						value={value}
+						onChange={e => setValue(e.target.value)}
 						className='max-w-[550px] rounded-l-none dark:border-slate-200 dark:placeholder:text-stone-900'
 					/>
-				</div>
+				</form>
 				<div className='ml-auto flex items-center gap-3'>
 					<Button size='icon' className='relative'>
 						<Bell size={20} />

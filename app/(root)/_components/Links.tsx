@@ -84,14 +84,16 @@ export const Links = ({
 				>
 					<Link
 						href={link.route}
-						onClick={link.name === 'Logout' ? handleLogout : () => {}}
+						onClick={link.name === 'Logout' ? handleLogout : undefined}
 						className={cn(
 							'flex items-center gap-2 p-3 text-red-500 dark:text-red-200 hover:bg-primary/25 dark:hover:bg-slate-400/25 transition-colors rounded-lg overflow-hidden relative',
 							style.link,
-							link.name === 'Logout' && `${style.logout} dark:text-white`,
-							link.route === currentRoute && style.active,
-							isCollapsed && 'justify-center',
-							link.name === 'Logout' && isMobile && 'mt-0'
+							{
+								[`${style.logout} dark:text-white`]: link.name === 'Logout',
+								[style.active]: link.route === currentRoute,
+								'justify-center': isCollapsed,
+								'mt-0': link.name === 'Logout' && isMobile,
+							}
 						)}
 					>
 						{link.icon}

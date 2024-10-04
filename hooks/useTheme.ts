@@ -6,7 +6,6 @@ export const useTheme = () => {
 	const { isAuthenticated } = useAuth()
 	const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
-	// Fetch theme from API when user is authenticated
 	useEffect(() => {
 		const loadTheme = async () => {
 			if (isAuthenticated) {

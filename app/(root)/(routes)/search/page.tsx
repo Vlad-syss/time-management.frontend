@@ -1,53 +1,58 @@
 'use client'
-import { ChangeTaskModal } from '@/components/modals/ChangeTaskModal'
-import { CreateTaskModal } from '@/components/modals/CreateTaskModal'
-import { ViewTaskModal } from '@/components/modals/ViewTaskModal'
 import { Button } from '@/components/ui/button'
-import { useChangeTaskModal, useViewTaskModal } from '@/hooks'
-import { useCreateTaskModal } from '@/hooks/useCreateTaskModal'
 import { Search } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { FormEventHandler, useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 const SearchPage = () => {
-	const { closeModal, isOpen, openModal } = useCreateTaskModal()
-	const { closeModal: closeTaskModal, isOpen: isOpenTaskModal } =
-		useViewTaskModal()
-	const { closeModal: closeUpdModal, isOpen: isUpdOpen } = useChangeTaskModal()
 	const [value, setValue] = useState('')
 	const router = useRouter()
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
 		e.preventDefault()
-		const sanitizedValue = value.replace(/[^a-zA-Z0-9\s]/g, '').trim()
+		const sanitizedValue = value
+			.replace(/[^a-zA-Z0-9\s]/g, '')
+			.trim()
+			.replace(/\s+/g, '-')
 		if (sanitizedValue) {
-			router.push(`/search/${sanitizedValue}`) // Redirect with sanitized value
+			router.push(`/search/${sanitizedValue}`)
+		} else {
+			toast.error('Search value is empty!')
 		}
 	}
 
 	return (
 		<>
 			<div className='w-full min-h-full flex-auto flex justify-center'>
-				<div className='max-w-[750px] w-full text-center flex flex-col gap-3 pt-20'>
-					<h1 className='text-[50px] font-bold'>What are you looking for?</h1>
+				<div className='max-w-[800px] w-full text-center flex flex-col gap-3 pt-20'>
+					<div className='text-destructive/90 dark:text-slate-100/70 transition-colors'>
+						<h1 className='text-[55px] font-bold leading-[45px]'>
+							What are you looking for?
+						</h1>
+						<p className='text-[23px] font-medium leading-[40px] '>
+							Why fit in, when you are born to stand out!
+						</p>
+					</div>
 					<form
-						className='gap-1 grid grid-cols-12 items-center w-full'
+						className='gap-1 grid grid-cols-12 items-center max-w-[700px] m-auto w-full'
 						onSubmit={handleSubmit}
 					>
 						<input
 							placeholder='Search for tasks by their names, descriptions, categories...'
-							className='border-0 border-b-2 bg-transparent py-[9px] px-4 text-xl outline-none placeholder:text-orange-600 font-medium dark:placeholder:text-slate-800 w-full col-span-11'
+							className='border-0 border-b-2 border-b-destructive dark:border-b-stone-100/70 bg-transparent py-[9px] px-4 text-xl outline-none placeholder:text-destructive placeholder:text-lg dark:placeholder:text-slate-300/90 font-medium dark:placeholder:text-slate-800 w-full col-span-10 transition-colors'
 							value={value}
 							onChange={e => setValue(e.target.value)}
 						/>
 						<Button
-							variant='add'
+							variant='destructive'
 							size='add'
-							className='w-15 h-15 rounded-[10px]'
+							className='col-span-2 rounded-[15px] flex items-center justify-center gap-1 font-medium tracking-wider dark:bg-cyan-900/70 dark:hover:bg-cyan-800/70'
 							type='submit'
 						>
-							<Search />
+							Seacrh
+							<Search className='w-5 h-5' />
 						</Button>
 					</form>
 					<div className='mt-auto flex items-end justify-center'>
@@ -61,9 +66,6 @@ const SearchPage = () => {
 					</div>
 				</div>
 			</div>
-			<CreateTaskModal isOpen={isOpen} onClose={closeModal} />
-			<ChangeTaskModal isOpen={isUpdOpen} onClose={closeUpdModal} />
-			<ViewTaskModal isOpen={isOpenTaskModal} onClose={closeTaskModal} />
 		</>
 	)
 }

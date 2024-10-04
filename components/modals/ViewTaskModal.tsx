@@ -24,9 +24,8 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 	const searchParams = useSearchParams()
 	const taskId = searchParams.get('taskId') || ''
 	const { data, isPending } = useGetTaskById(taskId)
-	const { handleComplete, handleArchive } = useTaskContext()
+	const { handleComplete, handleArchive, handleDelete } = useTaskContext()
 	const { openModal } = useChangeTaskModal()
-
 	const {
 		title,
 		description,
@@ -40,9 +39,9 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 	const endTime = new Date(end || '')
 
 	const getStatus = () => {
-		if (status?.isArchiving) return 'isArchiving'
+		if (status?.isArchiving && !status?.archived) return 'isArchiving'
 		if (status?.completed) return 'completed'
-		if (!status?.completed) return 'on progress'
+		if (!status?.completed && !status?.archived) return 'on progress'
 		return 'archived'
 	}
 
@@ -150,29 +149,44 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 								>
 									<X />
 								</Button>
-								<div className='grid grid-cols-3 mt-8 gap-1 items-center'>
-									<Button
-										onClick={() => handleArch(data?._id || '')}
-										variant='link'
-										className='text-red-100 dark:text-red-100 bg-red-400 border-2 hover:no-underline border-red-500 hover:bg-red-500'
-									>
-										Archive
-									</Button>
-									<Button
-										onClick={() => handleChange(data?._id || '')}
-										variant='link'
-										className='text-gray-50 dark:text-gray-100 dark:hover:text-gray-600 bg-gray-500/70 border-2 hover:no-underline border-gray-300 hover:bg-gray-300 hover:text-gray-600'
-									>
-										Change
-									</Button>
-									<Button
-										onClick={() => handleComp(data?._id || '')}
-										variant='link'
-										className='text-green-50 dark:text-green-100 bg-green-500/70 border-2 hover:no-underline border-green-500 hover:bg-green-500'
-									>
-										Complete
-									</Button>
-								</div>
+								{!status?.archived && !status?.completed ? (
+									<div className='grid grid-cols-3 mt-8 gap-1 items-center'>
+										<Button
+											onClick={() => handleArch(data?._id || '')}
+											variant='link'
+											className='text-red-100 dark:text-red-100 bg-red-400 border-2 hover:no-underline border-red-500 hover:bg-red-500'
+										>
+											Archive
+										</Button>
+										<Button
+											onClick={() => handleChange(data?._id || '')}
+											variant='add'
+											className='text-gray-50 dark:text-gray-100 dark:hover:text-gray-600 bg-gray-500/70 border-2 hover:no-underline border-gray-300 hover:bg-gray-300 hover:text-gray-600'
+										>
+											Change
+										</Button>
+										<Button
+											onClick={() => handleComp(data?._id || '')}
+											variant='add'
+											className='text-green-50 dark:text-green-100 bg-green-500/70 border-2 hover:no-underline border-green-500 hover:bg-green-500'
+										>
+											Complete
+										</Button>
+									</div>
+								) : (
+									<div className='grid grid-cols-1 mt-8 gap-1 items-center'>
+										<Button
+											onClick={() => handleDelete(taskId)}
+											variant='add'
+											className='text-red-50 dark:text-red-100 bg-red-500/70 border-2 hover:no-underline border-red-500 hover:bg-red-500'
+										>
+											Permanent Delete
+										</Button>
+										<p className='text-xs leading-3 font-medium text-gray-600 dark:text-white'>
+											make sure thats you really want to delete task.
+										</p>
+									</div>
+								)}
 							</>
 						)}
 					</motion.div>
