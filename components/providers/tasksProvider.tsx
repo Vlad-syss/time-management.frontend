@@ -10,6 +10,7 @@ import {
 } from '@/hooks/useTasks'
 import { AllTasks, Category, Task, createData } from '@/types'
 import { changeData } from '@/types/taskTypes'
+import dayjs from 'dayjs'
 import {
 	ReactNode,
 	createContext,
@@ -22,6 +23,7 @@ interface TaskTypes {
 	tasks: Task[]
 	categories: Category[]
 	allCategories: Category[]
+	futureTasks: Task[]
 	isPending: boolean
 	handleArchive: (id: string) => Promise<void>
 	handleComplete: (id: string) => Promise<void>
@@ -37,20 +39,32 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 	const [tasks, setTasks] = useState<AllTasks>([])
 	const [categories, setCategories] = useState<Category[]>([])
 	const [allCategories, setAllCategories] = useState<Category[]>([])
+	const [futureTasks, setFutureTasks] = useState<Task[]>([])
 
 	useEffect(() => {
 		if (tasksData && Array.isArray(tasksData)) {
-			const avaliableTasks =
-				tasksData.filter(
-					task => task && !task.status.archived && !task.status.completed
-				) || []
+			const now = dayjs()
+			const availableTasks: Task[] = []
+			const futureTaskList: Task[] = []
 
-			const categories = avaliableTasks.map(task => task.category)
+			tasksData.forEach(task => {
+				if (task) {
+					const taskStartTime = dayjs(task.startTime)
+					if (taskStartTime.isAfter(now)) {
+						futureTaskList.push(task)
+					} else if (!task.status.archived && !task.status.completed) {
+						availableTasks.push(task)
+					}
+				}
+			})
+
+			const categories = availableTasks.map(task => task.category)
 			const allCategories = tasksData.map(task => task.category)
 
-			setTasks(avaliableTasks)
+			setTasks(availableTasks)
 			setCategories(categories)
 			setAllCategories(allCategories)
+			setFutureTasks(futureTaskList)
 		}
 	}, [tasksData])
 
@@ -102,7 +116,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 			}
 			await createMutate(request)
 		} catch (error) {
-			console.error('Failed to complete task:', error)
+			console.error('Failed to create task:', error)
 		}
 	}
 
@@ -126,6 +140,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 				handleUpdate,
 				allCategories,
 				handleDelete,
+				futureTasks,
 			}}
 		>
 			{children}

@@ -2,19 +2,13 @@
 
 import { ConfirmModal } from '@/components/modals/ConfirmModal'
 import { useAuthContext, useThemeContext } from '@/components/providers'
+import { NavbarSkeleton } from '@/components/skeletons'
 import { Button } from '@/components/ui/button'
 import { MainTitle } from '@/components/ui/mainTitle'
 import { useConfirmModal, useWidth } from '@/hooks'
 import { RouteLink } from '@/types'
 import cn from 'classnames'
-import {
-	ChevronRight,
-	LoaderPinwheel,
-	LogIn,
-	LogOut,
-	Moon,
-	Sun,
-} from 'lucide-react'
+import { ChevronRight, LogIn, LogOut, Moon, Sun } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment, useMemo } from 'react'
@@ -68,19 +62,21 @@ export const Navbar: React.FC = () => {
 					key={route.name}
 					onClick={handleLinkClick}
 				>
-					<Button
-						variant='default'
-						size={width <= 768 ? 'sm' : 'lg'}
-						className={cn(
-							'hover:text-white flex items-center gap-2 dark:bg-[#222222]/80',
-							style.get
-						)}
-					>
-						{isAuthenticated && !isLoading && 'Enter now!'}
-						{!isAuthenticated && !isLoading && 'Get started!'}
-						{isLoading && <LoaderPinwheel className='animate-spin' />}
-						{route.icon}
-					</Button>
+					{!isLoading && (
+						<Button
+							variant='default'
+							size={width <= 768 ? 'sm' : 'lg'}
+							className={cn(
+								'hover:text-white flex items-center gap-2 dark:bg-[#222222]/80',
+								style.get
+							)}
+						>
+							{isAuthenticated && !isLoading && 'Enter now!'}
+							{!isAuthenticated && !isLoading && 'Get started!'}
+							{route.icon}
+						</Button>
+					)}
+					{isLoading && <NavbarSkeleton />}
 				</Link>
 			)
 		}

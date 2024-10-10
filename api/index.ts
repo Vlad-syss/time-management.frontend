@@ -3,6 +3,7 @@ export { useRegister } from './registration.api'
 export {
 	createTask,
 	deleteTask,
+	getArchivedTasks,
 	getTaskById,
 	getTasks,
 	searchTasks,

@@ -1,5 +1,6 @@
 'use client'
 
+import { toggleArchiveTask } from '@/api'
 import { ConfirmModal } from '@/components/modals/ConfirmModal'
 import { useTaskContext } from '@/components/providers'
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import cn from 'classnames'
 import {
+	ArchiveRestore,
 	GripVertical,
 	SquareCheck,
 	SquarePen,
@@ -26,12 +28,16 @@ interface SortableItemProps {
 	task: Task
 	color: string
 	searchPage?: boolean
+	refetchSearch?: any
+	trashPage?: boolean
 }
 
 export const WrapItems: React.FC<SortableItemProps> = ({
 	task,
 	color,
 	searchPage,
+	refetchSearch,
+	trashPage,
 }) => {
 	const { isOpen, openModal: openDeleteModal, closeModal } = useConfirmModal()
 	const { openModal: openEditModal } = useChangeTaskModal()
@@ -53,9 +59,28 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 	const isTaskArchived = task.status.archived
 	const isTaskCompleted = task.status.completed
 
-	const onConfirmDelete = () => {
+	const onConfirmDelete = async () => {
 		closeModal()
-		handleDelete(task._id)
+		await handleDelete(task._id)
+		await refetchSearch()
+		await refetchSearch()
+	}
+
+	const onToggleArchive = async (id: string) => {
+		await toggleArchiveTask(id)
+		await refetchSearch()
+		await refetchSearch()
+	}
+
+	const onHandleComplete = async (id: string) => {
+		await handleComplete(id)
+		await refetchSearch()
+		await refetchSearch()
+	}
+	const onHandleArchive = async (id: string) => {
+		await handleArchive(id)
+		await refetchSearch()
+		await refetchSearch()
 	}
 
 	return (
@@ -70,7 +95,7 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 				)}
 				style={styleSheet}
 			>
-				{!isArchivingOrCompleted && !searchPage && (
+				{!isArchivingOrCompleted && !searchPage && !trashPage && (
 					<Button
 						{...listeners}
 						{...attributes}
@@ -90,8 +115,10 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 					task={task}
 					openEditModal={openEditModal}
 					openDeleteModal={openDeleteModal}
-					handleArchive={handleArchive}
-					handleComplete={handleComplete}
+					handleArchive={searchPage ? onHandleArchive : handleArchive}
+					handleComplete={searchPage ? onHandleComplete : handleComplete}
+					trashPage={trashPage}
+					toggleArchive={onToggleArchive}
 				/>
 
 				{task.status.archived || task.status.completed ? (
@@ -187,6 +214,8 @@ interface TaskActionsProps {
 	openDeleteModal: () => void
 	handleArchive: (id: string) => void
 	handleComplete: (id: string) => void
+	trashPage?: boolean
+	toggleArchive: (id: string) => void
 }
 
 const TaskActions: React.FC<TaskActionsProps> = ({
@@ -195,6 +224,8 @@ const TaskActions: React.FC<TaskActionsProps> = ({
 	openDeleteModal,
 	handleArchive,
 	handleComplete,
+	trashPage,
+	toggleArchive,
 }) => (
 	<div className='flex items-start'>
 		{!task.status.completed && !task.status.archived && (
@@ -227,6 +258,16 @@ const TaskActions: React.FC<TaskActionsProps> = ({
 				onClick={openDeleteModal}
 				icon={<Trash size={28} className='fill-red-400/30' />}
 				className='text-red-600 hover:text-red-800/100 hover:bg-background'
+			/>
+		) : (
+			''
+		)}
+		{task.status.archived && trashPage ? (
+			<TaskActionButton
+				title='refound'
+				onClick={() => toggleArchive(task._id)}
+				icon={<ArchiveRestore size={28} className='fill-slate-400/30' />}
+				className='text-slate-600 hover:text-slate-800/100 hover:bg-background'
 			/>
 		) : (
 			''

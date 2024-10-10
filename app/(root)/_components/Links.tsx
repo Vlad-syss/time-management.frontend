@@ -2,7 +2,15 @@
 
 import { useAuthContext } from '@/components/providers'
 import cn from 'classnames'
-import { Clock, Home, ListTodo, LogOut, Settings, Trash } from 'lucide-react'
+import {
+	Clock,
+	Home,
+	ListTodo,
+	LogOut,
+	Search,
+	Settings,
+	Trash,
+} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { MouseEvent, useEffect, useState } from 'react'
@@ -31,9 +39,14 @@ const navlinks = [
 		route: '/reminders',
 	},
 	{
+		name: 'Search',
+		icon: <Search className='w-7 h-7' />,
+		route: '/search',
+	},
+	{
 		name: 'Settings',
 		icon: <Settings className='w-7 h-7' />,
-		route: '/settings',
+		route: '/settings' || '/settings/:value',
 	},
 	{
 		name: 'Logout',
@@ -68,39 +81,45 @@ export const Links = ({
 	return (
 		<ul
 			className={cn(
-				'flex gap-2 h-full',
+				'flex gap-1 h-full',
 				isMobile ? 'flex-row items-center' : 'flex-col'
 			)}
 		>
-			{navlinks.map(link => (
-				<li
-					className={cn(
-						'text-[19px] font-semibold',
-						isMobile && 'last:ml-auto',
-						!isMobile && 'last:mt-auto'
-					)}
-					key={link.name}
-					title={link.name}
-				>
-					<Link
-						href={link.route}
-						onClick={link.name === 'Logout' ? handleLogout : undefined}
+			{navlinks.map(link => {
+				const isActive =
+					link.name === 'Search'
+						? currentRoute.startsWith('/search')
+						: link.route === currentRoute
+				return (
+					<li
 						className={cn(
-							'flex items-center gap-2 p-3 text-red-500 dark:text-red-200 hover:bg-primary/25 dark:hover:bg-slate-400/25 transition-colors rounded-lg overflow-hidden relative',
-							style.link,
-							{
-								[`${style.logout} dark:text-white`]: link.name === 'Logout',
-								[style.active]: link.route === currentRoute,
-								'justify-center': isCollapsed,
-								'mt-0': link.name === 'Logout' && isMobile,
-							}
+							'text-[19px] font-semibold',
+							isMobile && 'last:ml-auto',
+							!isMobile && 'last:mt-auto'
 						)}
+						key={link.name}
+						title={link.name}
 					>
-						{link.icon}
-						{!isCollapsed && !isMobile && link.name}
-					</Link>
-				</li>
-			))}
+						<Link
+							href={link.route}
+							onClick={link.name === 'Logout' ? handleLogout : undefined}
+							className={cn(
+								'flex items-center gap-2 p-3 text-red-500 dark:text-red-200 hover:bg-primary/25 dark:hover:bg-slate-400/25 transition-colors rounded-lg overflow-hidden relative',
+								style.link,
+								{
+									[`${style.logout} dark:text-white`]: link.name === 'Logout',
+									[style.active]: link.route === currentRoute || isActive,
+									'justify-center': isCollapsed,
+									'mt-0': link.name === 'Logout' && isMobile,
+								}
+							)}
+						>
+							{link.icon}
+							{!isCollapsed && !isMobile && link.name}
+						</Link>
+					</li>
+				)
+			})}
 		</ul>
 	)
 }

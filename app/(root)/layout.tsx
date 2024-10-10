@@ -1,5 +1,5 @@
 'use client'
-import { TaskProvider } from '@/components/providers'
+import { ArchivedTaskProvider, TaskProvider } from '@/components/providers'
 import { useWidth } from '@/hooks'
 import cn from 'classnames'
 import { useRouter } from 'next/navigation'
@@ -40,15 +40,13 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
 			/>
 
 			<div className={cn('transition-all duration-300', getMarginLeft())}>
-				<main className='min-h-screen flex-auto flex flex-col w-full'>
-					<Board
-					// isMobile={width < 945}
-					// onBurger={onBurger}
-					// setOnBurger={setOnBurger}
-					/>
-					<div className='max-w-[1200px] mx-auto w-full flex-auto flex flex-col min-h-full px-[10px]'>
-						<TaskProvider>{children}</TaskProvider>
-					</div>
+				<main className='min-h-screen flex-auto flex flex-col w-full relative'>
+					<TaskProvider>
+						<Board />
+						<div className='max-w-[1200px] mx-auto w-full flex-auto flex flex-col min-h-full px-[10px]'>
+							<ArchivedTaskProvider>{children}</ArchivedTaskProvider>
+						</div>
+					</TaskProvider>
 				</main>
 			</div>
 		</div>

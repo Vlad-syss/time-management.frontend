@@ -81,3 +81,12 @@ export const searchTasks = async (searchValue: string) => {
 		throw error
 	}
 }
+
+export const getArchivedTasks = async () => {
+	try {
+		return await useAxios().get(`/tasks/archived`)
+	} catch (error) {
+		console.error('Something went wrong:', error)
+		throw error
+	}
+}

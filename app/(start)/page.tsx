@@ -2,10 +2,10 @@
 
 import { ConfirmModal } from '@/components/modals/ConfirmModal'
 import { useAuthContext } from '@/components/providers'
+import { ButtonSkeleton } from '@/components/skeletons'
 import { Button } from '@/components/ui/button'
 import { useConfirmModal, useWidth } from '@/hooks'
 import cn from 'classnames'
-import { LoaderPinwheel } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -42,7 +42,7 @@ export default function Home() {
 					Supercharge your day with our time management app. Plan, track,
 					achieve.
 				</p>
-				{isLoading && <LoaderPinwheel className='animate-spin w-7 h-7 my-4' />}
+				{isLoading && <ButtonSkeleton width={130} height={50} />}
 				{!isAuthenticated && !isLoading && (
 					<Link href='/register' onClick={handleLinkClick}>
 						<Button

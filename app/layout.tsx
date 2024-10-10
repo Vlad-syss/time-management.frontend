@@ -6,6 +6,7 @@ import {
 } from '@/components/providers'
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
+import 'react-loading-skeleton/dist/skeleton.css'
 import 'rsuite/dist/rsuite-no-reset.min.css'
 import './globals.css'
 

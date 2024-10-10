@@ -1,6 +1,7 @@
 import {
 	createTask,
 	deleteTask,
+	getArchivedTasks,
 	getTaskById,
 	getTasks,
 	searchTasks,
@@ -58,7 +59,7 @@ export const useUpdateTask = (refetchFn: () => Promise<void>) => {
 export const useCompleteTasks = (refetchFn: () => Promise<void>) => {
 	return useMutation({
 		mutationFn: toggleCompleteTask,
-		onSuccess: () => handleSuccess('Completed successfully', refetchFn),
+		onSuccess: ({ message }) => handleSuccess(message, refetchFn),
 		onError: (error: any) => handleError(error, 'Failed to complete task'),
 	})
 }
@@ -74,7 +75,7 @@ export const useCategory = () => {
 export const useCreateTask = (refetchFn: () => Promise<void>) => {
 	return useMutation({
 		mutationFn: createTask,
-		onSuccess: () => handleSuccess('Created successfully', refetchFn),
+		onSuccess: () => handleSuccess('Task created!', refetchFn),
 		onError: (error: any) => handleError(error, 'Failed to create task'),
 	})
 }
@@ -82,7 +83,14 @@ export const useCreateTask = (refetchFn: () => Promise<void>) => {
 export const useDeleteTask = (refetchFn: () => Promise<void>) => {
 	return useMutation({
 		mutationFn: (id: string) => deleteTask(id),
-		onSuccess: () => handleSuccess('Deleted successfully', refetchFn),
+		onSuccess: ({ message }) => handleSuccess(message, refetchFn),
 		onError: (error: any) => handleError(error, 'Failed to delete task'),
+	})
+}
+
+export const useArchivedTask = () => {
+	return useQuery({
+		queryKey: ['archivedTasks'],
+		queryFn: () => getArchivedTasks(),
 	})
 }

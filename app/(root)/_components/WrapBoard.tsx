@@ -1,6 +1,7 @@
 'use client'
 
 import { LOCAL_STORAGE_KEY } from '@/components/consts'
+import { WrapTaskSkeleton } from '@/components/skeletons'
 import { BoardsProps, Task } from '@/types'
 import {
 	DndContext,
@@ -15,7 +16,6 @@ import {
 	arrayMove,
 	sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
-import { LoaderPinwheel } from 'lucide-react'
 import { FC, useEffect, useState } from 'react'
 import { AddTasks } from './AddTasks'
 import { WrapItems } from './WrapItems'
@@ -69,7 +69,7 @@ export const WrapBoard: FC<BoardsProps> = ({
 	}
 
 	if (isPending) {
-		return <LoaderPinwheel className='animate-spin w-10 h-10 my-3 mx-auto' />
+		return <WrapTaskSkeleton />
 	}
 
 	const orderedTasks = taskIds
