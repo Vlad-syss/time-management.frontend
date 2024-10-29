@@ -13,4 +13,5 @@ export type {
 	RegisterRequestBody,
 	RegisterResponse,
 	User,
+	UserChange,
 } from './userTypes'

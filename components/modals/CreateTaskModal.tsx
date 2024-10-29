@@ -92,7 +92,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 							backgroundColor: 'rgba(100, 0, 0, 0.45)',
 							display: 'flex',
 							justifyContent: 'center',
-							zIndex: 6,
+							zIndex: width <= 945 ? 7 : 6,
 							backdropFilter: 'blur(2px)',
 							height: '100%',
 							overflow: 'auto',
@@ -106,8 +106,9 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 							borderRadius: '5px',
 							width: '100%',
 							maxWidth: '900px',
-							overflow: 'hidden',
+							overflow: 'auto',
 							margin: '0 auto',
+							overscrollBehavior: 'contain',
 							height: width < 1000 ? '100vh' : 'auto',
 						},
 					}}
@@ -118,32 +119,40 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
 						className={cn(
-							'p-2 py-3 md:p-5 md:mx-2 md:mt-10 relative bg-orange-200 text-black dark:bg-slate-600 dark:text-white'
+							'p-2 py-3 md:p-5 lg:mx-2 lg:mt-10 relative bg-orange-200 text-black dark:bg-slate-600 dark:text-white h-full lg:h-auto'
 						)}
-						style={{
-							height: width < 1000 ? '100vh mt-0' : 'auto',
-						}}
 					>
 						<div className='flex flex-col gap-1 w-full'>
-							<div className='grid gap-2 pb-3 border-b-2 border-yellow-400'>
-								<h1 className='flex items-center gap-2 text-[28px] tracking-wider font-bold'>
-									<Worm className='w-12 h-12 text-pink-500' />
+							<div className='grid gap-2 pb-1 sm:pb-3 border-b-2 border-yellow-400'>
+								<h1 className='flex items-center gap-2 text-[22px] sm:text-[28px] tracking-wider font-bold'>
+									<Worm className='w-8 h-8 sm:w-12 sm:h-12 text-pink-500' />
 									Create Task!
 								</h1>
-								<p className='font-semibold flex items-center gap-[5px] px-2 text-sm'>
-									<span className='tracking-[5px] text-slate-500 dark:text-slate-300'>
-										////
-									</span>
+								<p className='font-semibold flex items-center gap-[5px] px-2 text-xs sm:text-sm'>
+									{width >= 640 ? (
+										<span className='tracking-[5px] text-slate-500 dark:text-slate-300'>
+											////
+										</span>
+									) : (
+										''
+									)}
 									"Master Your Minutes: Streamline Your Schedule for Success"
-									<span className='tracking-[5px] text-slate-500 dark:text-slate-300'>
-										////
-									</span>
+									{width >= 640 ? (
+										<span className='tracking-[5px] text-slate-500 dark:text-slate-300'>
+											////
+										</span>
+									) : (
+										''
+									)}
 								</p>
 							</div>
 						</div>
-						<form className='pt-3 grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-							<div className='grid grid-cols-2 w-full gap-x-3 pb-2 border-b-2 border-yellow-200'>
-								<span className='col-span-2 flex items-center gap-2 text-sm tracking-wide text-gray-700 font-semibold italic dark:text-gray-300'>
+						<form
+							className='py-2 sm:py-3 flex flex-col gap-2'
+							onSubmit={handleSubmit(onSubmit)}
+						>
+							<div className='grid sm:grid-cols-2 w-full gap-x-3 pb-2 border-b-2 border-yellow-200'>
+								<span className='sm:col-span-2 flex items-center gap-2 text-xs sm:text-sm tracking-wide text-gray-700 font-semibold italic dark:text-gray-300 mb-1 sm:mb-0'>
 									<Switch
 										onChange={toggleStartTime}
 										checked={!enabled}
@@ -160,11 +169,11 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 											<X className='ml-[2px] pt-[5px]' size={16} />
 										}
 									/>
-									:enable to change start time of task for future goals!
+									: enable to change start time of task for future goals!
 								</span>
 								<label
 									htmlFor='timeStart'
-									className='text-center font-bold text-lg'
+									className='sm:text-center font-bold sm:text-lg'
 								>
 									Start Time:
 									<Controller
@@ -175,7 +184,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 											<DatePicker
 												{...field}
 												limitStartYear={2024}
-												size='lg'
+												size={width >= 640 ? 'lg' : 'sm'}
 												oneTap
 												block
 												shouldDisableDate={date => isBefore(date, new Date())}
@@ -185,7 +194,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 								</label>
 								<label
 									htmlFor='timeEnd'
-									className='text-center font-bold text-lg'
+									className='sm:text-center font-bold sm:text-lg'
 								>
 									End Time:
 									<Controller
@@ -195,7 +204,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 											<DatePicker
 												{...field}
 												limitEndYear={1000}
-												size='lg'
+												size={width >= 640 ? 'lg' : 'sm'}
 												oneTap
 												className='z-[100]'
 												style={{
@@ -210,7 +219,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 							</div>
 							<label
 								htmlFor='title'
-								className='grid gap-1 tracking-wider text-lg font-bold'
+								className='grid gap-1 tracking-wider sm:text-lg font-bold'
 							>
 								Title:
 								<Controller
@@ -222,6 +231,14 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 											{...field}
 											placeholder='Here is your title...'
 											className='font-semibold bg-orange-300/70'
+											style={
+												width <= 640
+													? {
+															height: '33px',
+															fontSize: '13px',
+													  }
+													: {}
+											}
 											onChange={e => handleInputChange('title', e.target.value)}
 										/>
 									)}
@@ -234,7 +251,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 							</label>
 							<label
 								htmlFor='category'
-								className='grid gap-1 tracking-wider text-lg font-bold'
+								className='grid gap-1 tracking-wider sm:text-lg font-bold'
 							>
 								Category:
 								<Controller
@@ -246,6 +263,14 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 											{...field}
 											className='font-semibold bg-orange-300/70'
 											placeholder='Here is your category...'
+											style={
+												width <= 640
+													? {
+															height: '33px',
+															fontSize: '13px',
+													  }
+													: {}
+											}
 											onChange={e =>
 												handleInputChange('category', e.target.value)
 											}
@@ -260,7 +285,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 							</label>
 							<label
 								htmlFor='description'
-								className='grid gap-1 tracking-wider text-lg font-bold'
+								className='grid gap-1 tracking-wider sm:text-lg font-bold'
 							>
 								Description:
 								<Controller
@@ -272,6 +297,14 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 											{...field}
 											placeholder='Here is your description...'
 											className='font-semibold bg-orange-300/70'
+											style={
+												width <= 640
+													? {
+															height: '133px',
+															fontSize: '13px',
+													  }
+													: {}
+											}
 											onChange={e =>
 												handleInputChange('description', e.target.value)
 											}
@@ -289,7 +322,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 							</Button>
 						</form>
 						<Button
-							className='absolute top-1 right-1 hover:text-white'
+							className='absolute -right-1 top-1 sm:right-1 hover:text-white'
 							variant='ghost'
 							size='sm'
 							onClick={onClose}

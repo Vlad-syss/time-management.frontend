@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Pen, User } from 'lucide-react'
+import Link from 'next/link'
 import { FC, MutableRefObject, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 
@@ -68,13 +69,19 @@ export const MiniProfileModal: FC<MiniProfileModalProps> = ({
 						className='bg-orange-200 p-1 py-2 md:p-2 md:mx-2 dark:text-white dark:bg-slate-600 rounded-lg'
 					>
 						<div className='grid grid-cols-1 grid-rows-2 items-start font-medium text-sm'>
-							<button className='flex items-center gap-2 p-1 hover:bg-transparent/20'>
+							<Link
+								href='/profile'
+								className='flex items-center gap-2 p-1 hover:bg-transparent/20'
+							>
 								<User className='w-5 h-5' />
 								View Profile
-							</button>
-							<button className='flex items-center gap-2 p-1 border-t-2 border-white hover:bg-transparent/20'>
+							</Link>
+							<Link
+								href='profile?tabs=change'
+								className='flex items-center gap-2 p-1 border-t-2 border-white hover:bg-transparent/20'
+							>
 								<Pen className='w-4 h-4' /> Change Profile
-							</button>
+							</Link>
 						</div>
 					</motion.div>
 				</Modal>

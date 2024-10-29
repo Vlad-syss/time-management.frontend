@@ -1,6 +1,5 @@
 'use client'
 
-import { toggleArchiveTask } from '@/api'
 import { ConfirmModal } from '@/components/modals/ConfirmModal'
 import { useTaskContext } from '@/components/providers'
 import { Button } from '@/components/ui/button'
@@ -42,7 +41,8 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 	const { isOpen, openModal: openDeleteModal, closeModal } = useConfirmModal()
 	const { openModal: openEditModal } = useChangeTaskModal()
 	const { openModal: openViewModal } = useViewTaskModal()
-	const { handleArchive, handleComplete, handleDelete } = useTaskContext()
+	const { handleArchive, handleComplete, handleDelete, handleUpdate } =
+		useTaskContext()
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id: task._id })
 	const formattedTime = useConvertTime(task.endTime)
@@ -66,12 +66,6 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 		await refetchSearch()
 	}
 
-	const onToggleArchive = async (id: string) => {
-		await toggleArchiveTask(id)
-		await refetchSearch()
-		await refetchSearch()
-	}
-
 	const onHandleComplete = async (id: string) => {
 		await handleComplete(id)
 		await refetchSearch()
@@ -79,6 +73,15 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 	}
 	const onHandleArchive = async (id: string) => {
 		await handleArchive(id)
+		if (trashPage) {
+			const tomorrow = new Date()
+			tomorrow.setDate(tomorrow.getDate() + 1)
+
+			handleUpdate(id, {
+				startTime: new Date(),
+				endTime: tomorrow,
+			})
+		}
 		await refetchSearch()
 		await refetchSearch()
 	}
@@ -88,10 +91,10 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 			<div
 				ref={setNodeRef}
 				className={cn(
-					'flex w-full py-2 rounded-md border-[3px] gap-2 pr-2 relative overflow-hidden',
+					'flex w-full py-1 md:py-2 rounded-md border-[3px] gap-1 md:gap-2 pr-1 md:pr-2 relative overflow-hidden',
 					task.status.isArchiving || isTaskArchived ? style.isArchiving : '',
 					isTaskCompleted && style.completed,
-					searchPage && 'pl-2'
+					searchPage && 'pr-1 pl-1 md:pl-2'
 				)}
 				style={styleSheet}
 			>
@@ -101,7 +104,7 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 						{...attributes}
 						size='icon'
 						variant='ghost'
-						className='text-red-600 dark:text-red-400 hover:text-orange-800 hover:bg-orange-400/20 cursor-grab w-[22px] h-full'
+						className='text-red-600 dark:text-red-400 hover:text-orange-800 hover:bg-orange-400/20 cursor-grab md:w-[22px] w-[18px] h-full'
 					>
 						<GripVertical />
 					</Button>
@@ -118,7 +121,7 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 					handleArchive={searchPage ? onHandleArchive : handleArchive}
 					handleComplete={searchPage ? onHandleComplete : handleComplete}
 					trashPage={trashPage}
-					toggleArchive={onToggleArchive}
+					toggleArchive={onHandleArchive}
 				/>
 
 				{task.status.archived || task.status.completed ? (
@@ -150,10 +153,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
 	openViewModal,
 	formattedTime,
 }) => (
-	<h4 className='flex-auto leading-tight'>
+	<h4 className='flex flex-col flex-auto leading-tight'>
 		<button
 			className={cn(
-				'text-xl font-extrabold capitalize text-destructive dark:text-slate-200 drop-shadow-sm hover:underline cursor-pointer',
+				'text-xl text-left font-extrabold capitalize text-destructive dark:text-slate-200 drop-shadow-sm hover:underline cursor-pointer',
 				task.status.isArchiving || task.status.archived ? 'text-white' : '',
 				task.status.completed && 'text-white'
 			)}
@@ -163,7 +166,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
 		</button>
 		<p
 			className={cn(
-				'text-sm font-medium text-stone-600 dark:text-stone-300 max-w-[650px] mb-3 leading-[18px] truncate',
+				'text-xs md:text-sm font-medium text-stone-600 dark:text-stone-300 max-w-[150px] sm:max-w-[300px]: lg:max-w-[600px] mb-3 leading-[18px] truncate',
 				task.status.isArchiving || task.status.archived ? 'text-white' : '',
 				task.status.completed && 'text-white'
 			)}
@@ -172,35 +175,39 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
 		</p>
 		<span
 			className={cn(
-				'text-xs text-slate-900/80 dark:text-foreground font-medium flex items-center gap-1',
+				'text-xs text-slate-900/80 dark:text-foreground font-medium grid grid-cols-2 mt-auto md:flex items-center gap-1',
 				task.status.isArchiving || task.status.archived ? 'text-white' : '',
 				task.status.completed && 'text-white'
 			)}
 		>
-			category:{' '}
-			<strong
-				className={cn(
-					'text-red-500 dark:text-red-400 tracking-wider',
-					task.status.isArchiving || task.status.archived ? 'text-red-300' : ''
-				)}
-			>
-				{' '}
-				"{task.category.name}"
-			</strong>
+			<span className='col-span-2'>
+				category:{' '}
+				<strong
+					className={cn(
+						'text-red-500 dark:text-red-400 tracking-wider',
+						task.status.isArchiving || task.status.archived
+							? 'text-red-300'
+							: ''
+					)}
+				>
+					{' '}
+					"{task.category.name}"
+				</strong>
+			</span>
 			{!task.status.completed && !task.status.archived ? (
 				task.status.isArchiving ? (
-					<p className='px-2 font-semibold text-[14px] tracking-widest'>
+					<p className='col-span-2 md:px-2 font-semibold text-[14px] tracking-widest'>
 						EXPIRED
 					</p>
 				) : (
-					<p>{formattedTime}</p>
+					<p className='col-span-2 '>{formattedTime}</p>
 				)
 			) : task.status.completed ? (
-				<p className='px-2 font-semibold text-[14px] tracking-widest'>
+				<p className='col-span-2 md:px-2 font-semibold text-[14px] tracking-widest'>
 					Completed successfully
 				</p>
 			) : (
-				<p className='px-2 font-semibold text-[14px] tracking-widest'>
+				<p className='col-span-2 md:px-2 font-semibold text-[14px] tracking-widest'>
 					Unfortunately failed
 				</p>
 			)}
@@ -227,7 +234,7 @@ const TaskActions: React.FC<TaskActionsProps> = ({
 	trashPage,
 	toggleArchive,
 }) => (
-	<div className='flex items-start'>
+	<div className='flex-col md:flex-row flex items-start'>
 		{!task.status.completed && !task.status.archived && (
 			<>
 				<TaskActionButton
@@ -291,7 +298,7 @@ const TaskActionButton: React.FC<TaskActionButtonProps> = ({
 	<Button
 		size='icon'
 		variant='ghost'
-		className={`p-1 ${className}`}
+		className={`md:p-1 ${className}`}
 		title={title}
 		onClick={onClick}
 	>

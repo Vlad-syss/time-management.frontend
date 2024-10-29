@@ -6,10 +6,11 @@
 		top: 50%;
 		transform: translateY(-50%);
 		height: 70%;
-		width: 10px;
 		border-radius: 5px;
 		transition: all 0.3s;
 	}
+
+	@apply after:w-2 md:after:w-[10px];
 
 	&.active {
 		@apply bg-[#f97a4840] dark:bg-slate-400/25;
@@ -21,17 +22,43 @@
 	&:hover::after {
 		background: #ff3347;
 	}
+
+	// Separating logout-specific styles
 	&.logout {
 		@apply text-[#222222] dark:text-slate-400;
+
 		&:hover::after {
-			@apply bg-[#22222290] dark:bg-stone-800;
+			background: #22222290;
+			@apply dark:bg-stone-800;
 		}
+
 		&:hover {
 			background: #2222221a;
 		}
 	}
 }
 
+@media (max-width: 500px) {
+	.links {
+		flex-wrap: wrap; // Wrap links into two rows
+		max-width: 180px;
+		gap: 0px 4px;
+	}
+	.linked {
+		flex: 1 0 24%; // Each link takes up 50% width to form two rows
+		.link {
+			padding: 3px;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+	.logout {
+		position: absolute;
+		padding: 8px;
+		right: 30px;
+		top: 25%;
+	}
+}
 .burger {
 	position: relative;
 	width: 38px;
@@ -90,11 +117,11 @@
 }
 
 .isArchiving {
-	@apply bg-red-600/30 border-red-600 pl-2 text-white #{!important};
+	@apply bg-red-600/30 border-red-600 pl-1 md:pl-2 text-white #{!important};
 }
 
 .completed {
-	@apply border-green-600 bg-green-600/30 pl-2 text-white #{!important};
+	@apply border-green-600 bg-green-600/30 pl-1 md:pl-2 text-white #{!important};
 }
 
 .addTask {

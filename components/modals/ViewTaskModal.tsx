@@ -20,7 +20,7 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 	onClose,
 }) => {
 	const width = useWidth()
-	const isMobile = width < 945
+	const isMobile = width < 640 // Adapt for screens smaller than 640px (mobile)
 	const searchParams = useSearchParams()
 	const taskId = searchParams.get('taskId') || ''
 	const { data, isPending } = useGetTaskById(taskId)
@@ -85,8 +85,10 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 							border: 'none',
 							background: 'none',
 							borderRadius: '5px',
-							maxWidth: '650px',
+							maxWidth: isMobile ? '100%' : '650px', // Full screen for mobile
 							width: '100%',
+							maxHeight: isMobile ? '90vh' : 'auto', // Modal height for mobile
+							overflowY: isMobile ? 'scroll' : 'visible', // Scroll on mobile
 						},
 					}}
 				>
@@ -95,99 +97,133 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className='bg-orange-200 p-2 py-2 md:p-3 md:mt-10 w-full dark:text-white dark:bg-slate-600 relative rounded-md border-2 dark:border-slate-300 border-red-400'
+						className={`bg-orange-200 p-4 md:p-6 dark:text-white dark:bg-slate-600 relative rounded-md border-2 dark:border-slate-300 border-red-400 ${
+							isMobile ? 'p-2' : ''
+						}`}
 					>
+						<Button
+							onClick={onClose}
+							size='icon'
+							variant='ghost'
+							className='absolute right-2 top-2 text-red-500 dark:text-white'
+						>
+							<X />
+						</Button>
 						{!data && isPending ? (
 							<p>Loading...</p>
 						) : (
-							<>
-								<div className='flex flex-col gap-2 items-start'>
-									<p className='text-[12px] tracking-wider dark:text-stone-300 leading-[10px] text-red-500 font-medium'>
-										Info about task
-									</p>
-									<h1 className='uppercase font-bold text-[40px] leading-7 w-full dark:text-purple-300 text-orange-500'>
-										{title}
-									</h1>
-									<p className='font-bold flex flex-col gap-1 pb-3 border-b-2 dark:border-purple-300 border-orange-500 dark:text-green-300 w-full'>
-										FULL DESCRIPTION:
-										<span className='font-medium dark:text-green-400 text-sm'>
+							<div
+								className={`flex flex-col gap-4 items-start ${
+									isMobile ? 'text-sm' : 'text-base'
+								}`}
+							>
+								<h1
+									className={`font-bold dark:text-purple-300 text-orange-500 ${
+										isMobile ? 'text-2xl' : 'text-4xl'
+									}`}
+								>
+									{title}
+								</h1>
+
+								<div className='flex flex-col gap-2 w-full'>
+									<p
+										className={`font-bold border-b pb-2 dark:border-purple-300 border-orange-500 ${
+											isMobile ? 'text-sm' : ''
+										}`}
+									>
+										Description:
+										<span className='block font-medium dark:text-green-400 text-sm'>
 											{description}
 										</span>
 									</p>
-									<div className='grid grid-rows-2 grid-cols-2 whitespace-nowrap gap-x-5 border-x-2 px-2 dark:border-white border-black border-dashed gap-y-2 justify-center mt-3 w-full dark:text-teal-500'>
-										<p className='font-bold flex gap-2 justify-end'>
-											CATEGORY:
-											<span className='font-medium tracking-wider dark:text-teal-300'>
+
+									<div
+										className={`grid ${
+											isMobile ? 'grid-cols-1 gap-y-2' : 'grid-cols-2'
+										} w-full`}
+									>
+										<div className='font-bold'>
+											Category:
+											<span className='font-medium dark:text-teal-300'>
+												{' '}
 												{category?.name}
 											</span>
-										</p>
-										<p className='font-bold flex gap-2'>
-											STATUS:
-											<span className='font-medium tracking-wider dark:text-teal-300'>
+										</div>
+										<div className='font-bold'>
+											Status:
+											<span className='font-medium dark:text-teal-300'>
+												{' '}
 												{getStatus()}
 											</span>
-										</p>
-										<p className='font-bold flex gap-2 justify-end'>
-											CREATED AT:
-											<span className='font-medium tracking-wider dark:text-teal-300'>
+										</div>
+										<div className='font-bold'>
+											Created at:
+											<span className='font-medium dark:text-teal-300'>
+												{' '}
 												{formatteTime(startTime)}
 											</span>
-										</p>
-										<p className='font-bold flex gap-2'>
-											END TIME:
-											<span className='font-medium tracking-wider dark:text-teal-300'>
+										</div>
+										<div className='font-bold'>
+											End time:
+											<span className='font-medium dark:text-teal-300'>
+												{' '}
 												{formatteTime(endTime)}
 											</span>
-										</p>
+										</div>
 									</div>
 								</div>
-								<Button
-									onClick={onClose}
-									size='icon'
-									variant='ghost'
-									className='text-orange-800 dark:text-white dark:hover:bg-slate-500/70 w-5 h-5 hover:text-white absolute right-1 top-1'
-								>
-									<X />
-								</Button>
+
 								{!status?.archived && !status?.completed ? (
-									<div className='grid grid-cols-3 mt-8 gap-1 items-center'>
+									<div
+										className={`grid w-full ${
+											isMobile ? 'grid-cols-1' : 'grid-cols-3'
+										} gap-2 mt-3`}
+									>
 										<Button
 											onClick={() => handleArch(data?._id || '')}
 											variant='link'
-											className='text-red-100 dark:text-red-100 bg-red-400 border-2 hover:no-underline border-red-500 hover:bg-red-500'
+											className={`w-full ${
+												isMobile ? 'py-2' : ''
+											} text-red-50 bg-red-400 hover:bg-red-500`}
 										>
 											Archive
 										</Button>
 										<Button
 											onClick={() => handleChange(data?._id || '')}
 											variant='add'
-											className='text-gray-50 dark:text-gray-100 dark:hover:text-gray-600 bg-gray-500/70 border-2 hover:no-underline border-gray-300 hover:bg-gray-300 hover:text-gray-600'
+											className={`w-full ${
+												isMobile ? 'py-2' : ''
+											} text-gray-50 bg-gray-500/70 hover:bg-gray-300`}
 										>
 											Change
 										</Button>
 										<Button
 											onClick={() => handleComp(data?._id || '')}
 											variant='add'
-											className='text-green-50 dark:text-green-100 bg-green-500/70 border-2 hover:no-underline border-green-500 hover:bg-green-500'
+											className={`w-full ${
+												isMobile ? 'py-2' : ''
+											} text-green-50 bg-green-500 hover:bg-green-600`}
 										>
 											Complete
 										</Button>
 									</div>
 								) : (
-									<div className='grid grid-cols-1 mt-8 gap-1 items-center'>
+									<div className='mt-6'>
 										<Button
 											onClick={() => handleDelete(taskId)}
 											variant='add'
-											className='text-red-50 dark:text-red-100 bg-red-500/70 border-2 hover:no-underline border-red-500 hover:bg-red-500'
+											className={`w-full text-red-50 bg-red-500 hover:bg-red-600 ${
+												isMobile ? 'py-2' : ''
+											}`}
 										>
 											Permanent Delete
 										</Button>
-										<p className='text-xs leading-3 font-medium text-gray-600 dark:text-white'>
-											make sure thats you really want to delete task.
+										<p className='text-xs mt-1 text-gray-600 dark:text-white'>
+											Make sure you really want to delete the task.
 										</p>
 									</div>
 								)}
-							</>
+							</div>
 						)}
 					</motion.div>
 				</Modal>

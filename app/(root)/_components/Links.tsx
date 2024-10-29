@@ -20,37 +20,37 @@ import style from './root.module.scss'
 const navlinks = [
 	{
 		name: 'Home',
-		icon: <Home className='w-7 h-7' />,
+		icon: <Home className='w-6 h-6 md:w-7 md:h-7' />,
 		route: '/home',
 	},
 	{
 		name: 'Tasks',
-		icon: <ListTodo className='w-7 h-7' />,
+		icon: <ListTodo className='w-6 h-6 md:w-7 md:h-7' />,
 		route: '/tasks',
 	},
 	{
 		name: 'Trash',
-		icon: <Trash className='w-7 h-7' />,
+		icon: <Trash className='w-6 h-6 md:w-7 md:h-7' />,
 		route: '/trash',
 	},
 	{
 		name: 'Reminders',
-		icon: <Clock className='w-7 h-7' />,
+		icon: <Clock className='w-6 h-6 md:w-7 md:h-7' />,
 		route: '/reminders',
 	},
 	{
 		name: 'Search',
-		icon: <Search className='w-7 h-7' />,
+		icon: <Search className='w-6 h-6 md:w-7 md:h-7' />,
 		route: '/search',
 	},
 	{
 		name: 'Settings',
-		icon: <Settings className='w-7 h-7' />,
+		icon: <Settings className='w-6 h-6 md:w-7 md:h-7' />,
 		route: '/settings' || '/settings/:value',
 	},
 	{
 		name: 'Logout',
-		icon: <LogOut className='w-7 h-7' />,
+		icon: <LogOut className='w-6 h-6 md:w-7 md:h-7' />,
 		route: '',
 	},
 ]
@@ -81,8 +81,9 @@ export const Links = ({
 	return (
 		<ul
 			className={cn(
-				'flex gap-1 h-full',
-				isMobile ? 'flex-row items-center' : 'flex-col'
+				'flex gap-2 md:gap-1 h-full',
+				isMobile ? 'flex-row items-center' : 'flex-col',
+				style.links // New class for wrapping links
 			)}
 		>
 			{navlinks.map(link => {
@@ -93,9 +94,12 @@ export const Links = ({
 				return (
 					<li
 						className={cn(
-							'text-[19px] font-semibold',
-							isMobile && 'last:ml-auto',
-							!isMobile && 'last:mt-auto'
+							'text-[19px] font-semibold ',
+							isMobile && 'last:ml-auto last:flex-nowrap',
+							!isMobile && 'last:mt-auto',
+							style.linked,
+							link.name === 'Logout' && style.logout // Specific class for Logout
+							// link.name !== 'Logout' && style.link // Specific class for Logout
 						)}
 						key={link.name}
 						title={link.name}
@@ -104,7 +108,7 @@ export const Links = ({
 							href={link.route}
 							onClick={link.name === 'Logout' ? handleLogout : undefined}
 							className={cn(
-								'flex items-center gap-2 p-3 text-red-500 dark:text-red-200 hover:bg-primary/25 dark:hover:bg-slate-400/25 transition-colors rounded-lg overflow-hidden relative',
+								'flex items-center gap-2 p-2 md:p-3 text-red-500 dark:text-red-200 hover:bg-primary/25 dark:hover:bg-slate-400/25 transition-colors rounded-lg overflow-hidden relative',
 								style.link,
 								{
 									[`${style.logout} dark:text-white`]: link.name === 'Logout',

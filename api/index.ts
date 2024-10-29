@@ -12,4 +12,10 @@ export {
 	updateTaskById,
 } from './tasks.api'
 export { fetchTheme, updateTheme } from './theme.api'
-export { useUser } from './user.api'
+export {
+	updateUser,
+	uploadAvatar,
+	useUpdateUser,
+	useUploadAvatar,
+	useUser,
+} from './user.api'

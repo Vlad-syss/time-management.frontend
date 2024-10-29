@@ -90,7 +90,7 @@ export const KanbanBoard: FC<BoardsProps> = ({
 				items={allUniqueCategories}
 				strategy={horizontalListSortingStrategy}
 			>
-				<div className='grid grid-cols-3 gap-3 gap-y-4 items-start'>
+				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 gap-y-4 items-start'>
 					{tasks ? (
 						<>
 							{allUniqueCategories.map(category => (

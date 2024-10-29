@@ -4,6 +4,18 @@ export interface User {
 	email: string
 	avatarUrl: string
 	passwordHash: string
+	role: string
+	country: string
+	description: string
+	updatedAt: string
+	createdAt: string
+}
+
+export interface UserChange {
+	name: string
+	email: string
+	country: string
+	description: string
 }
 
 export interface RegisterRequestBody {

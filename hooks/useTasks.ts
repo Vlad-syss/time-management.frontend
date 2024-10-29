@@ -42,7 +42,7 @@ export const useSearchTasks = (value: string) => {
 export const useArchiveTasks = (refetchFn: () => Promise<void>) => {
 	return useMutation({
 		mutationFn: toggleArchiveTask,
-		onSuccess: () => handleSuccess('Archived successfully', refetchFn),
+		onSuccess: ({ message }) => handleSuccess(message, refetchFn),
 		onError: (error: any) => handleError(error, 'Failed to archive task'),
 	})
 }

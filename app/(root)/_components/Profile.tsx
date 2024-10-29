@@ -1,6 +1,7 @@
 'use client'
 
 import { useUser } from '@/api'
+import { BASE_URL } from '@/components/consts'
 import { MiniProfileModal } from '@/components/modals/MiniProfleModal'
 import { ProfileErrorSkeleton, ProfileSkeleton } from '@/components/skeletons'
 import { Button } from '@/components/ui/button'
@@ -11,8 +12,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { toast } from 'react-hot-toast'
-
-const BASE_URL = process.env.DB_URL?.replace('/api', '')
 
 export const Profile = ({
 	isCollapsed,
@@ -52,9 +51,9 @@ export const Profile = ({
 							priority
 							alt='profile-avatar'
 							className={cn(
-								'object-cover rounded-full w-[60px] h-[60px] border-2 border-white select-none transition-all',
-								isCollapsed && ' w-[50px] h-[50px]',
-								isMobile && 'w-[45px] h-[45px]'
+								'object-cover rounded-full w-[50px] h-[50px] md:w-[60px] md:h-[60px] border-[1px] md:border-2 border-white select-none transition-all',
+								isCollapsed && ' w-[50px] h-[50px]'
+								// isMobile && 'w-[45px] h-[45px]'
 							)}
 						/>
 					)}

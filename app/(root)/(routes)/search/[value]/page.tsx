@@ -11,6 +11,7 @@ import {
 	useChangeTaskModal,
 	useTheme,
 	useViewTaskModal,
+	useWidth,
 } from '@/hooks'
 import { useSearchTasks } from '@/hooks/useTasks'
 import { AllTasks } from '@/types'
@@ -32,6 +33,8 @@ const ResultsPage = () => {
 	const pathname = usePathname()
 	const segments = pathname.split('/')
 	const searchValue = segments[segments.length - 1]?.replace(/-/g, ' ') || ''
+	const width = useWidth()
+	const isMobile = width < 945
 
 	const { allCategories } = useTaskContext()
 	const { data, isPending, isError, error, refetch } =
@@ -84,18 +87,24 @@ const ResultsPage = () => {
 
 	return (
 		<>
-			<div className='py-3 flex flex-col gap-3'>
-				<div className='flex w-full justify-between gap-2'>
-					<h1 className='text-[38px] font-bold tracking-wide -mb-4'>
+			<div
+				className={cn('py-3 flex flex-col gap-3', {
+					'pb-24 sm:pb-20': isMobile,
+				})}
+			>
+				<div className='md:flex-row flex-col flex w-full justify-between gap-2'>
+					<h1 className='text-[38px] mb-0 font-bold tracking-wide md:-mb-4'>
 						Search Page!
 					</h1>
 					<div className='grid grid-cols-2 gap-x-1'>
-						<p className='col-span-2 font-semibold text-lg'>sort by:</p>
+						{width >= 768 && (
+							<p className='col-span-2 font-semibold text-lg'>sort by:</p>
+						)}
 						<Button
 							variant='add'
 							size='add'
 							className={cn(
-								'font-medium text-sm flex items-center justify-between px-3 gap-1 w-[100px] rounded-lg bg-orange-400  hover:bg-orange-500/80 text-white border-orange-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80',
+								'font-medium text-sm flex items-center justify-between px-3 gap-1 md:w-[100px] rounded-lg bg-orange-400  hover:bg-orange-500/80 text-white border-orange-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80 w-full',
 								filters.date && 'dark:bg-slate-500/80 bg-orange-500/80'
 							)}
 							title='date'
@@ -112,7 +121,7 @@ const ResultsPage = () => {
 							variant='add'
 							size='add'
 							className={cn(
-								'font-medium text-sm flex items-center justify-between px-3 gap-1 w-[100px] rounded-lg bg-orange-400  hover:bg-orange-500/80 text-white border-orange-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80',
+								'font-medium text-sm flex items-center justify-between px-3 gap-1 w-full md:w-[100px] rounded-lg bg-orange-400  hover:bg-orange-500/80 text-white border-orange-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80',
 								filters.category && 'dark:bg-slate-500/80 bg-orange-500/80'
 							)}
 							onClick={handleFilter}

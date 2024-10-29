@@ -38,11 +38,11 @@ export const KanbanCategory: FC<KanbanCategoryProps> = ({
 	return (
 		<div
 			ref={setNodeRef}
-			className='flex flex-col w-full py-2 pb-0 rounded-md border-[3px] gap-2 relative drop-shadow-xl'
+			className='flex flex-col w-full py-1 md:py-2 pb-0 rounded-md border-[3px] gap-1 md:gap-2 relative drop-shadow-xl'
 			style={style}
 		>
 			<h3
-				className='text-center font-semibold text-xl pb-2 px-2 border-b-2'
+				className='text-center font-semibold text-lg md:text-xl pb-2 px-2 border-b-2'
 				style={{ borderBottomColor: color }}
 			>
 				Category:{' '}

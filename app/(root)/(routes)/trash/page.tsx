@@ -3,8 +3,15 @@
 import { ViewTaskModal } from '@/components/modals/ViewTaskModal'
 import { useArchivedTaskContext } from '@/components/providers'
 import { WrapTaskSkeleton } from '@/components/skeletons'
-import { useCategoriesWithColors, useTheme, useViewTaskModal } from '@/hooks'
+import {
+	useCategoriesWithColors,
+	useTheme,
+	useViewTaskModal,
+	useWidth,
+} from '@/hooks'
+import cn from 'classnames'
 import { Trash2 } from 'lucide-react'
+import { useEffect } from 'react'
 import { WrapItems } from '../../_components/WrapItems'
 import { Banner } from './_components/Banner'
 
@@ -14,6 +21,12 @@ const TrashPage = () => {
 		useViewTaskModal()
 	const { categories, isPending, tasks, refetch } = useArchivedTaskContext()
 	const categoriesWithColors = useCategoriesWithColors(categories, theme)
+	const width = useWidth()
+	const isMobile = width < 945
+
+	useEffect(() => {
+		refetch()
+	}, [])
 
 	if (isPending) {
 		return <WrapTaskSkeleton />
@@ -21,8 +34,14 @@ const TrashPage = () => {
 	return (
 		<>
 			<Banner />
-			<div className='py-6 flex flex-col gap-3'>
-				<h4 className='text-[38px] font-bold tracking-wide'>Trash Can!</h4>
+			<div
+				className={cn('py-6 flex flex-col gap-3', {
+					'pb-24 sm:pb-20': isMobile,
+				})}
+			>
+				<h4 className='text-[30px] md:text-[38px] font-bold tracking-wide'>
+					Trash Can!
+				</h4>
 				{tasks.length > 0 ? (
 					<ul className='grid gap-2'>
 						{tasks.map(task => (

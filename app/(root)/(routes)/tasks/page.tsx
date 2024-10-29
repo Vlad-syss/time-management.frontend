@@ -4,7 +4,7 @@ import { ChangeTaskModal } from '@/components/modals/ChangeTaskModal'
 import { CreateTaskModal } from '@/components/modals/CreateTaskModal'
 import { ViewTaskModal } from '@/components/modals/ViewTaskModal'
 import { Button } from '@/components/ui/button'
-import { useChangeTaskModal, useViewTaskModal } from '@/hooks'
+import { useChangeTaskModal, useViewTaskModal, useWidth } from '@/hooks'
 import { useCreateTaskModal } from '@/hooks/useCreateTaskModal'
 import { SelectedTypes } from '@/types'
 import cn from 'classnames'
@@ -17,6 +17,8 @@ const TasksPage = () => {
 	const { closeModal: closeTaskModal, isOpen: isOpenTaskModal } =
 		useViewTaskModal()
 	const { closeModal: closeUpdModal, isOpen: isUpdOpen } = useChangeTaskModal()
+	const width = useWidth()
+	const isMobile = width < 945
 
 	const [selected, setSelected] = useState<SelectedTypes>({
 		kanban: false,
@@ -33,9 +35,15 @@ const TasksPage = () => {
 
 	return (
 		<>
-			<div className='py-3 flex flex-col gap-3'>
+			<div
+				className={cn('py-3 flex flex-col gap-3', {
+					'pb-24 sm:pb-20': isMobile,
+				})}
+			>
 				<div className='flex justify-between w-full items-start gap-3 pb-3 border-b-[3px] border-destructive/50 dark:border-slate-300/50'>
-					<h4 className='text-[38px] font-bold tracking-wide'>Tasks!</h4>
+					<h4 className='text-[30px] md:text-[38px] font-bold tracking-wide'>
+						Tasks!
+					</h4>
 					<div className='grid gap-2 grid-rows-2 grid-cols-3'>
 						<Button
 							variant='outline'

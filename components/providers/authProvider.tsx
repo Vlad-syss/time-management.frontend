@@ -1,7 +1,18 @@
 'use client'
+import { jwtDecode } from 'jwt-decode'
+import { useRouter } from 'next/navigation'
+import {
+	ReactNode,
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+} from 'react'
 
-import { useAuth } from '@/hooks'
-import { ReactNode, createContext, useContext } from 'react'
+interface DecodedToken {
+	exp: number
+	[key: string]: any
+}
 
 interface AuthContextType {
 	isAuthenticated: boolean
@@ -12,14 +23,41 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const auth = useAuth()
+	const [isAuthenticated, setIsAuthenticated] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
+	const router = useRouter()
+
+	const logout = () => {
+		localStorage.removeItem('jwtToken')
+		setIsAuthenticated(false)
+		router.push('/')
+	}
+
+	useEffect(() => {
+		const token = localStorage.getItem('jwtToken')
+
+		if (token) {
+			try {
+				const decodedToken: DecodedToken = jwtDecode(token)
+				if (decodedToken.exp * 1000 > Date.now()) {
+					setIsAuthenticated(true)
+				} else {
+					localStorage.removeItem('jwtToken')
+				}
+			} catch (error) {
+				console.error('Invalid token', error)
+				localStorage.removeItem('jwtToken')
+			}
+		}
+		setIsLoading(false)
+	}, [])
 
 	return (
 		<AuthContext.Provider
 			value={{
-				isAuthenticated: auth.isAuthenticated,
-				logout: auth.logout,
-				isLoading: auth.isLoading,
+				isAuthenticated,
+				isLoading,
+				logout,
 			}}
 		>
 			{children}

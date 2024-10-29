@@ -7,6 +7,7 @@ export const axiosInstance = axios.create({
 	headers: {
 		'Content-Type': 'application/json',
 	},
+	withCredentials: true,
 })
 
 axiosInstance.interceptors.request.use(
@@ -45,10 +46,20 @@ export const useAxios = () => {
 		return response.data
 	}
 
+	const upload = async (url: string, data?: any) => {
+		const response = await axiosInstance.post(url, data, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		})
+		return response.data
+	}
+
 	return {
 		get,
 		post,
 		put,
 		remove,
+		upload,
 	}
 }
