@@ -1,3 +1,4 @@
+export type { ChangeReminder, Reminder } from './reminderTypes'
 export { type FormInputProps, type RouteLink } from './startTypes'
 export type {
 	AllTasks,

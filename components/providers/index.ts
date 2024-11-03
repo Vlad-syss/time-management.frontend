@@ -3,6 +3,7 @@ export {
 	useArchivedTaskContext,
 } from './achivedTaskProvider'
 export { AuthProvider, useAuthContext } from './authProvider'
+export { ReminderProvider, useReminderContext } from './reminderProvider'
 export { TanstackClientProvider } from './tanstackProvider'
 export { TaskProvider, useTaskContext } from './tasksProvider'
 export { ThemeProvider, useThemeContext } from './themeProvider'

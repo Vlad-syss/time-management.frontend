@@ -1,6 +1,13 @@
 export { useLogin } from './login.api'
 export { useRegister } from './registration.api'
 export {
+	createReminder,
+	deleteReminder,
+	getReminderById,
+	getReminders,
+	updateReminder,
+} from './reminder.api'
+export {
 	createTask,
 	deleteTask,
 	getArchivedTasks,

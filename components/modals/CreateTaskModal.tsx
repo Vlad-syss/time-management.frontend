@@ -12,7 +12,7 @@ import { Controller, useForm } from 'react-hook-form'
 import Modal from 'react-modal'
 import Switch from 'react-switch'
 import { DatePicker } from 'rsuite'
-import { useTaskContext } from '../providers'
+import { useReminderContext, useTaskContext } from '../providers'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
@@ -38,6 +38,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 	const isMobile = width < 945 ? true : false
 	const searchParams = useSearchParams()
 	const { updateQueryParam } = useCreateTaskModal()
+	const { refetchReminder } = useReminderContext()
 	const { handleCreate } = useTaskContext()
 	const [enabled, setEnabled] = useState(true)
 	const {
@@ -65,8 +66,10 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 		if (description) setValue('description', description)
 	}, [searchParams, setValue])
 
-	const onSubmit = (data: FormValues) => {
-		handleCreate(data)
+	const onSubmit = async (data: FormValues) => {
+		await handleCreate(data)
+		await refetchReminder()
+		await refetchReminder()
 		onClose()
 	}
 

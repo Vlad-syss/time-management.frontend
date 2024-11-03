@@ -2,6 +2,7 @@
 'use client'
 import {
 	ArchivedTaskProvider,
+	ReminderProvider,
 	TaskProvider,
 	UserProvider,
 	useAuthContext,
@@ -49,10 +50,12 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
 				<main className='min-h-screen flex-auto flex flex-col w-full relative'>
 					<UserProvider>
 						<TaskProvider>
-							<Board />
-							<div className='max-w-[1200px] mx-auto w-full flex-auto flex flex-col min-h-full px-[5px] sm:px-[10px]'>
-								<ArchivedTaskProvider>{children}</ArchivedTaskProvider>
-							</div>
+							<ReminderProvider>
+								<Board />
+								<div className='max-w-[1200px] mx-auto w-full flex-auto flex flex-col min-h-full px-[5px] sm:px-[10px]'>
+									<ArchivedTaskProvider>{children}</ArchivedTaskProvider>
+								</div>
+							</ReminderProvider>
 						</TaskProvider>
 					</UserProvider>
 				</main>

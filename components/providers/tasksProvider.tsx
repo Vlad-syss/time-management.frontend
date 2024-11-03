@@ -23,13 +23,13 @@ interface TaskTypes {
 	tasks: Task[]
 	categories: Category[]
 	allCategories: Category[]
-	futureTasks: Task[]
 	isPending: boolean
 	handleArchive: (id: string) => Promise<void>
 	handleComplete: (id: string) => Promise<void>
 	handleDelete: (id: string) => Promise<void>
 	handleCreate: (data: createData) => Promise<void>
 	handleUpdate: (id: string, data: changeData) => Promise<void>
+	getFutureTasks: () => Task[]
 }
 
 const TaskContext = createContext<TaskTypes | undefined>(undefined)
@@ -39,20 +39,20 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 	const [tasks, setTasks] = useState<AllTasks>([])
 	const [categories, setCategories] = useState<Category[]>([])
 	const [allCategories, setAllCategories] = useState<Category[]>([])
-	const [futureTasks, setFutureTasks] = useState<Task[]>([])
 
 	useEffect(() => {
 		if (tasksData && Array.isArray(tasksData)) {
 			const now = dayjs()
 			const availableTasks: Task[] = []
-			const futureTaskList: Task[] = []
 
 			tasksData.forEach(task => {
 				if (task) {
 					const taskStartTime = dayjs(task.startTime)
-					if (taskStartTime.isAfter(now)) {
-						futureTaskList.push(task)
-					} else if (!task.status.archived && !task.status.completed) {
+					if (
+						!task.status.archived &&
+						!task.status.completed &&
+						taskStartTime.isBefore(now)
+					) {
 						availableTasks.push(task)
 					}
 				}
@@ -64,9 +64,20 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 			setTasks(availableTasks)
 			setCategories(categories)
 			setAllCategories(allCategories)
-			setFutureTasks(futureTaskList)
 		}
 	}, [tasksData])
+
+	const getFutureTasks = (): Task[] => {
+		const now = dayjs()
+		return (tasksData || []).filter(task => {
+			const taskStartTime = dayjs(task.startTime)
+			return (
+				taskStartTime.isAfter(now) &&
+				!task.status.archived &&
+				!task.status.completed
+			)
+		})
+	}
 
 	const refetchTasks = async () => {
 		refetch()
@@ -140,7 +151,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 				handleUpdate,
 				allCategories,
 				handleDelete,
-				futureTasks,
+				getFutureTasks,
 			}}
 		>
 			{children}
