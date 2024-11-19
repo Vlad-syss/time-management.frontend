@@ -13,9 +13,8 @@
 	@apply after:w-2 md:after:w-[10px];
 
 	&.active {
-		@apply bg-[#f97a4840] dark:bg-slate-400/25;
 		&::after {
-			background: #ff3347;
+			@apply bg-[#ff3347] dark:bg-gray-700;
 		}
 	}
 
@@ -23,17 +22,15 @@
 		background: #ff3347;
 	}
 
-	// Separating logout-specific styles
 	&.logout {
-		@apply text-[#222222] dark:text-slate-400;
-
-		&:hover::after {
-			background: #22222290;
-			@apply dark:bg-stone-800;
-		}
+		@apply dark:text-slate-400 text-[#222222];
 
 		&:hover {
 			background: #2222221a;
+		}
+
+		&:hover::after {
+			@apply dark:bg-stone-200 bg-stone-800;
 		}
 	}
 }

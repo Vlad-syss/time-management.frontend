@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const DB_URL = process.env.DB_URL
+const DB_URL = process.env.REACT_APP_DB_URL
 
 export const axiosInstance = axios.create({
 	baseURL: DB_URL,

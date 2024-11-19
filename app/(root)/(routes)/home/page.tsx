@@ -19,10 +19,6 @@ const HomePage = () => {
 
 	if (!data) return <p>No data</p>
 
-	/**
-	 * admin features
-	 */
-
 	return (
 		<div
 			className={cn('py-3 flex flex-col gap-3', {
