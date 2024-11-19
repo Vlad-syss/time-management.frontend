@@ -17,7 +17,7 @@ const nextConfig = {
 		],
 	},
 	eslint: {
-		ignoreDuringBuilds: true,
+		ignoreDuringBuilds: false,
 	},
 	distDir: 'build',
 }
