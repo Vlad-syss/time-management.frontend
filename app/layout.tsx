@@ -10,7 +10,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import 'rsuite/dist/rsuite-no-reset.min.css'
 import './globals.css'
 
-const montserrat = Montserrat({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin-ext'] })
 
 export const metadata: Metadata = {
 	title: 'Take-Time',

@@ -51,8 +51,8 @@ export const Profile = ({
 							priority
 							alt='profile-avatar'
 							className={cn(
-								'object-cover rounded-full w-[50px] h-[50px] md:w-[60px] md:h-[60px] border-[1px] md:border-2 border-white select-none transition-all',
-								isCollapsed && ' w-[50px] h-[50px]'
+								'object-cover rounded-full min-w-[60px] max-w-[60px] h-[50px] md:w-[60px] md:h-[60px] border-[1px] md:border-2 border-white select-none transition-all',
+								isCollapsed && ' min-w-[50px] max-w-[50px] h-[50px]'
 								// isMobile && 'w-[45px] h-[45px]'
 							)}
 						/>
@@ -65,8 +65,8 @@ export const Profile = ({
 							priority
 							alt='default-avatar'
 							className={cn(
-								'object-fill rounded-full w-[60px] h-[60px] border-2 border-background select-none transition-all dark:shadow-sm dark:shadow-white',
-								isCollapsed && ' w-[50px] h-[50px]'
+								'object-fill rounded-full min-w-[60px] max-w-[60px] h-[60px] border-2 border-background select-none transition-all dark:shadow-sm dark:shadow-white',
+								isCollapsed && ' min-w-[50px] max-w-[50px] h-[50px]'
 							)}
 						/>
 						//default-avatar
@@ -81,7 +81,7 @@ export const Profile = ({
 							<h4 className='text-[16px] font-semibold tracking-widest text-[#222] dark:text-red-100'>
 								{data?.name}
 							</h4>
-							<p className='text-sm text-gray-600 dark:text-gray-300 tracking-wider'>
+							<p className='text-sm text-gray-600 dark:text-gray-300 tracking-wider truncate w-[150px]'>
 								{data?.email}
 							</p>
 						</article>

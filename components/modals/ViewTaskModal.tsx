@@ -208,7 +208,7 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 										</Button>
 									</div>
 								) : (
-									<div className='mt-6'>
+									<div className='mt-6 w-full'>
 										<Button
 											onClick={() => handleDelete(taskId)}
 											variant='add'

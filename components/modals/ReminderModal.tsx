@@ -89,7 +89,10 @@ export const ReminderModal = ({ isOpen, onClose }: ReminderModalProps) => {
 								Add new
 							</Button>
 							{showPopup && (
-								<AddReminderPopup onClose={() => setShowPopup(false)} />
+								<AddReminderPopup
+									onClose={() => setShowPopup(false)}
+									top={!isMobile ? '-170px' : '-240px'}
+								/>
 							)}
 						</div>
 					</motion.div>
