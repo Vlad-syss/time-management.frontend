@@ -45,7 +45,7 @@ export const Profile = ({
 				<div onClick={() => router.push('/profile')}>
 					{data?.avatarUrl && (
 						<Image
-							src={`${BASE_URL}${data.avatarUrl}`}
+							src={`${BASE_URL}/${data.avatarUrl}`}
 							width={100}
 							height={100}
 							priority
