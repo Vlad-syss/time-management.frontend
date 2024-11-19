@@ -19,7 +19,6 @@ const nextConfig = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
-	distDir: 'build',
 }
 
 export default nextConfig
