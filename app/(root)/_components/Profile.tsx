@@ -44,11 +44,8 @@ export const Profile = ({
 			>
 				<div onClick={() => router.push('/profile')}>
 					{data?.avatarUrl && (
-						<Image
-							src={`${BASE_URL}/${data.avatarUrl}`}
-							width={100}
-							height={100}
-							priority
+						<img
+							src={`${BASE_URL}${data.avatarUrl}`}
 							alt='profile-avatar'
 							className={cn(
 								'object-cover rounded-full min-w-[60px] max-w-[60px] h-[50px] md:w-[60px] md:h-[60px] border-[1px] md:border-2 border-white select-none transition-all',
