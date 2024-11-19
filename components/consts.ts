@@ -1,6 +1,6 @@
 export const LOCAL_STORAGE_KEY = 'tasksOrder'
 export const LOCAL_STORAGE_CATEGORY_ORDER_KEY = 'categoriesOrder'
-export const BASE_URL = process.env.REACT_APP_DB_URL?.replace('/api', '')
+export const BASE_URL = process.env.DB_URL?.replace('/api', '')
 export const months = [
 	'January',
 	'February',
