@@ -1,58 +1,12 @@
 import { useUser } from '@/api'
+import { navlinks } from '@/components/consts'
 import { useAuthContext } from '@/components/providers'
 import cn from 'classnames'
-import {
-	Clock,
-	Home,
-	ListTodo,
-	LogOut,
-	Search,
-	Settings,
-	Trash,
-} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { MouseEvent, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import style from './root.module.scss'
-
-const navlinks = [
-	{
-		name: 'Home',
-		icon: <Home className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-800' />,
-		route: '/home',
-	},
-	{
-		name: 'Tasks',
-		icon: <ListTodo className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-800' />,
-		route: '/tasks',
-	},
-	{
-		name: 'Trash',
-		icon: <Trash className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-800' />,
-		route: '/trash',
-	},
-	{
-		name: 'Reminders',
-		icon: <Clock className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-800' />,
-		route: '/reminders',
-	},
-	{
-		name: 'Search',
-		icon: <Search className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-800' />,
-		route: '/search',
-	},
-	{
-		name: 'Admin Panel',
-		icon: <Settings className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-800' />,
-		route: '/admin-panel',
-	},
-	{
-		name: 'Logout',
-		icon: <LogOut className='w-6 h-6 md:w-7 md:h-7' />,
-		route: '',
-	},
-]
 
 export const Links = ({
 	isCollapsed,
@@ -100,10 +54,11 @@ export const Links = ({
 						key={link.name}
 						className={cn(
 							'text-[19px] font-semibold',
-							isMobile && 'last:ml-auto last:flex-nowrap',
-							!isMobile && 'last:mt-auto',
+							isMobile && ' last:flex-nowrap',
 							style.linked,
-							link.name === 'Logout' && style.logout
+							link.name === 'Logout' && style.logout,
+							link.name === 'Admin Panel' && 'md:mt-auto',
+							link.name === 'Admin Panel' && isMobile && 'ml-auto'
 						)}
 						title={link.name}
 					>
@@ -122,7 +77,7 @@ export const Links = ({
 										link.route !== currentRoute && !isActive,
 									'justify-center': isCollapsed,
 									'mt-0': link.name === 'Logout' && isMobile,
-									'border-2 border-orange-500 bg-orange-500/30 dark:border-slate-300 dark:bg-slate-300/30':
+									'border-2 border-orange-500 md:mt-auto bg-orange-500/30 dark:border-slate-300 dark:bg-slate-300/30':
 										isAdmin,
 								}
 							)}

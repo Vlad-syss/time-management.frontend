@@ -2,11 +2,13 @@ import { months } from '@/components/consts'
 import { useReminderContext } from '@/components/providers'
 import { useWidth } from '@/hooks'
 import { ChangeReminder, Reminder } from '@/types'
+import cn from 'classnames'
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import { CalendarCell } from './CalendarCell'
 import { CalendarCellMobile } from './CalendarCellMobile'
 import { CalendarDays } from './CalendarDays'
 import { CalendarHeader } from './CalendarHeader'
+import { CalendarItem } from './CalendarItem'
 
 interface CalendarProps {
 	reminders: Reminder[]
@@ -98,7 +100,15 @@ export const Calendar: React.FC<CalendarProps> = ({
 				onPreviousMonth={handlePrevious}
 				onNextMonth={handleNext}
 			/>
-			<div className={isMobile ? 'grid grid-cols-[30px_1fr]' : ''}>
+			<div
+				className={
+					isMobile && (activeSorts.alphabetical || activeSorts.time)
+						? 'grid grid-cols-[1fr]'
+						: isMobile
+						? 'grid grid-cols-[30px_1fr]'
+						: ''
+				}
+			>
 				{!(activeSorts.alphabetical || activeSorts.time) && (
 					<CalendarDays daysOfWeek={daysOfWeek} isMobile={isMobile} />
 				)}
@@ -109,37 +119,58 @@ export const Calendar: React.FC<CalendarProps> = ({
 							: 'grid grid-cols-7 gap-[1px] bg-orange-400 dark:bg-gray-800'
 					}
 				>
-					{displayDays.map((day, index) => {
-						const dayReminders = reminders.filter(
-							reminder =>
-								new Date(reminder.time).toDateString() === day.toDateString()
-						)
-						return isMobile ? (
-							<CalendarCellMobile
-								key={index}
-								day={day}
-								today={today}
-								reminders={dayReminders}
-								setShowPopup={setShowPopup}
-								setTimeData={setTimeData}
-								deleteReminder={deleteReminder}
-								updateReminder={updateReminder}
-								currentMonth={currentMonth}
-							/>
-						) : (
-							<CalendarCell
-								key={index}
-								day={day}
-								today={today}
-								reminders={dayReminders}
-								currentMonth={currentMonth}
-								setShowPopup={setShowPopup}
-								setTimeData={setTimeData}
-								deleteReminder={deleteReminder}
-								updateReminder={updateReminder}
-							/>
-						)
-					})}
+					{(activeSorts.alphabetical || activeSorts.time) && isMobile
+						? reminders.map((item, index) => {
+								return (
+									<div
+										className={cn(
+											'flex flex-col group relative items-start p-2 bg-orange-100 dark:bg-slate-700 gap-1 min-h-[80px] transition-transform duration-150'
+										)}
+									>
+										<span className='text-sm font-medium mb-1'>
+											{index + 1}
+										</span>
+										<CalendarItem
+											key={item._id}
+											reminder={item}
+											deleteReminder={deleteReminder}
+											updateReminder={updateReminder}
+										/>
+									</div>
+								)
+						  })
+						: displayDays.map((day, index) => {
+								const dayReminders = reminders.filter(
+									reminder =>
+										new Date(reminder.time).toDateString() ===
+										day.toDateString()
+								)
+								return isMobile ? (
+									<CalendarCellMobile
+										key={index}
+										day={day}
+										today={today}
+										reminders={dayReminders}
+										setShowPopup={setShowPopup}
+										setTimeData={setTimeData}
+										deleteReminder={deleteReminder}
+										updateReminder={updateReminder}
+										currentMonth={currentMonth}
+									/>
+								) : (
+									<CalendarCell
+										key={index}
+										day={day}
+										today={today}
+										reminders={dayReminders}
+										currentMonth={currentMonth}
+										setShowPopup={setShowPopup}
+										setTimeData={setTimeData}
+										deleteReminder={deleteReminder}
+										updateReminder={updateReminder}
+									/>
+								)
+						  })}
 				</div>
 			</div>
 		</div>

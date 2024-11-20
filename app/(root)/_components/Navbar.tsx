@@ -6,6 +6,7 @@ import cn from 'classnames'
 import { CornerUpLeft } from 'lucide-react'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { Links } from './Links'
+import { MobileLinks } from './MobileLinks'
 import { Profile } from './Profile'
 
 interface NavbarProps {
@@ -22,6 +23,7 @@ export const Navbar: FC<NavbarProps> = ({
 	// onBurger,
 }) => {
 	const width = useWidth()
+	const isChange = width < 500
 
 	const onCollapsed = () => {
 		setIsCollapsed(prev => !prev)
@@ -47,8 +49,7 @@ export const Navbar: FC<NavbarProps> = ({
 				isMobile && 'z-[7] gap-2 opacity-100 dark:bg-[#35374B]/90 top-auto',
 				!isMobile && 'gap-5',
 				{
-					// 'opacity-0 -top-full': isMobile && !onBurger,
-					'h-[85px]': width <= 500,
+					'h-[56px] ': width <= 500,
 				}
 			)}
 		>
@@ -60,11 +61,16 @@ export const Navbar: FC<NavbarProps> = ({
 			/>
 			<div
 				className={cn(
-					'flex-auto h-full border-primary/90 dark:border-gray-950/90',
-					isMobile ? 'py-0' : 'py-5 border-t-2 border-b-2'
+					'flex-auto h-full  border-primary/90 dark:border-gray-950/90',
+					isMobile ? 'py-0' : 'py-5 border-t-2 border-b-2',
+					isChange && 'flex'
 				)}
 			>
-				<Links isCollapsed={isCollapsed} isMobile={isMobile} />
+				{!isChange ? (
+					<Links isCollapsed={isCollapsed} isMobile={isMobile} />
+				) : (
+					<MobileLinks />
+				)}
 			</div>
 			<Profile isCollapsed={isCollapsed} isMobile={isMobile} />
 			{!isMobile && (

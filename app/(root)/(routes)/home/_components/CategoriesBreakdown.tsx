@@ -31,12 +31,10 @@ export const CategoriesBreakdown: React.FC<Props> = ({ categories }) => {
 							<>
 								<tr>
 									<th className='px-2 sm:px-4 py-2 text-left'>Category</th>
-									<tr className='flex w-full'>
-										<th className='px-2 sm:px-4 py-2 text-left'>Task Count</th>
-										<th className='px-2 sm:px-4 py-2 text-left'>
-											Avg Time (ms)
-										</th>
-									</tr>
+									<th className='flex w-full'>
+										<p className='px-2 sm:px-4 py-2 text-left'>Task Count</p>
+										<p className='px-2 sm:px-4 py-2 text-left'>Avg Time (ms)</p>
+									</th>
 								</tr>
 							</>
 						)}
@@ -47,7 +45,7 @@ export const CategoriesBreakdown: React.FC<Props> = ({ categories }) => {
 									<tr key={name} className='w-full  border-2 border-orange-500'>
 										{!isMobile ? (
 											<>
-												<td className='border px-2 sm:px-4 py-2 border-orange-500'>
+												<td className='border px-2 sm:px-4 py-2 border-orange-500 truncate w-40'>
 													{name}
 												</td>
 												<td className='border px-2 sm:px-4 py-2 border-orange-500'>
@@ -62,14 +60,14 @@ export const CategoriesBreakdown: React.FC<Props> = ({ categories }) => {
 												<td className='border px-2 sm:px-4 py-2 border-orange-500'>
 													{name}
 												</td>
-												<tr className='flex flex-col w-full border border-orange-500'>
-													<td className='border px-2 sm:px-4 py-2 border-orange-500'>
+												<td className='flex flex-col w-full border-orange-500'>
+													<p className='border-b px-2 sm:px-4 py-2 border-orange-500'>
 														{taskCount}
-													</td>
-													<td className='border px-2 sm:px-4 py-2 border-orange-500'>
+													</p>
+													<p className='border-t px-2 sm:px-4 py-2 border-orange-500'>
 														{formatTime(averageTime)}
-													</td>
-												</tr>
+													</p>
+												</td>
 											</>
 										)}
 									</tr>

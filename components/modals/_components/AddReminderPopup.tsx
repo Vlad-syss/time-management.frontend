@@ -26,8 +26,8 @@ const AddReminderPopup = ({
 }: AddReminderPopupProps) => {
 	const { createReminder } = useReminderContext()
 	const widthScreen = useWidth()
-	const isSmall = widthScreen < 768
-	const isVerySmall = widthScreen < 500
+	const isSmall = widthScreen < 768 && isMobile
+	const isVerySmall = widthScreen < 500 && isMobile
 	const [message, setMessage] = useState(messageData || '')
 	const [time, setTime] = useState(timeData || '')
 
@@ -43,22 +43,22 @@ const AddReminderPopup = ({
 	return (
 		<div
 			className={cn(
-				'absolute bg-orange-300 dark:bg-slate-700 border border-orange-600 dark:border-slate-200 shadow-lg p-3 px-2 z-10',
+				' bg-orange-300 dark:bg-slate-700 border border-orange-600 dark:border-slate-200 shadow-lg p-3 px-2 z-10',
 				{
-					'-mx-2 w-full md:-left-[230px]': isMobile,
-					'rounded-lg': !isMobile,
+					'-mx-2 w-full  fixed': isMobile,
+					'rounded-lg absolute': !isMobile,
 				}
 			)}
 			style={{
 				top,
-				right: !isMobile ? right : '0',
+				right: !isMobile ? right : '7px',
 				width: isVerySmall
-					? '160%'
+					? '100%'
 					: isSmall
-					? '120%'
+					? '100%'
 					: !isMobile
 					? width
-					: '140%',
+					: '100%',
 			}}
 		>
 			<h4 className='text-lg font-medium mb-2'>Create Reminder</h4>

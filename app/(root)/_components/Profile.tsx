@@ -48,7 +48,7 @@ export const Profile = ({
 							src={`${BASE_URL}${data.avatarUrl}`}
 							alt='profile-avatar'
 							className={cn(
-								'object-cover rounded-full min-w-[60px] max-w-[60px] h-[50px] md:w-[60px] md:h-[60px] border-[1px] md:border-2 border-white select-none transition-all',
+								'object-cover rounded-full min-w-[45px] max-w-[45px] h-[45px] md:min-w-[60px] md:max-w-[60px] md:h-[60px] border-[1px] md:border-2 border-white select-none transition-all',
 								isCollapsed && ' min-w-[50px] max-w-[50px] h-[50px]'
 								// isMobile && 'w-[45px] h-[45px]'
 							)}
