@@ -8,47 +8,6 @@ import { MouseEvent, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import style from './root.module.scss'
 
-<<<<<<< HEAD
-=======
-const navlinks = [
-	{
-		name: 'Home',
-		icon: <Home className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-200' />,
-		route: '/home',
-	},
-	{
-		name: 'Tasks',
-		icon: <ListTodo className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-200' />,
-		route: '/tasks',
-	},
-	{
-		name: 'Trash',
-		icon: <Trash className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-200' />,
-		route: '/trash',
-	},
-	{
-		name: 'Reminders',
-		icon: <Clock className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-200' />,
-		route: '/reminders',
-	},
-	{
-		name: 'Search',
-		icon: <Search className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-200' />,
-		route: '/search',
-	},
-	{
-		name: 'Admin Panel',
-		icon: <Settings className='w-6 h-6 md:w-7 md:h-7 dark:text-slate-200' />,
-		route: '/admin-panel',
-	},
-	{
-		name: 'Logout',
-		icon: <LogOut className='w-6 h-6 md:w-7 md:h-7' />,
-		route: '',
-	},
-]
-
->>>>>>> 0f6392ff08fb73f1162d9b48e1689519b7be4588
 export const Links = ({
 	isCollapsed,
 	isMobile,
@@ -117,13 +76,8 @@ export const Links = ({
 									'text-red-500 dark:text-slate-300 hover:bg-primary/25 dark:hover:bg-slate-400/25':
 										link.route !== currentRoute && !isActive,
 									'justify-center': isCollapsed,
-<<<<<<< HEAD
 									'mt-0': link.name === 'Logout' && isMobile,
 									'border-2 border-orange-500 md:mt-auto bg-orange-500/30 dark:border-slate-300 dark:bg-slate-300/30':
-=======
-									'mt-0 mr-1': link.name === 'Logout' && isMobile,
-									'border-2 border-orange-500 bg-orange-500/30 dark:border-slate-300 dark:bg-slate-300/30':
->>>>>>> 0f6392ff08fb73f1162d9b48e1689519b7be4588
 										isAdmin,
 								}
 							)}
