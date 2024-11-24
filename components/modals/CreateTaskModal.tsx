@@ -122,7 +122,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
 						className={cn(
-							'p-2 py-3 md:p-5 lg:mx-2 lg:mt-10 relative bg-orange-200 text-black dark:bg-slate-600 dark:text-white h-full min-h-max lg:h-auto'
+							'p-2 py-3 md:p-5 lg:mx-2 lg:mt-10 relative bg-orange-200 text-black dark:bg-slate-600 dark:text-white h-full min-h-[700px] lg:h-auto'
 						)}
 					>
 						<div className='flex flex-col gap-1 w-full'>
