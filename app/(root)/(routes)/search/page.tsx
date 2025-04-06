@@ -69,6 +69,7 @@ const SearchPage = () => {
 							width={800}
 							height={400}
 							alt='search-img'
+							priority
 							className='min-w-[600px] max-w-none md:max-w-full object-cover object-center'
 						/>
 					</div>

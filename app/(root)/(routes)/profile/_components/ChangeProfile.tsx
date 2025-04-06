@@ -60,7 +60,7 @@ export const ChangeProfile = (userData: User) => {
 	}
 
 	return (
-		<div className='w-full bg-white dark:bg-gray-800 shadow rounded-md p-3 sm:p-6  mx-auto'>
+		<div className='w-full bg-orange-100 dark:bg-gray-800 shadow rounded-md p-3 sm:p-6  mx-auto'>
 			<h4 className='text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4'>
 				Edit Profile
 			</h4>
@@ -68,7 +68,7 @@ export const ChangeProfile = (userData: User) => {
 			<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
 				<div className='flex flex-col md:flex-row gap-4'>
 					<div className='md:w-1/2'>
-						<label className='block text-sm text-gray-700 dark:text-gray-300'>
+						<label className='block text-sm text-gray-700 dark:text-gray-300 font-semibold'>
 							Name
 						</label>
 						<input
@@ -79,7 +79,7 @@ export const ChangeProfile = (userData: User) => {
 					</div>
 
 					<div className='md:w-1/2'>
-						<label className='block text-sm text-gray-700 dark:text-gray-300'>
+						<label className='block text-sm text-gray-700 dark:text-gray-300 font-semibold'>
 							Email
 						</label>
 						<input
@@ -92,7 +92,7 @@ export const ChangeProfile = (userData: User) => {
 
 				<div className='flex flex-col md:flex-row gap-4'>
 					<div className='md:w-1/2'>
-						<label className='block text-sm text-gray-700 dark:text-gray-300'>
+						<label className='block text-sm text-gray-700 dark:text-gray-300 font-semibold'>
 							Country
 						</label>
 						<input
@@ -103,7 +103,7 @@ export const ChangeProfile = (userData: User) => {
 					</div>
 
 					<div className='md:w-1/2'>
-						<label className='block text-sm text-gray-700 dark:text-gray-300'>
+						<label className='block text-sm text-gray-700 dark:text-gray-300 font-semibold'>
 							Description
 						</label>
 						<textarea
@@ -114,7 +114,7 @@ export const ChangeProfile = (userData: User) => {
 				</div>
 
 				<div>
-					<label className='block text-sm text-gray-700 dark:text-gray-300'>
+					<label className='block text-sm text-gray-700 dark:text-gray-300 font-semibold'>
 						Avatar
 					</label>
 					<div
@@ -122,7 +122,9 @@ export const ChangeProfile = (userData: User) => {
 						className='mt-1 p-4 border-2 border-dashed rounded-md cursor-pointer text-center dark:bg-gray-700 dark:text-white'
 					>
 						<input {...getInputProps()} />
-						<p>Drag & drop an image, or click to select</p>
+						<p className=' font-semibold'>
+							Drag & drop an image, or click to select
+						</p>
 					</div>
 					{preview && (
 						<img

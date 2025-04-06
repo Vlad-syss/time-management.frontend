@@ -1,6 +1,7 @@
 import { useUser } from '@/api'
 import { navlinks } from '@/components/consts'
 import { useAuthContext } from '@/components/providers'
+import { User } from '@/types'
 import cn from 'classnames'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -19,6 +20,7 @@ export const Links = ({
 	const pathname = usePathname()
 	const { logout } = useAuthContext()
 	const [currentRoute, setCurrentRoute] = useState<string>('')
+	const [user, setUser] = useState<User>()
 	const { data } = useUser()
 
 	const handleLogout = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -31,6 +33,12 @@ export const Links = ({
 	useEffect(() => {
 		setCurrentRoute(pathname)
 	}, [pathname])
+
+	useEffect(() => {
+		if (data) {
+			setUser(data)
+		}
+	}, [data])
 
 	return (
 		<ul
@@ -45,7 +53,7 @@ export const Links = ({
 					link.name === 'Search'
 						? currentRoute.startsWith('/search')
 						: link.route === currentRoute
-				const isAdmin = link.name === 'Admin Panel' && data?.role === 'ADMIN'
+				const isAdmin = link.name === 'Admin Panel' && user?.role === 'ADMIN'
 
 				if (link.name === 'Admin Panel' && !isAdmin) return null
 
@@ -58,7 +66,17 @@ export const Links = ({
 							style.linked,
 							link.name === 'Logout' && style.logout,
 							link.name === 'Admin Panel' && 'md:mt-auto',
-							link.name === 'Admin Panel' && isMobile && 'ml-auto'
+							link.name === 'Admin Panel' && isMobile && 'ml-auto',
+							link.name === 'Logout' &&
+								user?.role !== 'ADMIN' &&
+								isMobile &&
+								'ml-auto',
+							link.name === 'Logout' &&
+								user?.role !== 'ADMIN' &&
+								!isMobile &&
+								'mt-auto',
+							link.name === 'Logout' && isAdmin && isMobile && 'ml-0',
+							link.name === 'Logout' && isAdmin && !isMobile && 'mt-0'
 						)}
 						title={link.name}
 					>
@@ -70,7 +88,7 @@ export const Links = ({
 								style.link,
 								{
 									[style.logout]: link.name === 'Logout',
-									[style.active]: link.route === currentRoute || isActive, // Corrected here
+									[style.active]: link.route === currentRoute || isActive,
 									'bg-[#f97a4840] text-red-600 dark:text-slate-200 dark:bg-slate-400/25':
 										link.route === currentRoute || isActive,
 									'text-red-500 dark:text-slate-300 hover:bg-primary/25 dark:hover:bg-slate-400/25':
