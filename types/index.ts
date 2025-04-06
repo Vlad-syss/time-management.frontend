@@ -1,3 +1,8 @@
+export type {
+	AdminTasksData,
+	AdminTasksEntity,
+	AdminTasksStats,
+} from './adminTypes'
 export type { ChangeReminder, Reminder } from './reminderTypes'
 export { type FormInputProps, type RouteLink } from './startTypes'
 export type { Statistic, StatisticCategory } from './statisticTypes'
