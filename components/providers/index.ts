@@ -1,3 +1,4 @@
+export { AdminProvider, useAdminContext } from './AdminProvider'
 export {
 	ArchivedTaskProvider,
 	useArchivedTaskContext,
