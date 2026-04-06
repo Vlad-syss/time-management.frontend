@@ -1,6 +1,6 @@
 'use client'
 import cn from 'classnames'
-import { LayoutTemplate } from 'lucide-react'
+import { Timer } from 'lucide-react'
 import Link from 'next/link'
 import { FC } from 'react'
 
@@ -21,17 +21,22 @@ export const MainTitle: FC<mainTitleProps> = ({
 		<Link
 			href='/'
 			className={cn(
-				'flex gap-1 items-center font-bold text-[18px] md:text-2xl',
+				'flex gap-2 items-center font-bold text-lg md:text-xl font-[family-name:var(--font-montserrat)]',
 				className,
 				isCollapsed && 'justify-center'
 			)}
 		>
-			<LayoutTemplate className={cn('', iconSize)} />
+			<Timer
+				className={cn(
+					'text-indigo-500 dark:text-indigo-400',
+					iconSize || 'w-6 h-6'
+				)}
+			/>
 			{!isCollapsed && !isMobile && (
-				<p>
+				<span className='text-gray-900 dark:text-white'>
 					Take
-					<span className='text-orange-500 dark:text-orange-400'>Time</span>
-				</p>
+					<span className='text-indigo-500 dark:text-indigo-400'>Time</span>
+				</span>
 			)}
 		</Link>
 	)

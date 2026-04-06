@@ -21,10 +21,10 @@ const getDeadlineStatus = (endTime: string) => {
 	const diff = end - now
 	const hoursLeft = diff / (1000 * 60 * 60)
 
-	if (diff <= 0) return { label: 'Overdue', className: 'text-red-600 dark:text-red-400 font-bold' }
-	if (hoursLeft <= 6) return { label: 'Due soon', className: 'text-amber-600 dark:text-amber-400 font-semibold' }
-	if (hoursLeft <= 24) return { label: 'Today', className: 'text-yellow-600 dark:text-yellow-400' }
-	return { label: '', className: 'text-slate-600 dark:text-blue-200' }
+	if (diff <= 0) return { label: 'Overdue', className: 'text-red-500 bg-red-50 dark:bg-red-500/10' }
+	if (hoursLeft <= 6) return { label: 'Soon', className: 'text-amber-600 bg-amber-50 dark:bg-amber-500/10' }
+	if (hoursLeft <= 24) return { label: 'Today', className: 'text-blue-500 bg-blue-50 dark:bg-blue-500/10' }
+	return { label: '', className: '' }
 }
 
 export const KanbanItems: FC<KanbanItemProps> = ({ task, color }) => {
@@ -39,7 +39,6 @@ export const KanbanItems: FC<KanbanItemProps> = ({ task, color }) => {
 	const style = {
 		transform: CSS.Translate.toString(transform),
 		transition,
-		borderColor: color,
 		opacity: isDragging ? 0.4 : 1,
 	}
 
@@ -48,9 +47,6 @@ export const KanbanItems: FC<KanbanItemProps> = ({ task, color }) => {
 		[task.endTime]
 	)
 
-	const startDate = new Date(task.startTime)
-	const formattedStartTime = `${startDate.getDate()}-${startDate.getMonth() + 1}-${startDate.getFullYear()}`
-
 	return (
 		<div
 			ref={setNodeRef}
@@ -58,94 +54,81 @@ export const KanbanItems: FC<KanbanItemProps> = ({ task, color }) => {
 			{...attributes}
 			{...listeners}
 			className={cn(
-				'flex flex-col w-full py-2 border-y-2 border-x-0 gap-2 min-h-[90px] relative group cursor-grab active:cursor-grabbing',
+				'flex flex-col px-3 py-2.5 border-b border-gray-50 dark:border-white/[0.03] relative group cursor-grab active:cursor-grabbing hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors',
 				{
-					'opacity-75 bg-red-500/80 text-stone-100': task.status.isArchiving,
-					'bg-transparent/10 hover:bg-white/20 dark:hover:bg-white/5':
-						!task.status.isArchiving,
+					'bg-red-50/50 dark:bg-red-500/5': task.status.isArchiving,
 				}
 			)}
 		>
-			<article className='flex flex-col justify-between h-full px-2'>
-				<div className='flex items-start justify-between gap-1'>
-					<button
-						onClick={() => openTaskModal(task._id)}
-						className='font-semibold text-[18px] text-left dark:text-blue-100 hover:underline cursor-pointer leading-tight'
-					>
-						{task.title}
-					</button>
-					{deadline.label && (
-						<span
-							className={cn(
-								'text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap',
-								deadline.className
-							)}
+			<div className='flex items-start justify-between gap-2'>
+				<div className='flex items-start gap-2 min-w-0'>
+					<div
+						className='w-1 h-8 rounded-full shrink-0 mt-0.5'
+						style={{ backgroundColor: color }}
+					/>
+					<div className='min-w-0'>
+						<button
+							onClick={() => openTaskModal(task._id)}
+							className='text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-indigo-500 dark:hover:text-indigo-400 text-left leading-tight cursor-pointer truncate block max-w-[180px]'
 						>
-							{deadline.label}
-						</span>
-					)}
+							{task.title}
+						</button>
+						{task.description && (
+							<p className='text-xs text-gray-400 dark:text-gray-500 truncate mt-0.5 max-w-[160px]'>
+								{task.description}
+							</p>
+						)}
+					</div>
 				</div>
 
-				{task.description && (
-					<p className='text-xs text-stone-600 dark:text-blue-200 italic truncate mt-1 max-w-[200px]'>
-						{task.description}
-					</p>
-				)}
-
-				<div className='text-xs text-stone-700 dark:text-blue-200 flex flex-col gap-0.5 mt-1'>
-					<span className='flex items-center gap-1'>
-						<Clock
-							className={cn('w-3 h-3 text-slate-500', {
-								'text-stone-100': task.status.isArchiving,
-							})}
-						/>
-						<span className='font-medium'>{formattedStartTime}</span>
-						<span className='mx-0.5'>-</span>
-						<span className={cn('font-medium', deadline.className)}>
-							{endTime}
-						</span>
+				{deadline.label && (
+					<span
+						className={cn(
+							'text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0',
+							deadline.className
+						)}
+					>
+						{deadline.label}
 					</span>
-				</div>
-			</article>
+				)}
+			</div>
 
-			{/* Action buttons - visible on hover */}
-			<div className='absolute right-1 top-1 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 dark:bg-slate-800/80 rounded p-0.5'>
+			<div className='flex items-center gap-1 mt-1.5 ml-3'>
+				<Clock className='w-3 h-3 text-gray-300 dark:text-gray-600' />
+				<span className='text-[11px] text-gray-400 dark:text-gray-500'>
+					{endTime}
+				</span>
+			</div>
+
+			{/* Hover actions */}
+			<div className='absolute right-2 top-2 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity'>
 				<Button
-					className='w-6 h-6 hover:text-white hover:bg-transparent hover:scale-110 transition-transform'
-					size='icon'
-					title='edit'
 					variant='ghost'
-					onClick={(e) => {
-						e.stopPropagation()
-						openModal(task._id)
-					}}
+					size='icon'
+					className='w-6 h-6'
+					title='edit'
+					onClick={(e) => { e.stopPropagation(); openModal(task._id) }}
 				>
-					<SquarePen size={18} className='fill-gray-600/60' />
+					<SquarePen className='w-3.5 h-3.5 text-gray-400' />
 				</Button>
 				<Button
-					className='w-6 h-6 hover:text-white hover:bg-transparent hover:scale-110 transition-transform'
-					size='icon'
 					variant='ghost'
+					size='icon'
+					className='w-6 h-6'
 					title='archive'
-					onClick={(e) => {
-						e.stopPropagation()
-						handleArchive(task._id)
-					}}
+					onClick={(e) => { e.stopPropagation(); handleArchive(task._id) }}
 				>
-					<SquareX size={18} className='fill-red-600/60' />
+					<SquareX className='w-3.5 h-3.5 text-red-400' />
 				</Button>
 				{!task.status.isArchiving && (
 					<Button
-						className='w-6 h-6 hover:text-white hover:bg-transparent hover:scale-110 transition-transform'
-						size='icon'
 						variant='ghost'
+						size='icon'
+						className='w-6 h-6'
 						title='complete'
-						onClick={(e) => {
-							e.stopPropagation()
-							handleComplete(task._id)
-						}}
+						onClick={(e) => { e.stopPropagation(); handleComplete(task._id) }}
 					>
-						<SquareCheck size={18} className='fill-green-600/60' />
+						<SquareCheck className='w-3.5 h-3.5 text-emerald-500' />
 					</Button>
 				)}
 			</div>

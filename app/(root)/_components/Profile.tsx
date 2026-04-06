@@ -37,59 +37,58 @@ export const Profile = ({
 		<>
 			<div
 				className={cn(
-					'group/item flex items-center gap-[10px] cursor-pointer border-b-2 border-background hover:border-red-700 transition-colors dark:hover:border-stone-50',
-					isCollapsed && 'justify-center',
-					!isMobile && 'pb-2'
+					'group/item flex items-center gap-3 cursor-pointer rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors',
+					isCollapsed && 'justify-center p-1',
+					!isMobile && 'border-t border-gray-100 dark:border-white/[0.06] pt-3'
 				)}
 			>
 				<div onClick={() => router.push('/profile')}>
-					{data?.avatarUrl && (
+					{data?.avatarUrl ? (
 						<img
 							src={`${BASE_URL}${data.avatarUrl}`}
 							alt='profile-avatar'
 							className={cn(
-								'object-cover rounded-full min-w-[45px] max-w-[45px] h-[45px] md:min-w-[60px] md:max-w-[60px] md:h-[60px] border-[1px] md:border-2 border-white select-none transition-all',
-								isCollapsed && ' min-w-[50px] max-w-[50px] h-[50px]'
-								// isMobile && 'w-[45px] h-[45px]'
+								'object-cover rounded-full border-2 border-gray-200 dark:border-white/10 select-none transition-all',
+								isCollapsed
+									? 'w-9 h-9'
+									: 'w-9 h-9 md:w-10 md:h-10'
 							)}
 						/>
-					)}
-					{!data?.avatarUrl && (
+					) : (
 						<Image
 							src='/default-avatar.png'
-							width={100}
-							height={100}
+							width={40}
+							height={40}
 							priority
 							alt='default-avatar'
 							className={cn(
-								'object-fill rounded-full min-w-[60px] max-w-[60px] h-[60px] border-2 border-background select-none transition-all dark:shadow-sm dark:shadow-white',
-								isCollapsed && ' min-w-[50px] max-w-[50px] h-[50px]'
+								'object-cover rounded-full border-2 border-gray-200 dark:border-white/10 select-none transition-all',
+								isCollapsed ? 'w-9 h-9' : 'w-9 h-9 md:w-10 md:h-10'
 							)}
 						/>
-						//default-avatar
 					)}
 				</div>
 				{!isCollapsed && !isMobile && (
 					<>
-						<article
-							className='flex-auto flex flex-col leading-[18px]'
+						<div
+							className='flex-auto flex flex-col min-w-0'
 							onClick={() => router.push('/profile')}
 						>
-							<h4 className='text-[16px] font-semibold tracking-widest text-[#222] dark:text-red-100'>
+							<h4 className='text-sm font-semibold text-gray-900 dark:text-gray-100 truncate'>
 								{data?.name}
 							</h4>
-							<p className='text-sm text-gray-600 dark:text-gray-300 tracking-wider truncate w-[150px]'>
+							<p className='text-xs text-gray-500 dark:text-gray-400 truncate'>
 								{data?.email}
 							</p>
-						</article>
+						</div>
 						<Button
-							variant='outline'
+							variant='ghost'
 							size='icon'
-							className='my-auto w-7 text-[#222] dark:text-gray-300 px-1 border-0 hover:bg-accent/0 opacity-0 group-hover/item:opacity-100 transition-opacity'
+							className='w-6 h-6 opacity-0 group-hover/item:opacity-100 transition-opacity'
 							ref={ref}
 							onClick={openModal}
 						>
-							<ChevronsUpDownIcon />
+							<ChevronsUpDownIcon className='w-4 h-4 text-gray-400' />
 						</Button>
 					</>
 				)}

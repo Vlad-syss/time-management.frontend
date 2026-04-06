@@ -6,12 +6,16 @@ import {
 } from '@/components/providers'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
-import { Montserrat } from 'next/font/google'
+import { Inter, Montserrat } from 'next/font/google'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'rsuite/dist/rsuite-no-reset.min.css'
 import './globals.css'
 
-const montserrat = Montserrat({ subsets: ['latin-ext'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const montserrat = Montserrat({
+	subsets: ['latin-ext'],
+	variable: '--font-montserrat',
+})
 
 export const viewport: Viewport = {
 	width: 'device-width',
@@ -20,8 +24,8 @@ export const viewport: Viewport = {
 	userScalable: false,
 }
 export const metadata: Metadata = {
-	title: 'Take-Time',
-	description: 'The best to figure out your time!',
+	title: 'TakeTime',
+	description: 'Modern time management for productive people.',
 	icons: {
 		icon: [
 			{
@@ -43,7 +47,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en' suppressHydrationWarning>
-			<body className={montserrat.className}>
+			<body
+				className={`${inter.variable} ${montserrat.variable} font-sans antialiased`}
+			>
 				<AuthProvider>
 					<ThemeProvider>
 						<ToastProvider>

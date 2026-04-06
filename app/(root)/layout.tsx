@@ -30,13 +30,13 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
 	}, [router])
 
 	const getMarginLeft = () => {
-		if (width <= 945) return 'ml-[0]'
-		if (width <= 1024) return isCollapsed ? 'ml-[90px]' : 'ml-[230px]'
-		return isCollapsed ? 'ml-[90px]' : 'ml-[300px]'
+		if (width <= 945) return 'ml-0'
+		if (width <= 1024) return isCollapsed ? 'ml-[72px]' : 'ml-[240px]'
+		return isCollapsed ? 'ml-[72px]' : 'ml-[280px]'
 	}
 
 	return (
-		<div className='relative min-h-screen bg-foreground/85 overflow-hidden overflow-y-auto dark:bg-[#394955]/80 dark:text-white'>
+		<div className='relative min-h-screen bg-[#FAFBFC] dark:bg-[#0F0F14] overflow-hidden overflow-y-auto text-gray-900 dark:text-gray-100'>
 			<Navbar
 				isCollapsed={isCollapsed}
 				setIsCollapsed={setIsCollapsed}
@@ -52,7 +52,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
 						<TaskProvider>
 							<ReminderProvider>
 								<Board />
-								<div className='max-w-[1200px] mx-auto w-full flex-auto flex flex-col min-h-full px-[5px] sm:px-[10px]'>
+								<div className='max-w-[1200px] mx-auto w-full flex-auto flex flex-col min-h-full px-3 sm:px-4 lg:px-6'>
 									<ArchivedTaskProvider>{children}</ArchivedTaskProvider>
 								</div>
 							</ReminderProvider>

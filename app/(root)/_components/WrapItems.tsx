@@ -21,7 +21,6 @@ import {
 	SquareX,
 	Trash,
 } from 'lucide-react'
-import style from './root.module.scss'
 
 interface SortableItemProps {
 	task: Task
@@ -49,8 +48,6 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 
 	const styleSheet: React.CSSProperties = {
 		transform: CSS.Translate.toString(transform),
-		backgroundColor: `${color}30`,
-		borderColor: color,
 		transition,
 	}
 
@@ -74,11 +71,7 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 		if (trashPage) {
 			const tomorrow = new Date()
 			tomorrow.setDate(tomorrow.getDate() + 1)
-
-			handleUpdate(id, {
-				startTime: new Date(),
-				endTime: tomorrow,
-			})
+			handleUpdate(id, { startTime: new Date(), endTime: tomorrow })
 		}
 		if (refetchSearch) await refetchSearch()
 	}
@@ -88,10 +81,11 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 			<div
 				ref={setNodeRef}
 				className={cn(
-					'flex w-full py-1 md:py-2 rounded-md border-[3px] gap-1 md:gap-2 pr-1 md:pr-2 relative overflow-hidden',
-					task.status.isArchiving || isTaskArchived ? style.isArchiving : '',
-					isTaskCompleted && style.completed,
-					searchPage && 'pr-1 pl-1 md:pl-2'
+					'flex w-full py-2.5 md:py-3 rounded-xl border gap-2 md:gap-3 pr-2 md:pr-3 relative overflow-hidden glass-surface hover:shadow-card transition-all group',
+					isTaskArchived && 'border-red-200 dark:border-red-500/20 bg-red-50/50 dark:bg-red-500/5',
+					isTaskCompleted && 'border-emerald-200 dark:border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-500/5',
+					!isTaskArchived && !isTaskCompleted && 'border-gray-200 dark:border-white/[0.08]',
+					searchPage && 'pr-2 pl-2 md:pl-3'
 				)}
 				style={styleSheet}
 			>
@@ -101,232 +95,90 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 						{...attributes}
 						size='icon'
 						variant='ghost'
-						className='text-red-600 dark:text-red-400 hover:text-orange-800 hover:bg-orange-400/20 cursor-grab md:w-[22px] w-[18px] h-full'
+						className='text-gray-300 dark:text-gray-600 hover:text-gray-500 cursor-grab w-5 h-full rounded-none'
 					>
-						<GripVertical />
+						<GripVertical className='w-4 h-4' />
 					</Button>
 				)}
-				<TaskDetails
-					task={task}
-					openViewModal={openViewModal}
-					formattedTime={formattedTime}
-				/>
-				<TaskActions
-					task={task}
-					openEditModal={openEditModal}
-					openDeleteModal={openDeleteModal}
-					handleArchive={searchPage ? onHandleArchive : handleArchive}
-					handleComplete={searchPage ? onHandleComplete : handleComplete}
-					trashPage={trashPage}
-					toggleArchive={onHandleArchive}
+
+				{/* Color bar */}
+				<div
+					className='w-1 self-stretch rounded-full shrink-0'
+					style={{ backgroundColor: color }}
 				/>
 
-				{task.status.archived || task.status.completed ? (
-					<div className='w-3' />
-				) : (
-					''
+				<div className='flex flex-col flex-auto leading-tight min-w-0'>
+					<button
+						className='text-sm md:text-base font-semibold text-left text-gray-900 dark:text-gray-100 hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer truncate'
+						onClick={() => openViewModal(task._id)}
+					>
+						{task.title}
+					</button>
+					<p className='text-xs text-gray-400 dark:text-gray-500 truncate mt-0.5'>
+						{task.description}
+					</p>
+					<div className='flex items-center gap-2 mt-1.5 text-xs text-gray-400 dark:text-gray-500'>
+						<span>
+							{task.category.name}
+						</span>
+						<span className='w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600' />
+						{isTaskCompleted ? (
+							<span className='text-emerald-500 font-medium'>Completed</span>
+						) : isTaskArchived ? (
+							<span className='text-red-500 font-medium'>Archived</span>
+						) : task.status.isArchiving ? (
+							<span className='text-red-400 font-medium'>Expired</span>
+						) : (
+							<span>{formattedTime}</span>
+						)}
+					</div>
+				</div>
+
+				<div className='flex items-center gap-0.5 shrink-0'>
+					{!isTaskCompleted && !isTaskArchived && (
+						<>
+							<Button variant='ghost' size='icon' className='w-7 h-7 opacity-0 group-hover:opacity-100' title='edit' onClick={() => openEditModal(task._id)}>
+								<SquarePen className='w-4 h-4 text-gray-400' />
+							</Button>
+							<Button variant='ghost' size='icon' className='w-7 h-7 opacity-0 group-hover:opacity-100' title='archive' onClick={() => (searchPage ? onHandleArchive : handleArchive)(task._id)}>
+								<SquareX className='w-4 h-4 text-red-400' />
+							</Button>
+							{!task.status.isArchiving && (
+								<Button variant='ghost' size='icon' className='w-7 h-7 opacity-0 group-hover:opacity-100' title='complete' onClick={() => (searchPage ? onHandleComplete : handleComplete)(task._id)}>
+									<SquareCheck className='w-4 h-4 text-emerald-500' />
+								</Button>
+							)}
+						</>
+					)}
+					{(isTaskArchived || isTaskCompleted) && (
+						<Button variant='ghost' size='icon' className='w-7 h-7' title='delete' onClick={openDeleteModal}>
+							<Trash className='w-4 h-4 text-red-400' />
+						</Button>
+					)}
+					{isTaskArchived && trashPage && (
+						<Button variant='ghost' size='icon' className='w-7 h-7' title='restore' onClick={() => onHandleArchive(task._id)}>
+							<ArchiveRestore className='w-4 h-4 text-indigo-400' />
+						</Button>
+					)}
+				</div>
+
+				{/* Status indicator */}
+				{(isTaskCompleted || isTaskArchived) && (
+					<div
+						className={cn(
+							'absolute right-0 top-0 bottom-0 w-1',
+							isTaskCompleted ? 'bg-emerald-500' : 'bg-red-500'
+						)}
+					/>
 				)}
-				<TaskStatusBadge status={task.status} />
 			</div>
 
 			<ConfirmModal
 				isOpen={isOpen}
 				onClose={closeModal}
 				onConfirm={onConfirmDelete}
-				message='That’s a permanent delete and cannot be undone. Are you sure?'
+				message='This will permanently delete the task. Continue?'
 			/>
 		</>
-	)
-}
-
-interface TaskDetailsProps {
-	task: Task
-	openViewModal: (id: string) => void
-	formattedTime: string
-}
-
-const TaskDetails: React.FC<TaskDetailsProps> = ({
-	task,
-	openViewModal,
-	formattedTime,
-}) => (
-	<h4 className='flex flex-col flex-auto leading-tight'>
-		<button
-			className={cn(
-				'text-xl text-left font-extrabold capitalize text-destructive dark:text-slate-200 drop-shadow-sm hover:underline cursor-pointer',
-				task.status.isArchiving || task.status.archived ? 'text-white' : '',
-				task.status.completed && 'text-white'
-			)}
-			onClick={() => openViewModal(task._id)}
-		>
-			{task.title}
-		</button>
-		<p
-			className={cn(
-				'text-xs md:text-sm font-medium text-stone-600 dark:text-stone-300 max-w-[150px] sm:max-w-[300px]: lg:max-w-[600px] mb-3 leading-[18px] truncate',
-				task.status.isArchiving || task.status.archived ? 'text-white' : '',
-				task.status.completed && 'text-white'
-			)}
-		>
-			{task.description}
-		</p>
-		<span
-			className={cn(
-				'text-xs text-slate-900/80 dark:text-foreground font-medium grid grid-cols-2 mt-auto md:flex items-center gap-1',
-				task.status.isArchiving || task.status.archived ? 'text-white' : '',
-				task.status.completed && 'text-white'
-			)}
-		>
-			<span className='col-span-2'>
-				category:{' '}
-				<strong
-					className={cn(
-						'text-red-500 dark:text-red-400 tracking-wider',
-						task.status.isArchiving || task.status.archived
-							? 'text-red-300'
-							: ''
-					)}
-				>
-					{' '}
-					"{task.category.name}"
-				</strong>
-			</span>
-			{!task.status.completed && !task.status.archived ? (
-				task.status.isArchiving ? (
-					<p className='col-span-2 md:px-2 font-semibold text-[14px] tracking-widest'>
-						EXPIRED
-					</p>
-				) : (
-					<p className='col-span-2 '>{formattedTime}</p>
-				)
-			) : task.status.completed ? (
-				<p className='col-span-2 md:px-2 font-semibold text-[14px] tracking-widest'>
-					Completed successfully
-				</p>
-			) : (
-				<p className='col-span-2 md:px-2 font-semibold text-[14px] tracking-widest'>
-					Unfortunately failed
-				</p>
-			)}
-		</span>
-	</h4>
-)
-
-interface TaskActionsProps {
-	task: Task
-	openEditModal: (id: string) => void
-	openDeleteModal: () => void
-	handleArchive: (id: string) => void
-	handleComplete: (id: string) => void
-	trashPage?: boolean
-	toggleArchive: (id: string) => void
-}
-
-const TaskActions: React.FC<TaskActionsProps> = ({
-	task,
-	openEditModal,
-	openDeleteModal,
-	handleArchive,
-	handleComplete,
-	trashPage,
-	toggleArchive,
-}) => (
-	<div className='flex-col md:flex-row flex items-start'>
-		{!task.status.completed && !task.status.archived && (
-			<>
-				<TaskActionButton
-					title='edit'
-					onClick={() => openEditModal(task._id)}
-					icon={<SquarePen size={28} className='fill-gray-600/60' />}
-					className='text-gray-100 hover:text-gray-600/100 hover:bg-background'
-				/>
-				<TaskActionButton
-					title='archive'
-					onClick={() => handleArchive(task._id)}
-					icon={<SquareX size={30} className='fill-red-600/60' />}
-					className='text-gray-100 hover:text-red-600/100 hover:bg-background'
-				/>
-				{!task.status.isArchiving && !task.status.completed && (
-					<TaskActionButton
-						title='complete'
-						onClick={() => handleComplete(task._id)}
-						icon={<SquareCheck size={30} className='fill-green-600/60' />}
-						className='text-gray-100 hover:text-green-600/100 hover:bg-background'
-					/>
-				)}
-			</>
-		)}
-		{task.status.archived || task.status.completed ? (
-			<TaskActionButton
-				title='permanent delete!'
-				onClick={openDeleteModal}
-				icon={<Trash size={28} className='fill-red-400/30' />}
-				className='text-red-600 hover:text-red-800/100 hover:bg-background'
-			/>
-		) : (
-			''
-		)}
-		{task.status.archived && trashPage ? (
-			<TaskActionButton
-				title='refound'
-				onClick={() => toggleArchive(task._id)}
-				icon={<ArchiveRestore size={28} className='fill-slate-400/30' />}
-				className='text-slate-600 hover:text-slate-800/100 hover:bg-background'
-			/>
-		) : (
-			''
-		)}
-	</div>
-)
-
-interface TaskActionButtonProps {
-	title: string
-	onClick: () => void
-	icon: React.ReactNode
-	className: string
-}
-
-const TaskActionButton: React.FC<TaskActionButtonProps> = ({
-	title,
-	onClick,
-	icon,
-	className,
-}) => (
-	<Button
-		size='icon'
-		variant='ghost'
-		className={`md:p-1 ${className}`}
-		title={title}
-		onClick={onClick}
-	>
-		{icon}
-	</Button>
-)
-
-interface TaskStatusBadgeProps {
-	status: Task['status']
-}
-
-const TaskStatusBadge: React.FC<TaskStatusBadgeProps> = ({ status }) => {
-	const badgeText = status.completed
-		? 'Completed'
-		: status.archived
-		? 'Fooled'
-		: ''
-	const badgeClass = status.completed
-		? 'bg-emerald-500'
-		: status.archived
-		? 'bg-red-500'
-		: ''
-
-	return (
-		badgeText && (
-			<div
-				className={`h-full w-4 text-xs flex items-center justify-center text-white absolute right-0 top-0 px-3 ${badgeClass} font-semibold tracking-wider`}
-				style={{ writingMode: 'vertical-lr', textOrientation: 'mixed' }}
-			>
-				{badgeText}
-			</div>
-		)
 	)
 }

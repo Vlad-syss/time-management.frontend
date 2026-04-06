@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { MainTitle } from '@/components/ui/mainTitle'
 import { useWidth } from '@/hooks'
 import cn from 'classnames'
-import { CornerUpLeft } from 'lucide-react'
+import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { Links } from './Links'
 import { MobileLinks } from './MobileLinks'
@@ -20,7 +20,6 @@ export const Navbar: FC<NavbarProps> = ({
 	setIsCollapsed,
 	isCollapsed,
 	isMobile,
-	// onBurger,
 }) => {
 	const width = useWidth()
 	const isChange = width < 500
@@ -31,38 +30,35 @@ export const Navbar: FC<NavbarProps> = ({
 
 	const getMaxWidth = () => {
 		if (isMobile) {
-			return 'max-w-full bottom-0 h-[70px] flex-row py-1 md:px-2 px-1'
+			return 'max-w-full bottom-0 h-[64px] flex-row py-2 px-3'
 		} else if (isCollapsed) {
-			return 'max-w-[90px] py-5 px-3 flex-col pb-2 h-full'
+			return 'max-w-[72px] py-4 px-2 flex-col pb-3 h-full'
 		} else if (width <= 1024) {
-			return 'max-w-[230px] py-5 px-3 flex-col pb-2 h-full'
+			return 'max-w-[240px] py-4 px-3 flex-col pb-3 h-full'
 		} else {
-			return 'max-w-[300px] py-5 px-3 flex-col pb-2 h-full'
+			return 'max-w-[280px] py-4 px-4 flex-col pb-3 h-full'
 		}
 	}
 
 	return (
-		<div
+		<nav
 			className={cn(
-				'group md:border-r-2 border-primary dark:border-gray-950 flex shadow-xl bg-foreground dark:bg-[#35374B]/80 fixed w-full transition-all duration-300 dark:text-white',
+				'group flex bg-white dark:bg-[#13131B] border-r border-gray-200 dark:border-white/[0.06] fixed w-full transition-all duration-300',
 				getMaxWidth(),
-				isMobile && 'z-[7] gap-2 opacity-100 dark:bg-[#35374B]/90 top-auto',
-				!isMobile && 'gap-5',
-				{
-					'h-[56px] ': width <= 500,
-				}
+				isMobile &&
+					'z-[7] gap-2 border-r-0 border-t border-gray-200 dark:border-white/[0.06] top-auto',
+				!isMobile && 'gap-4'
 			)}
 		>
 			<MainTitle
-				className='text-[#222] dark:text-white md:text-[28px]'
-				iconSize='w-8 h-8 md:w-9 md:h-9'
+				className='text-gray-900 dark:text-white'
 				isCollapsed={isCollapsed}
 				isMobile={isMobile}
 			/>
 			<div
 				className={cn(
-					'flex-auto h-full  border-primary/90 dark:border-gray-950/90',
-					isMobile ? 'py-0' : 'py-5 border-t-2 border-b-2',
+					'flex-auto h-full',
+					isMobile ? 'py-0' : 'py-3',
 					isChange && 'flex'
 				)}
 			>
@@ -76,16 +72,17 @@ export const Navbar: FC<NavbarProps> = ({
 			{!isMobile && (
 				<Button
 					variant='ghost'
-					size='sm'
+					size='icon'
 					onClick={onCollapsed}
-					className={cn(
-						'absolute right-1 top-0 py-1 px-1 text-blue-950 dark:text-stone-100 hover:bg-background opacity-0 group-hover:opacity-100 transition-colors',
-						isCollapsed && '-top-[3px] -right-[3px] px-[2px] py-[2px]'
-					)}
+					className='absolute -right-3 top-6 w-6 h-6 rounded-full bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/10 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-gray-50 dark:hover:bg-white/10'
 				>
-					<CornerUpLeft className='w-4 h-4' />
+					{isCollapsed ? (
+						<PanelLeftOpen className='w-3.5 h-3.5 text-gray-500' />
+					) : (
+						<PanelLeftClose className='w-3.5 h-3.5 text-gray-500' />
+					)}
 				</Button>
 			)}
-		</div>
+		</nav>
 	)
 }

@@ -7,25 +7,23 @@ import { Button } from '@/components/ui/button'
 import { MainTitle } from '@/components/ui/mainTitle'
 import { useConfirmModal, useWidth } from '@/hooks'
 import { RouteLink } from '@/types'
-import cn from 'classnames'
-import { ChevronRight, LogIn, LogOut, Moon, Sun } from 'lucide-react'
+import { ArrowRight, LogIn, LogOut, Moon, Sun } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment, useMemo } from 'react'
 import { toast } from 'react-hot-toast'
-import Switch from 'react-switch'
-import style from './style.module.scss'
+
 const routes: RouteLink[] = [
 	{
 		name: 'Login',
 		href: '/login',
-		icon: <LogIn className='w-4 h-4 md:w-5 md:h-5' />,
+		icon: <LogIn className='w-4 h-4' />,
 	},
 	{
 		name: 'Get started',
 		href: '/home',
 		isHome: true,
-		icon: <ChevronRight className='w-4 h-4 md:w-5 md:h-5' />,
+		icon: <ArrowRight className='w-4 h-4' />,
 	},
 ]
 
@@ -50,7 +48,7 @@ export const Navbar: React.FC = () => {
 
 	const handleLogout = () => {
 		logout()
-		toast.success('Successfully unloggined!')
+		toast.success('Successfully logged out!')
 		router.push('/')
 	}
 
@@ -63,16 +61,8 @@ export const Navbar: React.FC = () => {
 					onClick={handleLinkClick}
 				>
 					{!isLoading && (
-						<Button
-							variant='default'
-							size={width <= 768 ? 'sm' : 'lg'}
-							className={cn(
-								'hover:text-white flex items-center gap-2 dark:bg-[#222222]/80',
-								style.get
-							)}
-						>
-							{isAuthenticated && !isLoading && 'Enter now!'}
-							{!isAuthenticated && !isLoading && 'Get started!'}
+						<Button size={width <= 768 ? 'sm' : 'default'} className='gap-2'>
+							{isAuthenticated ? 'Dashboard' : 'Get started'}
 							{route.icon}
 						</Button>
 					)}
@@ -84,31 +74,22 @@ export const Navbar: React.FC = () => {
 		return !isAuthenticated && !isLoading ? (
 			<Link
 				href={route.href}
-				className={cn(
-					'font-medium text-base md:text-lg px-2 flex items-center gap-1',
-					style.link
-				)}
+				className='flex items-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-3 py-2'
 				key={route.name}
 			>
-				{route.name}
 				{route.icon}
+				{route.name}
 			</Link>
 		) : !isLoading ? (
-			<Link
-				href=''
+			<button
 				onClick={handleLogout}
-				className={cn(
-					'font-medium text-base md:text-lg px-2 flex items-center gap-1',
-					style.link
-				)}
+				className='flex items-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors px-3 py-2'
 				key={route.name}
 			>
+				<LogOut className='w-4 h-4' />
 				Logout
-				<LogOut className='w-4 h-4 md:w-5 md:h-5' />
-			</Link>
-		) : (
-			''
-		)
+			</button>
+		) : null
 	}
 
 	const renderedRoutes = useMemo(
@@ -121,35 +102,26 @@ export const Navbar: React.FC = () => {
 
 	return (
 		<>
-			<div className='px-2 py-3 border-b-2 border-slate-900/40 w-full fixed z-50 l-0 t-0 backdrop-blur-sm shadow-lg md:py-7 md:px-4 dark:bg-[#35374B]/80 dark:border-white/70'>
-				<div className='flex w-full justify-between items-center mx-auto max-w-[1400px] relative'>
+			<header className='px-4 py-3 w-full fixed z-50 bg-white/70 dark:bg-[#0F0F14]/70 backdrop-blur-xl border-b border-gray-200/50 dark:border-white/[0.06]'>
+				<div className='flex w-full justify-between items-center mx-auto max-w-[1200px]'>
 					<MainTitle />
-					<ul className='flex items-center gap-2 md:gap-8'>{renderedRoutes}</ul>
-					{isAuthenticated && !isLoading && (
-						<Switch
-							onChange={toggleTheme}
-							checked={theme === 'dark' ? true : false}
-							className={cn(
-								'right-0 top-[80px] text-orange-500 dark:text-blue-600 ',
-								style.switch
+					<div className='flex items-center gap-1'>
+						{renderedRoutes}
+						<Button
+							variant='ghost'
+							size='icon'
+							className='w-9 h-9 ml-1'
+							onClick={toggleTheme}
+						>
+							{theme === 'dark' ? (
+								<Sun className='w-[18px] h-[18px] text-yellow-400' />
+							) : (
+								<Moon className='w-[18px] h-[18px] text-gray-500' />
 							)}
-							offColor='#FFDB00'
-							onColor='#23423'
-							uncheckedIcon={<></>}
-							checkedIcon={<></>}
-							checkedHandleIcon={
-								<Moon className='ml-[2px] pt-[3px]' size={22} />
-							}
-							uncheckedHandleIcon={
-								<Sun
-									className='px-[4px] pl-[4px] pr-0 pt-[3px] pb-0'
-									size={22}
-								/>
-							}
-						/>
-					)}
+						</Button>
+					</div>
 				</div>
-			</div>
+			</header>
 			<ConfirmModal
 				isOpen={isOpen}
 				onClose={closeModal}

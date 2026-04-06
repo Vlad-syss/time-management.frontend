@@ -31,8 +31,8 @@ export const MobileLinks = () => {
 	const logoutLink = navlinks.find(link => link.name === 'Logout')
 
 	return (
-		<div className='flex items-center justify-between w-full gap-2'>
-			<div className='flex items-center flex-row gap-2'>
+		<div className='flex items-center justify-between w-full gap-1'>
+			<div className='flex items-center flex-row gap-1'>
 				{visibleLinks.map(link => {
 					const isActive =
 						link.name === 'Search'
@@ -47,10 +47,10 @@ export const MobileLinks = () => {
 							key={link.name}
 							href={link.route}
 							className={cn(
-								'text-sm font-medium p-2 rounded-lg transition-colors text-red-600',
+								'p-2 rounded-lg transition-all duration-200',
 								isActive
-									? 'bg-primary/25 dark:bg-slate-100/10 text-red-600 dark:text-white'
-									: 'text-gray-700 dark:text-gray-300 hover:bg-primary/25 dark:hover:dark:bg-slate-100/10'
+									? 'bg-indigo-50 text-indigo-500 dark:bg-indigo-500/15 dark:text-indigo-400'
+									: 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
 							)}
 						>
 							{link.icon}
@@ -60,24 +60,23 @@ export const MobileLinks = () => {
 
 				{hiddenLinks.length > 0 && (
 					<div className='relative'>
-						<Link
-							href={''}
+						<button
 							onClick={() => setIsExpanded(!isExpanded)}
-							className='py-2 w-5 h-5 text-red-600 dark:text-gray-300'
+							className='p-2 text-gray-500 dark:text-gray-400'
 						>
-							<Ellipsis />
-						</Link>
+							<Ellipsis className='w-5 h-5' />
+						</button>
 
 						<div
 							className={cn(
-								'absolute right-0  w-44 bg-orange-400  dark:bg-gray-800 rounded-lg shadow-md z-10 transition-all',
+								'absolute right-0 w-48 bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/10 rounded-xl shadow-elevated z-10 transition-all',
 								{
-									'opacity-0 top-[-190px] invisible': !isExpanded,
-									'opacity-100 top-[-178px] visible': isExpanded,
+									'opacity-0 -top-48 invisible': !isExpanded,
+									'opacity-100 -top-44 visible': isExpanded,
 								}
 							)}
 						>
-							<ul className='flex flex-col gap-2 p-2'>
+							<ul className='flex flex-col p-1.5 gap-0.5'>
 								{hiddenLinks.map(link => {
 									const isActive =
 										link.name === 'Search'
@@ -89,17 +88,15 @@ export const MobileLinks = () => {
 									if (link.name === 'Admin Panel' && !isAdmin) return null
 
 									return (
-										<li
-											key={link.name}
-											className='border-t-2 last:border-b-2 last:pb-2'
-										>
+										<li key={link.name}>
 											<Link
 												href={link.route}
+												onClick={() => setIsExpanded(false)}
 												className={cn(
-													'flex gap-1 text-sm mt-2 py-1 rounded-lg text-white transition-colors font-semibold tracking-wider px-1',
+													'flex items-center gap-2 text-sm py-2 px-3 rounded-lg transition-colors font-medium',
 													isActive
-														? 'bg-red-500/25 dark:bg-slate-500/35 text-white dark:text-white'
-														: 'text-gray-700 dark:text-gray-300 hover:bg-primary/25'
+														? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-400'
+														: 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5'
 												)}
 											>
 												{link.icon}
@@ -114,12 +111,11 @@ export const MobileLinks = () => {
 				)}
 			</div>
 
-			{/* Logout Link */}
 			{logoutLink && (
 				<Link
 					href={logoutLink.route}
 					onClick={handleLogout}
-					className='ml-auto text-sm font-medium p-2 rounded-lg text-red-600 dark:text-slate-900 hover:bg-red-200 dark:hover:bg-slate-900/20 transition-colors'
+					className='ml-auto p-2 rounded-lg text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors'
 				>
 					{logoutLink.icon}
 				</Link>

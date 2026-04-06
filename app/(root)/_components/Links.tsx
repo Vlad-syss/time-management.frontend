@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { MouseEvent, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import style from './root.module.scss'
 
 export const Links = ({
 	isCollapsed,
@@ -43,9 +42,8 @@ export const Links = ({
 	return (
 		<ul
 			className={cn(
-				'flex gap-2 md:gap-1 h-full',
-				isMobile ? 'flex-row items-center' : 'flex-col',
-				style.links
+				'flex gap-1 h-full',
+				isMobile ? 'flex-row items-center' : 'flex-col'
 			)}
 		>
 			{navlinks.map(link => {
@@ -57,51 +55,46 @@ export const Links = ({
 
 				if (link.name === 'Admin Panel' && !isAdmin) return null
 
+				const isLogout = link.name === 'Logout'
+
 				return (
 					<li
 						key={link.name}
 						className={cn(
-							'text-[19px] font-semibold',
-							isMobile && ' last:flex-nowrap',
-							style.linked,
-							link.name === 'Logout' && style.logout,
-							link.name === 'Admin Panel' && 'md:mt-auto',
+							'text-sm font-medium',
+							link.name === 'Admin Panel' && !isMobile && 'mt-auto',
 							link.name === 'Admin Panel' && isMobile && 'ml-auto',
-							link.name === 'Logout' &&
-								user?.role !== 'ADMIN' &&
-								isMobile &&
-								'ml-auto',
-							link.name === 'Logout' &&
-								user?.role !== 'ADMIN' &&
-								!isMobile &&
-								'mt-auto',
-							link.name === 'Logout' && isAdmin && isMobile && 'ml-0',
-							link.name === 'Logout' && isAdmin && !isMobile && 'mt-0'
+							isLogout && user?.role !== 'ADMIN' && !isMobile && 'mt-auto',
+							isLogout && user?.role !== 'ADMIN' && isMobile && 'ml-auto',
+							isLogout && isAdmin && isMobile && 'ml-0',
+							isLogout && isAdmin && !isMobile && 'mt-0'
 						)}
 						title={link.name}
 					>
 						<Link
 							href={link.route}
-							onClick={link.name === 'Logout' ? handleLogout : undefined}
+							onClick={isLogout ? handleLogout : undefined}
 							className={cn(
-								'flex items-center gap-2 p-2 md:p-3 transition-colors rounded-lg overflow-hidden relative',
-								style.link,
+								'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 relative',
 								{
-									[style.logout]: link.name === 'Logout',
-									[style.active]: link.route === currentRoute || isActive,
-									'bg-[#f97a4840] text-red-600 dark:text-slate-200 dark:bg-slate-400/25':
-										link.route === currentRoute || isActive,
-									'text-red-500 dark:text-slate-300 hover:bg-primary/25 dark:hover:bg-slate-400/25':
-										link.route !== currentRoute && !isActive,
+									'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-400 font-semibold':
+										isActive,
+									'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200':
+										!isActive && !isLogout,
+									'text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10':
+										isLogout,
 									'justify-center': isCollapsed,
-									'mt-0': link.name === 'Logout' && isMobile,
-									'border-2 border-orange-500 md:mt-auto bg-orange-500/30 dark:border-slate-300 dark:bg-slate-300/30':
-										isAdmin,
+									'border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50/50 dark:bg-indigo-500/10':
+										isAdmin && !isLogout,
 								}
 							)}
 						>
-							{link.icon}
-							{!isCollapsed && !isMobile && link.name}
+							<span className={cn(isActive && 'text-indigo-500 dark:text-indigo-400')}>
+								{link.icon}
+							</span>
+							{!isCollapsed && !isMobile && (
+								<span className='truncate'>{link.name}</span>
+							)}
 						</Link>
 					</li>
 				)

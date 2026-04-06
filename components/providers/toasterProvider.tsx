@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme, useWidth } from '@/hooks'
-import { CircleCheckBig, CircleX } from 'lucide-react'
+import { CheckCircle2, XCircle } from 'lucide-react'
 import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 
@@ -15,24 +15,27 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 			<Toaster
 				position='top-right'
 				toastOptions={{
-					className: '',
-					duration: 4000,
+					duration: 3000,
 					style: {
-						background:
-							theme === 'light' ? 'rgb(234 118 22)' : 'rgb(100,140,209)',
-						color: '#fff',
-						padding: !isMobile ? '5px 20px' : '3px 10px',
+						background: theme === 'light' ? '#FFFFFF' : '#1A1A24',
+						color: theme === 'light' ? '#111827' : '#F9FAFB',
+						padding: isMobile ? '8px 12px' : '10px 16px',
 						fontWeight: '500',
-						fontSize: isMobile ? '12px' : '14px',
+						fontSize: isMobile ? '13px' : '14px',
+						borderRadius: '12px',
+						border:
+							theme === 'light'
+								? '1px solid #E5E7EB'
+								: '1px solid rgba(255,255,255,0.08)',
+						boxShadow:
+							theme === 'light'
+								? '0 4px 16px rgba(0,0,0,0.08)'
+								: '0 4px 16px rgba(0,0,0,0.4)',
 					},
 					error: {
-						icon: <CircleX color={theme === 'light' ? 'red' : '#222'} />,
+						icon: <XCircle className='w-5 h-5 text-red-500' />,
 					},
-					icon: (
-						<CircleCheckBig
-							color={theme === 'light' ? 'rgb(64 244 52)' : 'rgb(14 244 52)'}
-						/>
-					),
+					icon: <CheckCircle2 className='w-5 h-5 text-emerald-500' />,
 				}}
 			/>
 		</>

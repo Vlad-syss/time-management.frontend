@@ -9,94 +9,115 @@ interface Props {
 const Card: React.FC<{
 	title: string
 	value: string | number
-	icon: string
-	accent?: string
-}> = ({ title, value, icon, accent }) => (
-	<div
-		className={`${
-			accent || 'bg-orange-200/60 dark:bg-slate-700/60'
-		} shadow-md rounded-lg p-3 md:p-4 text-center`}
-	>
-		<div className='text-2xl md:text-4xl mb-1 md:mb-2'>{icon}</div>
-		<h3 className='text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-300'>
-			{title}
-		</h3>
-		<p className='text-lg md:text-2xl font-bold'>{value}</p>
+	icon: React.ReactNode
+}> = ({ title, value, icon }) => (
+	<div className='glass-surface p-4 hover:shadow-card transition-shadow'>
+		<div className='flex items-center gap-3'>
+			<div className='w-10 h-10 rounded-lg bg-gray-50 dark:bg-white/5 flex items-center justify-center shrink-0'>
+				{icon}
+			</div>
+			<div className='min-w-0'>
+				<p className='text-xs text-gray-500 dark:text-gray-400 truncate'>
+					{title}
+				</p>
+				<p className='text-lg font-bold text-gray-900 dark:text-white truncate'>
+					{value}
+				</p>
+			</div>
+		</div>
 	</div>
 )
 
-const ProgressRing: React.FC<{ value: number; label: string }> = ({
-	value,
-	label,
-}) => {
-	const radius = 40
+const ProgressRing: React.FC<{
+	value: number
+	label: string
+	color: string
+}> = ({ value, label, color }) => {
+	const radius = 32
 	const circumference = 2 * Math.PI * radius
 	const offset = circumference - (value / 100) * circumference
 
 	return (
-		<div className='bg-orange-200/60 dark:bg-slate-700/60 shadow-md rounded-lg p-3 md:p-4 flex flex-col items-center justify-center'>
-			<svg width='100' height='100' className='mb-1'>
+		<div className='glass-surface p-4 flex flex-col items-center justify-center hover:shadow-card transition-shadow'>
+			<svg width='80' height='80'>
 				<circle
-					cx='50'
-					cy='50'
+					cx='40'
+					cy='40'
 					r={radius}
 					stroke='currentColor'
-					strokeWidth='8'
+					strokeWidth='6'
 					fill='none'
-					className='text-orange-100 dark:text-slate-600'
+					className='text-gray-100 dark:text-white/5'
 				/>
 				<circle
-					cx='50'
-					cy='50'
+					cx='40'
+					cy='40'
 					r={radius}
-					stroke='currentColor'
-					strokeWidth='8'
+					strokeWidth='6'
 					fill='none'
-					className='text-orange-500 dark:text-emerald-400'
+					stroke={color}
 					strokeDasharray={circumference}
 					strokeDashoffset={offset}
 					strokeLinecap='round'
-					transform='rotate(-90 50 50)'
+					transform='rotate(-90 40 40)'
 					style={{ transition: 'stroke-dashoffset 0.6s ease' }}
 				/>
 				<text
-					x='50'
-					y='50'
+					x='40'
+					y='40'
 					textAnchor='middle'
 					dominantBaseline='central'
-					className='fill-current text-lg font-bold'
+					className='fill-gray-900 dark:fill-white text-sm font-bold'
 				>
 					{value}%
 				</text>
 			</svg>
-			<h3 className='text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-300'>
-				{label}
-			</h3>
+			<p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>{label}</p>
 		</div>
 	)
 }
 
 export const OverallSummary: React.FC<Props> = ({ data }) => (
-	<div className='grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4'>
-		<ProgressRing value={data.productivityScore || 0} label='Productivity' />
+	<div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
+		<ProgressRing
+			value={data.productivityScore || 0}
+			label='Productivity'
+			color='#6366F1'
+		/>
 		<Card
 			title='Current Streak'
 			value={`${data.currentStreak || 0} day${data.currentStreak !== 1 ? 's' : ''}`}
-			icon='🔥'
-			accent='bg-amber-200/60 dark:bg-slate-700/60'
+			icon={<span className='text-xl'>🔥</span>}
 		/>
 		<ProgressRing
 			value={data.completionRate || 0}
 			label='Completion Rate'
+			color='#10B981'
 		/>
-		<Card title='Tasks Completed' value={data.allCompleted} icon='✅' />
-		<Card title='This Week' value={data.weeklyCompleted || 0} icon='📅' />
-		<Card title='This Month' value={data.monthlyCompleted || 0} icon='📆' />
-		<Card title='Best Day' value={data.bestDay || 'N/A'} icon='⭐' />
+		<Card
+			title='Tasks Completed'
+			value={data.allCompleted}
+			icon={<span className='text-xl'>✅</span>}
+		/>
+		<Card
+			title='This Week'
+			value={data.weeklyCompleted || 0}
+			icon={<span className='text-xl'>📅</span>}
+		/>
+		<Card
+			title='This Month'
+			value={data.monthlyCompleted || 0}
+			icon={<span className='text-xl'>📆</span>}
+		/>
+		<Card
+			title='Best Day'
+			value={data.bestDay || 'N/A'}
+			icon={<span className='text-xl'>⭐</span>}
+		/>
 		<Card
 			title='Avg Time'
 			value={formatTime(data.averageTime)}
-			icon='⏱️'
+			icon={<span className='text-xl'>⏱️</span>}
 		/>
 	</div>
 )

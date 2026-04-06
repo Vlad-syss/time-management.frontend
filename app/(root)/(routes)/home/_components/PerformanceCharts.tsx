@@ -7,7 +7,6 @@ import {
 	Bar,
 	BarChart,
 	Cell,
-	Legend,
 	Pie,
 	PieChart,
 	ResponsiveContainer,
@@ -16,18 +15,7 @@ import {
 	YAxis,
 } from 'recharts'
 
-const LIGHT_MODE_COLORS = ['#5e4b8d', '#63956b', '#bf8f00', '#bf5d2d']
-const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042']
-
-const EXAMPLE_DAILY_DATA = [
-	{ name: 'Monday', value: 100 },
-	{ name: 'Tuesday', value: 1 },
-]
-
-const EXAMPLE_MONTHLY_DATA = [
-	{ name: 'January', value: 20 },
-	{ name: 'February', value: 5 },
-]
+const CHART_COLORS = ['#6366F1', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#06B6D4']
 
 interface PerformanceChartsProps {
 	dailyPerformance: Record<string, number>
@@ -38,106 +26,136 @@ export const PerformanceCharts: React.FC<PerformanceChartsProps> = ({
 	dailyPerformance,
 	monthlyPerformance,
 }) => {
-	const [viewMode, setViewMode] = useState<'pie' | 'bar'>('pie')
+	const [viewMode, setViewMode] = useState<'pie' | 'bar'>('bar')
 	const { theme } = useTheme()
 
 	const dailyData =
 		Object.keys(dailyPerformance).length > 0
 			? Object.entries(dailyPerformance).map(([day, count]) => ({
-					name: day,
+					name: day.slice(0, 3),
 					value: count,
 			  }))
-			: EXAMPLE_DAILY_DATA
+			: [{ name: 'Mon', value: 0 }, { name: 'Tue', value: 0 }]
 
 	const monthlyData =
 		Object.keys(monthlyPerformance).length > 0
 			? Object.entries(monthlyPerformance).map(([month, count]) => ({
-					name: month,
+					name: month.split(' ')[0].slice(0, 3),
 					value: count,
 			  }))
-			: EXAMPLE_MONTHLY_DATA
+			: [{ name: 'Jan', value: 0 }, { name: 'Feb', value: 0 }]
+
+	const textColor = theme === 'light' ? '#6B7280' : '#9CA3AF'
+	const gridColor = theme === 'light' ? '#F3F4F6' : 'rgba(255,255,255,0.05)'
 
 	const renderPieChart = (data: any[]) => (
-		<ResponsiveContainer width='100%' height={300}>
+		<ResponsiveContainer width='100%' height={250}>
 			<PieChart>
 				<Pie
 					data={data}
 					cx='50%'
 					cy='50%'
-					outerRadius={100}
-					fill='#8884d8'
+					outerRadius={80}
+					innerRadius={40}
+					fill='#6366F1'
 					dataKey='value'
-					label
+					label={({ name, value }) => `${name}: ${value}`}
+					labelLine={false}
 				>
-					{data.map((entry, index) => (
+					{data.map((_, index) => (
 						<Cell
 							key={`cell-${index}`}
-							fill={
-								theme === 'light'
-									? LIGHT_MODE_COLORS[index % LIGHT_MODE_COLORS.length]
-									: COLORS[index % COLORS.length]
-							}
+							fill={CHART_COLORS[index % CHART_COLORS.length]}
 						/>
 					))}
 				</Pie>
+				<Tooltip
+					contentStyle={{
+						backgroundColor: theme === 'light' ? '#fff' : '#1A1A24',
+						border: theme === 'light' ? '1px solid #E5E7EB' : '1px solid rgba(255,255,255,0.1)',
+						borderRadius: '8px',
+						fontSize: '13px',
+					}}
+				/>
 			</PieChart>
 		</ResponsiveContainer>
 	)
 
 	const renderBarChart = (data: any[]) => (
-		<ResponsiveContainer width='100%' height={400}>
-			<BarChart data={data}>
-				<XAxis dataKey='name' />
-				<YAxis />
-				<Tooltip />
-				<Legend />
-				<Bar dataKey='value' fill={theme === 'light' ? '#5e4b8d' : '#a7ffe0'} />
+		<ResponsiveContainer width='100%' height={250}>
+			<BarChart data={data} barCategoryGap='20%'>
+				<XAxis
+					dataKey='name'
+					tick={{ fill: textColor, fontSize: 12 }}
+					axisLine={{ stroke: gridColor }}
+					tickLine={false}
+				/>
+				<YAxis
+					tick={{ fill: textColor, fontSize: 12 }}
+					axisLine={false}
+					tickLine={false}
+				/>
+				<Tooltip
+					contentStyle={{
+						backgroundColor: theme === 'light' ? '#fff' : '#1A1A24',
+						border: theme === 'light' ? '1px solid #E5E7EB' : '1px solid rgba(255,255,255,0.1)',
+						borderRadius: '8px',
+						fontSize: '13px',
+					}}
+				/>
+				<Bar dataKey='value' radius={[6, 6, 0, 0]}>
+					{data.map((_, index) => (
+						<Cell
+							key={`cell-${index}`}
+							fill={CHART_COLORS[index % CHART_COLORS.length]}
+						/>
+					))}
+				</Bar>
 			</BarChart>
 		</ResponsiveContainer>
 	)
 
 	return (
-		<div className='bg-amber-300 dark:bg-slate-700/80 shadow-md rounded-lg p-3 md:p-6'>
-			<div className='flex flex-col md:flex-row justify-between md:items-center mb-2 md:mb-4 gap-y-2'>
-				<h2 className='text-xl font-bold'>Performance Charts</h2>
-				<div className='space-x-2 flex w-full md:w-auto'>
-					<Button
-						variant='add'
-						className={`px-4 py-2 rounded border-none font-semibold w-full md:w-auto ${
-							viewMode === 'pie'
-								? 'bg-orange-400 hover:bg-orange-400 dark:bg-slate-800 text-white'
-								: 'bg-slate-200 hover:bg-slate-300 dark:bg-gray-400 dark:hover:bg-gray-500'
-						}`}
-						onClick={() => setViewMode('pie')}
-					>
-						Pie Chart
-					</Button>
-					<Button
-						variant='add'
-						className={`px-4 py-2 rounded border-none w-full md:w-auto font-semibold ${
+		<div className='glass-surface p-4 md:p-6'>
+			<div className='flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2'>
+				<h2 className='text-lg font-semibold text-gray-900 dark:text-white'>
+					Performance
+				</h2>
+				<div className='flex gap-1 bg-gray-100 dark:bg-white/5 rounded-lg p-1'>
+					<button
+						className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
 							viewMode === 'bar'
-								? 'bg-orange-400 hover:bg-orange-400 dark:bg-slate-800 text-white'
-								: 'bg-slate-200 hover:bg-slate-300 dark:bg-gray-400 dark:hover:bg-gray-500'
+								? 'bg-white dark:bg-white/10 text-gray-900 dark:text-white shadow-sm'
+								: 'text-gray-500 dark:text-gray-400'
 						}`}
 						onClick={() => setViewMode('bar')}
 					>
-						Bar Chart
-					</Button>
+						Bar
+					</button>
+					<button
+						className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+							viewMode === 'pie'
+								? 'bg-white dark:bg-white/10 text-gray-900 dark:text-white shadow-sm'
+								: 'text-gray-500 dark:text-gray-400'
+						}`}
+						onClick={() => setViewMode('pie')}
+					>
+						Pie
+					</button>
 				</div>
 			</div>
-			<div className='flex flex-col md:flex-row'>
-				<div className='flex flex-col md:w-1/2'>
-					<h3 className='text-base text-center font-semibold mt-2 md:mt-6'>
-						Daily Performance
+			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+				<div>
+					<h3 className='text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 text-center'>
+						Daily
 					</h3>
-
 					{viewMode === 'pie'
 						? renderPieChart(dailyData)
 						: renderBarChart(dailyData)}
 				</div>
-				<div className='flex flex-col md:w-1/2'>
-					<h3 className='text-base text-center font-semibold mt-2 md:mt-6'>
-						Monthly Performance
+				<div>
+					<h3 className='text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 text-center'>
+						Monthly
 					</h3>
 					{viewMode === 'pie'
 						? renderPieChart(monthlyData)

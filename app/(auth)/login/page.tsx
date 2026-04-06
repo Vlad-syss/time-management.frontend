@@ -2,7 +2,7 @@
 
 import { useLogin } from '@/api'
 import { Button } from '@/components/ui/button'
-import { KeyRound, LoaderPinwheel, Mail, ScanFace } from 'lucide-react'
+import { KeyRound, Loader2, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
@@ -44,57 +44,61 @@ const LoginPage = () => {
 	}, [])
 
 	return (
-		<form
-			action=''
-			onSubmit={handleSubmit(onSubmit)}
-			className='p-5 bg-orange-300/70 drop-shadow-xl text-orange-700 md:rounded-[10px] h-full md:h-auto flex justify-between flex-col w-full'
-		>
-			<div className='flex items-center justify-between py-6 pb-8 px-3'>
-				<article>
-					<p className='font-bold text-[21px] md:text-[24px]  tracking-wide'>
-						Client Login
-					</p>
-					<span className='text-orange-900/80 text-xs md:text-sm  font-medium '>
-						Enter your account details to login
-					</span>
-				</article>
-				<ScanFace className='w-10 h-10' />
+		<div className='glass-surface p-6 md:p-8'>
+			<div className='mb-6'>
+				<h1 className='text-2xl font-bold text-gray-900 dark:text-white font-[family-name:var(--font-montserrat)]'>
+					Welcome back
+				</h1>
+				<p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
+					Sign in to your account to continue
+				</p>
 			</div>
-			<div className='flex flex-col gap-2 mb-auto'>
-				<FormInput
-					id='email'
-					type='email'
-					label={<Mail className='w-8 h-8 mr-2 cursor-pointer' />}
-					placeholder='Enter your account email'
-					{...register('email', { required: 'Email is required' })}
-				/>
-				{errors.email && (
-					<span className='text-red-600 text-xs'>{errors.email.message}</span>
-				)}
-				<FormInput
-					id='password'
-					type='password'
-					label={<KeyRound className='w-8 h-8 mr-2 cursor-pointer' />}
-					placeholder='Enter your account password'
-					{...register('password', { required: 'Password is required' })}
-				/>
-				{errors.password && (
-					<span className='text-red-600 text-xs'>
-						{errors.password.message}
-					</span>
-				)}
-				<Button size='lg' className='rounded-[10px] mt-4'>
-					{isPending && <LoaderPinwheel className='animate-spin' />}
-					{!isPending && 'Login'}
+
+			<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+				<div>
+					<FormInput
+						id='email'
+						type='email'
+						label={<Mail className='w-4 h-4 text-gray-400' />}
+						placeholder='Email address'
+						{...register('email', { required: 'Email is required' })}
+					/>
+					{errors.email && (
+						<span className='text-red-500 text-xs mt-1 block'>
+							{errors.email.message}
+						</span>
+					)}
+				</div>
+				<div>
+					<FormInput
+						id='password'
+						type='password'
+						label={<KeyRound className='w-4 h-4 text-gray-400' />}
+						placeholder='Password'
+						{...register('password', { required: 'Password is required' })}
+					/>
+					{errors.password && (
+						<span className='text-red-500 text-xs mt-1 block'>
+							{errors.password.message}
+						</span>
+					)}
+				</div>
+				<Button size='lg' className='w-full mt-2'>
+					{isPending && <Loader2 className='w-4 h-4 animate-spin mr-2' />}
+					{!isPending && 'Sign in'}
 				</Button>
-			</div>
-			<p className='text-slate-800/80 text-sm md:text-base  font-medium pt-3'>
-				New here?{' '}
-				<Link href='/register' className='font-bold hover:underline'>
-					Create a new account →
+			</form>
+
+			<p className='text-sm text-gray-500 dark:text-gray-400 mt-6 text-center'>
+				Don&apos;t have an account?{' '}
+				<Link
+					href='/register'
+					className='font-semibold text-indigo-500 dark:text-indigo-400 hover:underline'
+				>
+					Create one
 				</Link>
 			</p>
-		</form>
+		</div>
 	)
 }
 

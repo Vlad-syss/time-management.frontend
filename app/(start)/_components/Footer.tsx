@@ -1,49 +1,38 @@
 'use client'
-import cn from 'classnames'
 import { Github, Linkedin, Mail } from 'lucide-react'
 import Link from 'next/link'
-import style from './style.module.scss'
 
 export const Footer = () => {
 	return (
-		<div
-			className={
-				'fixed bottom-0 w-full py-3 pt-2 px-4 z-50 text-white md:py-4 md:pt-5'
-			}
-		>
-			<div className='flex flex-col gap-2 items-end mx-auto max-w-[1400px]'>
-				<div className='flex gap-3 md:gap-6 items-center'>
+		<footer className='w-full py-6 px-4 mt-auto relative z-10'>
+			<div className='flex flex-col md:flex-row gap-4 items-center justify-between mx-auto max-w-[1200px]'>
+				<p className='text-sm text-gray-500 dark:text-gray-500'>
+					&copy; {new Date().getFullYear()} TakeTime. Built by Vladislav Bashak
+				</p>
+				<div className='flex gap-2'>
 					<Link
 						target='_blank'
 						href='https://github.com/vlad-syss'
-						className='drop-shadow-xl flex items-center justify-center rounded-full p-2 transition-colors bg-slate-900/90 hover:bg-slate-900/100'
+						className='w-9 h-9 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors'
 					>
-						<Github size={22} />
+						<Github size={18} />
 					</Link>
 					<Link
 						href='https://linkedin.com/in/vlad-bashak-077155289'
 						target='_blank'
-						className='drop-shadow-xl flex items-center justify-center rounded-full p-2 transition-colors bg-blue-600/90 hover:bg-blue-600/100'
+						className='w-9 h-9 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors'
 					>
-						<Linkedin size={22} />
+						<Linkedin size={18} />
 					</Link>
 					<Link
 						target='_blank'
 						href='mailto:vladbashak80@gmail.com'
-						className='drop-shadow-xl flex items-center justify-center rounded-full p-2 transition-colors bg-red-500/90 hover:bg-red-500/100'
+						className='w-9 h-9 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors'
 					>
-						<Mail size={22} />
+						<Mail size={18} />
 					</Link>
 				</div>
-				<p
-					className={cn(
-						'font-bold tracking-[1px] text-[14px] md:text-[16px] text-black underline-offset-4 underline',
-						style.copyright
-					)}
-				>
-					&copy;Copyright, made by Vladislav Bashak
-				</p>
 			</div>
-		</div>
+		</footer>
 	)
 }

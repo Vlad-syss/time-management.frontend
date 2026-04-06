@@ -10,7 +10,6 @@ import cn from 'classnames'
 import { ChevronDown, ChevronRight, GripVertical, Plus } from 'lucide-react'
 import { FC } from 'react'
 import { KanbanItems } from './KanbanItems'
-import styles from './root.module.scss'
 
 interface KanbanCategoryProps {
 	category: string
@@ -30,17 +29,13 @@ export const KanbanCategory: FC<KanbanCategoryProps> = ({
 	taskCount,
 }) => {
 	const { attributes, listeners, setNodeRef, transform, transition } =
-		useSortable({
-			id: category,
-		})
+		useSortable({ id: category })
 	const { setNodeRef: setDropRef } = useDroppable({ id: category })
 	const { openModal } = useCreateTaskModal()
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
-		borderColor: color,
 		transition,
-		backgroundColor: `${color}30`,
 	}
 
 	return (
@@ -49,33 +44,29 @@ export const KanbanCategory: FC<KanbanCategoryProps> = ({
 				setNodeRef(node)
 				setDropRef(node)
 			}}
-			className='flex flex-col w-full py-1 md:py-2 pb-0 rounded-md border-[3px] gap-1 md:gap-2 relative drop-shadow-xl'
+			className='flex flex-col w-full rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-[#13131B] overflow-hidden'
 			style={style}
 		>
-			<div
-				className='flex items-center justify-between px-2 pb-2 border-b-2'
-				style={{ borderBottomColor: color }}
-			>
+			<div className='flex items-center justify-between px-3 py-2.5 border-b border-gray-100 dark:border-white/[0.06]'>
 				<button
 					onClick={onToggleCollapse}
-					className='flex items-center gap-1 hover:opacity-70 transition-opacity'
+					className='flex items-center gap-2 hover:opacity-70 transition-opacity'
 				>
 					{isCollapsed ? (
-						<ChevronRight size={18} />
+						<ChevronRight className='w-4 h-4 text-gray-400' />
 					) : (
-						<ChevronDown size={18} />
+						<ChevronDown className='w-4 h-4 text-gray-400' />
 					)}
-					<h3 className='font-semibold text-base md:text-lg'>
-						<span className='font-bold tracking-widest drop-shadow-sm text-red-700 dark:text-green-400'>
-							{category}
-						</span>
+					<div
+						className='w-2.5 h-2.5 rounded-full shrink-0'
+						style={{ backgroundColor: color }}
+					/>
+					<h3 className='text-sm font-semibold text-gray-900 dark:text-gray-100 truncate'>
+						{category}
 					</h3>
 				</button>
-				<div className='flex items-center gap-1'>
-					<span
-						className='text-xs font-bold px-2 py-0.5 rounded-full'
-						style={{ backgroundColor: `${color}80`, color: '#fff' }}
-					>
+				<div className='flex items-center gap-1.5'>
+					<span className='text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-white/5 px-2 py-0.5 rounded-full'>
 						{taskCount}
 					</span>
 					<Button
@@ -83,33 +74,31 @@ export const KanbanCategory: FC<KanbanCategoryProps> = ({
 						{...attributes}
 						size='icon'
 						variant='ghost'
-						className='text-red-600 dark:text-green-400 dark:hover:text-green-200 dark:hover:bg-white/10 hover:text-orange-800 hover:bg-orange-400/20 cursor-grab p-0 w-5 h-5'
+						className='w-6 h-6 cursor-grab text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
 					>
-						<GripVertical />
+						<GripVertical className='w-3.5 h-3.5' />
 					</Button>
 				</div>
 			</div>
 
 			{!isCollapsed && (
-				<>
+				<div className='flex flex-col'>
 					{tasks.map(task => (
 						<KanbanItems key={task._id} task={task} color={color} />
 					))}
-					<Button
-						size='sm'
-						style={{ borderColor: color, background: `${color}60` }}
-						title='add task'
-						className={cn('border-y-[4px] ', styles.addTask)}
+					<button
 						onClick={() => openModal(category)}
+						className='flex items-center justify-center gap-1 py-2.5 text-xs text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors'
 					>
-						<Plus className='text-slate-700' />
-					</Button>
-				</>
+						<Plus className='w-3.5 h-3.5' />
+						Add task
+					</button>
+				</div>
 			)}
 
 			{isCollapsed && (
-				<div className='px-2 py-1 text-xs text-slate-500 dark:text-slate-400 italic'>
-					{taskCount} task{taskCount !== 1 ? 's' : ''} hidden
+				<div className='px-3 py-2 text-xs text-gray-400 italic'>
+					{taskCount} task{taskCount !== 1 ? 's' : ''}
 				</div>
 			)}
 		</div>
