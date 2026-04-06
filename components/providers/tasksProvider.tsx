@@ -11,6 +11,7 @@ import {
 import { AllTasks, Category, Task, createData } from '@/types'
 import { changeData } from '@/types/taskTypes'
 import dayjs from 'dayjs'
+import toast from 'react-hot-toast'
 import {
 	ReactNode,
 	createContext,
@@ -92,7 +93,9 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 	const handleDelete = async (id: string) => {
 		try {
 			await deleteMutate(id)
+			toast.success('Task deleted!')
 		} catch (error) {
+			toast.error('Failed to delete task')
 			console.error('Failed to delete task:', error)
 		}
 	}
@@ -100,7 +103,9 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 	const handleArchive = async (id: string) => {
 		try {
 			await archiveMutate(id)
+			toast.success('Task archived!')
 		} catch (error) {
+			toast.error('Failed to archive task')
 			console.error('Failed to archive task:', error)
 		}
 	}
@@ -108,8 +113,10 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 	const handleComplete = async (id: string) => {
 		try {
 			await completeMutate(id)
+			toast.success('Task completed!')
 			refetch()
 		} catch (error) {
+			toast.error('Failed to complete task')
 			console.error('Failed to complete task:', error)
 		}
 	}
@@ -126,7 +133,9 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 				endTime: data.endTime,
 			}
 			await createMutate(request)
+			toast.success('Task created!')
 		} catch (error) {
+			toast.error('Failed to create task')
 			console.error('Failed to create task:', error)
 		}
 	}
@@ -135,6 +144,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
 		try {
 			await updateMutate({ id, data })
 		} catch (error) {
+			toast.error('Failed to update task')
 			console.error('Failed to update task:', error)
 		}
 	}

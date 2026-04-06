@@ -62,14 +62,12 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 	const onConfirmDelete = async () => {
 		closeModal()
 		await handleDelete(task._id)
-		await refetchSearch()
-		await refetchSearch()
+		if (refetchSearch) await refetchSearch()
 	}
 
 	const onHandleComplete = async (id: string) => {
 		await handleComplete(id)
-		await refetchSearch()
-		await refetchSearch()
+		if (refetchSearch) await refetchSearch()
 	}
 	const onHandleArchive = async (id: string) => {
 		await handleArchive(id)
@@ -82,8 +80,7 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 				endTime: tomorrow,
 			})
 		}
-		await refetchSearch()
-		await refetchSearch()
+		if (refetchSearch) await refetchSearch()
 	}
 
 	return (

@@ -25,6 +25,8 @@ export interface Task {
 	userId: string
 	startTime: string
 	endTime: string
+	completedAt: string | null
+	rescheduledCount: number
 	category: Category
 	status: Status
 	createdAt: string

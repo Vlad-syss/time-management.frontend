@@ -16,8 +16,15 @@ interface ReminderModalProps {
 }
 
 export const ReminderModal = ({ isOpen, onClose }: ReminderModalProps) => {
-	const { isPending, isError, reminderData, deleteReminder, updateReminder } =
-		useReminderContext()
+	const {
+		isPending,
+		isError,
+		reminderData,
+		deleteReminder,
+		updateReminder,
+		markAllRead,
+		count,
+	} = useReminderContext()
 	const width = useWidth()
 	const isMobile = width <= 768
 	const [showPopup, setShowPopup] = useState(false)
@@ -70,9 +77,21 @@ export const ReminderModal = ({ isOpen, onClose }: ReminderModalProps) => {
 						>
 							<X className='w-5 h-5' />
 						</Button>
-						<h2 className='mb-1 uppercase text-xl md:text-lg drop-shadow-xl text-orange-700 dark:text-slate-300 font-bold tracking-widest'>
-							Reminders:
-						</h2>
+						<div className='flex items-center justify-between mr-8'>
+							<h2 className='mb-1 uppercase text-xl md:text-lg drop-shadow-xl text-orange-700 dark:text-slate-300 font-bold tracking-widest'>
+								Reminders:
+							</h2>
+							{count > 0 && (
+								<Button
+									variant='ghost'
+									size='sm'
+									onClick={markAllRead}
+									className='text-xs text-orange-700 dark:text-slate-300 hover:bg-orange-400/30 dark:hover:bg-slate-600'
+								>
+									Mark all read
+								</Button>
+							)}
+						</div>
 						<ReminderList
 							isPending={isPending}
 							isError={isError}

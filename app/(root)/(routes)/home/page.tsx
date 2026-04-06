@@ -35,10 +35,7 @@ const HomePage = () => {
 				monthlyPerformance={data.monthlyPerformance}
 			/>
 			<CategoriesBreakdown categories={data.categories} />
-			<InsightsAccordion
-				dailyPerformance={data.dailyPerformance}
-				monthlyPerformance={data.monthlyPerformance}
-			/>
+			<InsightsAccordion data={data} />
 		</div>
 	)
 }

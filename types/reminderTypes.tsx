@@ -3,6 +3,8 @@ export interface Reminder {
 	userId: string
 	message: string
 	time: Date
+	isRead: boolean
+	taskId?: string
 	updatedAt: string
 	createdAt: string
 }

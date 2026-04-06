@@ -1,5 +1,6 @@
 'use client'
 
+import { markAllRemindersRead } from '@/api/reminder.api'
 import {
 	useCreateReminder,
 	useDeleteReminder,
@@ -8,6 +9,7 @@ import {
 	useUpdateReminder,
 } from '@/hooks/useReminders'
 import { ChangeReminder, Reminder } from '@/types'
+import toast from 'react-hot-toast'
 import {
 	Dispatch,
 	ReactNode,
@@ -28,6 +30,7 @@ interface ReminderTypes {
 	updateReminder: (id: string, data: ChangeReminder) => void
 	deleteReminder: (id: string) => void
 	getReminderById: (id: string) => Promise<Reminder | undefined>
+	markAllRead: () => Promise<void>
 	refetchReminder: () => Promise<void>
 	filteredReminders: Reminder[] | undefined
 	searchReminders: (query: string) => void
@@ -187,6 +190,17 @@ export const ReminderProvider = ({ children }: { children: ReactNode }) => {
 		setFilteredReminders(filtered)
 	}
 
+	const markAllRead = async () => {
+		try {
+			await markAllRemindersRead()
+			await refetch()
+			toast.success('All reminders marked as read!')
+		} catch (error) {
+			toast.error('Failed to mark reminders as read')
+			console.error('Failed to mark all as read:', error)
+		}
+	}
+
 	const refetchReminder = async () => {
 		await refetch()
 	}
@@ -200,7 +214,9 @@ export const ReminderProvider = ({ children }: { children: ReactNode }) => {
 		return result.data
 	}
 
-	const count = reminderData ? reminderData.length : 0
+	const count = reminderData
+		? reminderData.filter(r => !r.isRead).length
+		: 0
 
 	return (
 		<ReminderContext.Provider
@@ -210,6 +226,7 @@ export const ReminderProvider = ({ children }: { children: ReactNode }) => {
 				isError,
 				isPending,
 				count,
+				markAllRead,
 				createReminder: data => createReminder(data),
 				updateReminder: (id, data) => updateReminder({ id, data }),
 				deleteReminder: id => deleteReminder(id),

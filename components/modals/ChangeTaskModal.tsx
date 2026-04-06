@@ -218,7 +218,7 @@ export const ChangeTaskModal: FC<CreateTaskModalProps> = ({
 										render={({ field }) => (
 											<DatePicker
 												{...field}
-												limitEndYear={1000}
+												limitEndYear={2100}
 												size={width >= 640 ? 'lg' : 'sm'}
 												oneTap
 												className='z-[100]'

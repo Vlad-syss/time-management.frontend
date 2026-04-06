@@ -47,3 +47,30 @@ export const getReminderById = async (id: string) => {
 		throw error
 	}
 }
+
+export const markReminderRead = async (id: string) => {
+	try {
+		return await useAxios().patch(`/reminders/${id}/read`)
+	} catch (error) {
+		console.error('Failed to mark reminder as read:', error)
+		throw error
+	}
+}
+
+export const markAllRemindersRead = async () => {
+	try {
+		return await useAxios().patch('/reminders/read-all')
+	} catch (error) {
+		console.error('Failed to mark all reminders as read:', error)
+		throw error
+	}
+}
+
+export const getUnreadReminderCount = async (): Promise<{ count: number }> => {
+	try {
+		return await useAxios().get('/reminders/unread-count')
+	} catch (error) {
+		console.error('Failed to get unread count:', error)
+		throw error
+	}
+}

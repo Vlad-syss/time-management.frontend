@@ -41,6 +41,11 @@ export const useAxios = () => {
 		return response.data
 	}
 
+	const patch = async (url: string, data?: any) => {
+		const response = await axiosInstance.patch(url, data)
+		return response.data
+	}
+
 	const remove = async (url: string) => {
 		const response = await axiosInstance.delete(url)
 		return response.data
@@ -59,6 +64,7 @@ export const useAxios = () => {
 		get,
 		post,
 		put,
+		patch,
 		remove,
 		upload,
 	}

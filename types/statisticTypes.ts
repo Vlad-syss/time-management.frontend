@@ -18,6 +18,12 @@ export interface Statistic {
 	monthlyPerformance: Record<string, number>
 	longestTaskTime: number
 	rescheduledTasks: number
+	currentStreak: number
+	longestStreak: number
+	completionRate: number
+	productivityScore: number
+	weeklyCompleted: number
+	monthlyCompleted: number
 	createdAt: string
 	updatedAt: string
 	__v: number

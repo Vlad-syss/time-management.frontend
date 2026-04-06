@@ -1,4 +1,9 @@
 export { getAdminTasks, getAdminUser } from './admin.api'
+export {
+	deleteCategory,
+	getCategories,
+	renameCategory,
+} from './categories.api'
 export { useLogin } from './login.api'
 export { useRegister } from './registration.api'
 export {
@@ -6,6 +11,9 @@ export {
 	deleteReminder,
 	getReminderById,
 	getReminders,
+	getUnreadReminderCount,
+	markAllRemindersRead,
+	markReminderRead,
 	updateReminder,
 } from './reminder.api'
 export {
