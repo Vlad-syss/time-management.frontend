@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { BellRing } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 import React from 'react'
 import Modal from 'react-modal'
 import { Button } from '../ui/button'
@@ -29,11 +29,12 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 					ariaHideApp={false}
 					style={{
 						overlay: {
-							backgroundColor: 'rgba(100, 0, 0, 0.45)',
+							backgroundColor: 'rgba(0,0,0,0.5)',
 							display: 'flex',
 							justifyContent: 'center',
+							alignItems: 'center',
 							zIndex: '1000',
-							backdropFilter: 'blur(2px)',
+							backdropFilter: 'blur(4px)',
 						},
 						content: {
 							position: 'relative',
@@ -41,49 +42,39 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 							padding: '0',
 							border: 'none',
 							background: 'none',
-							borderRadius: '5px',
-							maxWidth: '600px',
+							borderRadius: '12px',
+							maxWidth: '440px',
+							width: '100%',
+							margin: '0 16px',
 						},
 					}}
 				>
 					<motion.div
 						initial={{ y: -10, opacity: 0 }}
-						animate={{
-							y: 0,
-							opacity: 1,
-						}}
+						animate={{ y: 0, opacity: 1 }}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className='bg-orange-200 p-2 py-3 md:p-5 md:mx-2 md:mt-10 dark:text-white dark:bg-slate-600'
+						className='bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/[0.08] rounded-xl p-6'
 					>
-						<div className='flex gap-2 items-start mb-12'>
-							<span className='flex items-center justify-center p-3 md:p-4 mx-4 rounded-full bg-blue-500/30'>
-								<BellRing className='w-6 h-6 md:w-9 md:h-9' />
-							</span>
-							<div className='flex flex-col gap-1'>
-								<p className='font-semibold md:text-[18px] text-[16px] leading-[1.4rem]'>
+						<div className='flex gap-4 items-start mb-6'>
+							<div className='w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center shrink-0'>
+								<AlertTriangle className='w-5 h-5 text-amber-600 dark:text-amber-400' />
+							</div>
+							<div>
+								<p className='font-medium text-gray-900 dark:text-white'>
 									{message}
 								</p>
-								<span className=' text-xs md:text-sm text-gray-900/80'>
-									All the data stayed in security so dont worry about it ;)
-								</span>
+								<p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
+									This action may not be reversible.
+								</p>
 							</div>
 						</div>
-						<div className='flex items-center justify-end gap-2 tracking-[1px]'>
-							<Button
-								onClick={onClose}
-								size='sm'
-								variant='outline'
-								className='text-orange-800 hover:text-white'
-							>
-								Close
+						<div className='flex items-center justify-end gap-2'>
+							<Button onClick={onClose} variant='outline' size='sm'>
+								Cancel
 							</Button>
-							<Button
-								size='sm'
-								onClick={onConfirm}
-								style={{ marginRight: '10px' }}
-							>
-								Move on
+							<Button size='sm' onClick={onConfirm}>
+								Confirm
 							</Button>
 						</div>
 					</motion.div>

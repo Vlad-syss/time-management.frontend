@@ -26,7 +26,7 @@ const HomePage = () => {
 				'pb-20': width < 945,
 			})}
 		>
-			<h1 className='text-[28px] md:text-[38px] font-bold tracking-wide'>
+			<h1 className='text-2xl font-bold tracking-wide'>
 				Overall Summary:
 			</h1>
 			<OverallSummary data={data} />

@@ -93,7 +93,7 @@ const ResultsPage = () => {
 				})}
 			>
 				<div className='md:flex-row flex-col flex w-full justify-between gap-2'>
-					<h1 className='text-[38px] mb-0 font-bold tracking-wide md:-mb-4'>
+					<h1 className='text-2xl mb-0 font-bold tracking-wide md:-mb-4'>
 						Search Page!
 					</h1>
 					<div className='grid grid-cols-2 gap-x-1'>
@@ -104,8 +104,8 @@ const ResultsPage = () => {
 							variant='add'
 							size='add'
 							className={cn(
-								'font-medium text-sm flex items-center justify-between px-3 gap-1 md:w-[100px] rounded-lg bg-orange-400  hover:bg-orange-500/80 text-white border-orange-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80 w-full',
-								filters.date && 'dark:bg-slate-500/80 bg-orange-500/80'
+								'font-medium text-sm flex items-center justify-between px-3 gap-1 md:w-[100px] rounded-lg bg-indigo-500  hover:bg-indigo-500/80 text-white border-indigo-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80 w-full',
+								filters.date && 'dark:bg-white/10/80 bg-indigo-500/80'
 							)}
 							title='date'
 							onClick={handleFilter}
@@ -121,8 +121,8 @@ const ResultsPage = () => {
 							variant='add'
 							size='add'
 							className={cn(
-								'font-medium text-sm flex items-center justify-between px-3 gap-1 w-full md:w-[100px] rounded-lg bg-orange-400  hover:bg-orange-500/80 text-white border-orange-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80',
-								filters.category && 'dark:bg-slate-500/80 bg-orange-500/80'
+								'font-medium text-sm flex items-center justify-between px-3 gap-1 w-full md:w-[100px] rounded-lg bg-indigo-500  hover:bg-indigo-500/80 text-white border-indigo-400 dark:bg-slate-400 dark:border-slate-400 dark:hover:bg-slate-500/80',
+								filters.category && 'dark:bg-white/10/80 bg-indigo-500/80'
 							)}
 							onClick={handleFilter}
 							title='category'

@@ -28,7 +28,7 @@ export const CalendarItem: React.FC<{
 					className='w-full text-xs text-gray-500 dark:text-gray-300 bg-transparent focus:outline-none'
 				/>
 			) : (
-				<span className='font-semibold text-orange-700 dark:text-gray-400'>
+				<span className='font-semibold text-indigo-600 dark:text-indigo-400 dark:text-gray-400'>
 					{format(new Date(reminder.time), 'HH:mm')}
 				</span>
 			)}

@@ -5,7 +5,7 @@ import { useCreateTaskModal } from '@/hooks/useCreateTaskModal'
 import cn from 'classnames'
 import isBefore from 'date-fns/isBefore'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, Worm, X } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -35,7 +35,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 	onClose,
 }) => {
 	const width = useWidth()
-	const isMobile = width < 945 ? true : false
+	const isMobile = width < 945
 	const searchParams = useSearchParams()
 	const { updateQueryParam } = useCreateTaskModal()
 	const { refetchReminder } = useReminderContext()
@@ -69,7 +69,6 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 	const onSubmit = async (data: FormValues) => {
 		await handleCreate(data)
 		await refetchReminder()
-		await refetchReminder()
 		onClose()
 	}
 
@@ -92,11 +91,11 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 					ariaHideApp={false}
 					style={{
 						overlay: {
-							backgroundColor: 'rgba(100, 0, 0, 0.45)',
+							backgroundColor: 'rgba(0,0,0,0.5)',
 							display: 'flex',
 							justifyContent: 'center',
-							zIndex: width <= 945 ? 7 : 6,
-							backdropFilter: 'blur(2px)',
+							zIndex: isMobile ? 7 : 6,
+							backdropFilter: 'blur(4px)',
 							height: '100%',
 							overflow: 'auto',
 						},
@@ -106,9 +105,9 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 							padding: '0',
 							border: 'none',
 							background: 'none',
-							borderRadius: '5px',
+							borderRadius: '12px',
 							width: '100%',
-							maxWidth: '900px',
+							maxWidth: '700px',
 							overflow: 'auto',
 							margin: '0 auto',
 							overscrollBehavior: 'contain',
@@ -121,64 +120,43 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className={cn(
-							'p-2 py-3 md:p-5 lg:mx-2 lg:mt-10 relative bg-orange-200 text-black dark:bg-slate-600 dark:text-white h-full min-h-[650px] lg:h-auto'
-						)}
+						className='p-4 md:p-6 lg:mx-2 lg:mt-10 relative bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/[0.08] rounded-xl text-gray-900 dark:text-gray-100 h-full min-h-[650px] lg:h-auto'
 					>
-						<div className='flex flex-col gap-1 w-full'>
-							<div className='grid gap-2 pb-1 sm:pb-3 border-b-2 border-yellow-400'>
-								<h1 className='flex items-center gap-2 text-[22px] sm:text-[28px] tracking-wider font-bold'>
-									<Worm className='w-8 h-8 sm:w-12 sm:h-12 text-pink-500' />
-									Create Task!
-								</h1>
-								<p className='font-semibold flex items-center gap-[5px] px-2 text-xs sm:text-sm'>
-									{width >= 640 ? (
-										<span className='tracking-[5px] text-slate-500 dark:text-slate-300'>
-											////
-										</span>
-									) : (
-										''
-									)}
-									"Master Your Minutes: Streamline Your Schedule for Success"
-									{width >= 640 ? (
-										<span className='tracking-[5px] text-slate-500 dark:text-slate-300'>
-											////
-										</span>
-									) : (
-										''
-									)}
-								</p>
-							</div>
+						<div className='mb-4'>
+							<h1 className='text-xl font-bold text-gray-900 dark:text-white'>
+								Create Task
+							</h1>
+							<p className='text-sm text-gray-500 dark:text-gray-400 mt-0.5'>
+								Define your task details and schedule
+							</p>
 						</div>
+
 						<form
-							className='py-2 sm:py-3 flex flex-col gap-2'
+							className='flex flex-col gap-4'
 							onSubmit={handleSubmit(onSubmit)}
 						>
-							<div className='grid sm:grid-cols-2 w-full gap-x-3 pb-2 border-b-2 border-yellow-200'>
-								<span className='sm:col-span-2 flex items-center gap-2 text-xs sm:text-sm tracking-wide text-gray-700 font-semibold italic dark:text-gray-300 mb-1 sm:mb-0'>
+							<div className='grid sm:grid-cols-2 gap-4 pb-4 border-b border-gray-200 dark:border-white/[0.08]'>
+								<div className='sm:col-span-2 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400'>
 									<Switch
 										onChange={toggleStartTime}
 										checked={!enabled}
-										offColor='#84868a'
-										onColor='#91db7d'
-										width={45}
-										height={22}
+										offColor='#D1D5DB'
+										onColor='#6366F1'
+										width={40}
+										height={20}
 										uncheckedIcon={<></>}
 										checkedIcon={<></>}
 										checkedHandleIcon={
-											<Check className='ml-[2px] pt-[5px]' size={16} />
+											<Check className='ml-[1px] pt-[3px]' size={14} />
 										}
 										uncheckedHandleIcon={
-											<X className='ml-[2px] pt-[5px]' size={16} />
+											<X className='ml-[1px] pt-[3px]' size={14} />
 										}
 									/>
-									: enable to change start time of task for future goals!
-								</span>
-								<label
-									htmlFor='timeStart'
-									className='sm:text-center font-bold sm:text-lg'
-								>
-									Start Time:
+									<span>Enable custom start time</span>
+								</div>
+								<label className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+									Start Time
 									<Controller
 										name='startTime'
 										control={control}
@@ -195,11 +173,8 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 										)}
 									/>
 								</label>
-								<label
-									htmlFor='timeEnd'
-									className='sm:text-center font-bold sm:text-lg'
-								>
-									End Time:
+								<label className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+									End Time
 									<Controller
 										name='endTime'
 										control={control}
@@ -209,10 +184,6 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 												limitEndYear={2100}
 												size={width >= 640 ? 'lg' : 'sm'}
 												oneTap
-												className='z-[100]'
-												style={{
-													zIndex: '1000 ',
-												}}
 												block
 												shouldDisableDate={date => isBefore(date, new Date())}
 											/>
@@ -220,11 +191,9 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 									/>
 								</label>
 							</div>
-							<label
-								htmlFor='title'
-								className='grid gap-1 tracking-wider sm:text-lg font-bold'
-							>
-								Title:
+
+							<label className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+								Title
 								<Controller
 									name='title'
 									control={control}
@@ -232,31 +201,21 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 									render={({ field }) => (
 										<Input
 											{...field}
-											placeholder='Here is your title...'
-											className='font-semibold bg-orange-300/70'
-											style={
-												width <= 640
-													? {
-															height: '33px',
-															fontSize: '13px',
-													  }
-													: {}
-											}
+											placeholder='Task title...'
+											className='mt-1'
 											onChange={e => handleInputChange('title', e.target.value)}
 										/>
 									)}
 								/>
 								{errors.title && (
-									<span className='text-red-500 dark:text-red-300 text-[10px] leading-[10px]'>
+									<span className='text-red-500 text-xs mt-1'>
 										{errors.title.message}
 									</span>
 								)}
 							</label>
-							<label
-								htmlFor='category'
-								className='grid gap-1 tracking-wider sm:text-lg font-bold'
-							>
-								Category:
+
+							<label className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+								Category
 								<Controller
 									name='category'
 									control={control}
@@ -264,16 +223,8 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 									render={({ field }) => (
 										<Input
 											{...field}
-											className='font-semibold bg-orange-300/70'
-											placeholder='Here is your category...'
-											style={
-												width <= 640
-													? {
-															height: '33px',
-															fontSize: '13px',
-													  }
-													: {}
-											}
+											placeholder='e.g. Work, Personal...'
+											className='mt-1'
 											onChange={e =>
 												handleInputChange('category', e.target.value)
 											}
@@ -281,16 +232,14 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 									)}
 								/>
 								{errors.category && (
-									<span className='text-red-500 dark:text-red-300 text-[10px] leading-[10px]'>
+									<span className='text-red-500 text-xs mt-1'>
 										{errors.category.message}
 									</span>
 								)}
 							</label>
-							<label
-								htmlFor='description'
-								className='grid gap-1 tracking-wider sm:text-lg font-bold'
-							>
-								Description:
+
+							<label className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+								Description
 								<Controller
 									name='description'
 									control={control}
@@ -298,16 +247,8 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 									render={({ field }) => (
 										<Textarea
 											{...field}
-											placeholder='Here is your description...'
-											className='font-semibold bg-orange-300/70'
-											style={
-												width <= 640
-													? {
-															height: '133px',
-															fontSize: '13px',
-													  }
-													: {}
-											}
+											placeholder='What needs to be done...'
+											className='mt-1'
 											onChange={e =>
 												handleInputChange('description', e.target.value)
 											}
@@ -315,22 +256,24 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
 									)}
 								/>
 								{errors.description && (
-									<span className='text-red-500 dark:text-red-300 text-[10px] leading-[10px]'>
+									<span className='text-red-500 text-xs mt-1'>
 										{errors.description.message}
 									</span>
 								)}
 							</label>
-							<Button className='w-full mt-auto' type='submit'>
+
+							<Button className='w-full mt-2' type='submit'>
 								Create Task
 							</Button>
 						</form>
+
 						<Button
-							className='absolute -right-1 top-1 sm:right-1 hover:text-white'
+							className='absolute right-3 top-3'
 							variant='ghost'
-							size='sm'
+							size='icon'
 							onClick={onClose}
 						>
-							<X className='w-6 h-6' />
+							<X className='w-5 h-5 text-gray-400' />
 						</Button>
 					</motion.div>
 				</Modal>

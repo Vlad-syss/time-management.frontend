@@ -111,7 +111,7 @@ export const ChangeProfile = (userData: User) => {
 	return (
 		<div className='w-full flex flex-col gap-4'>
 			{/* Profile Section */}
-			<div className='w-full bg-orange-100 dark:bg-gray-800 shadow rounded-md p-3 sm:p-6'>
+			<div className='w-full bg-gray-50 dark:bg-[#1A1A24] shadow rounded-md p-3 sm:p-6'>
 				<h4 className='text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4'>
 					Personal Information
 				</h4>
@@ -127,7 +127,7 @@ export const ChangeProfile = (userData: User) => {
 							<input
 								type='text'
 								{...register('name', { required: 'Name is required' })}
-								className='w-full mt-1 p-2 border rounded-md dark:bg-gray-700 dark:text-white'
+								className='w-full mt-1 p-2 border rounded-md dark:bg-[#1A1A24] dark:text-white'
 							/>
 						</div>
 						<div className='md:w-1/2'>
@@ -137,7 +137,7 @@ export const ChangeProfile = (userData: User) => {
 							<input
 								type='email'
 								{...register('email', { required: 'Email is required' })}
-								className='w-full mt-1 p-2 border rounded-md dark:bg-gray-700 dark:text-white'
+								className='w-full mt-1 p-2 border rounded-md dark:bg-[#1A1A24] dark:text-white'
 							/>
 						</div>
 					</div>
@@ -149,7 +149,7 @@ export const ChangeProfile = (userData: User) => {
 							<input
 								type='text'
 								{...register('country')}
-								className='w-full mt-1 p-2 border rounded-md dark:bg-gray-700 dark:text-white'
+								className='w-full mt-1 p-2 border rounded-md dark:bg-[#1A1A24] dark:text-white'
 							/>
 						</div>
 						<div className='md:w-1/2'>
@@ -158,7 +158,7 @@ export const ChangeProfile = (userData: User) => {
 							</label>
 							<textarea
 								{...register('description')}
-								className='w-full mt-1 p-2 border rounded-md dark:bg-gray-700 dark:text-white resize-none h-24'
+								className='w-full mt-1 p-2 border rounded-md dark:bg-[#1A1A24] dark:text-white resize-none h-24'
 							/>
 						</div>
 					</div>
@@ -168,7 +168,7 @@ export const ChangeProfile = (userData: User) => {
 						</label>
 						<div
 							{...getRootProps()}
-							className='mt-1 p-4 border-2 border-dashed rounded-md cursor-pointer text-center dark:bg-gray-700 dark:text-white hover:border-orange-400 transition-colors'
+							className='mt-1 p-4 border-2 border-dashed rounded-md cursor-pointer text-center dark:bg-[#1A1A24] dark:text-white hover:border-indigo-400 transition-colors'
 						>
 							<input {...getInputProps()} />
 							<p className='font-semibold'>
@@ -190,7 +190,7 @@ export const ChangeProfile = (userData: User) => {
 			</div>
 
 			{/* Preferences Section */}
-			<div className='w-full bg-orange-100 dark:bg-gray-800 shadow rounded-md p-3 sm:p-6'>
+			<div className='w-full bg-gray-50 dark:bg-[#1A1A24] shadow rounded-md p-3 sm:p-6'>
 				<h4 className='text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4'>
 					Preferences
 				</h4>
@@ -208,7 +208,7 @@ export const ChangeProfile = (userData: User) => {
 										defaultView: e.target.value as 'kanban' | 'wrap',
 									}))
 								}
-								className='w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white'
+								className='w-full p-2 border rounded-md dark:bg-[#1A1A24] dark:text-white'
 							>
 								<option value='kanban'>Kanban Board</option>
 								<option value='wrap'>List View</option>
@@ -226,7 +226,7 @@ export const ChangeProfile = (userData: User) => {
 										language: e.target.value as 'en' | 'uk',
 									}))
 								}
-								className='w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white'
+								className='w-full p-2 border rounded-md dark:bg-[#1A1A24] dark:text-white'
 							>
 								<option value='en'>English</option>
 								<option value='uk'>Ukrainian</option>
@@ -246,7 +246,7 @@ export const ChangeProfile = (userData: User) => {
 										weekStartsOn: e.target.value as 'monday' | 'sunday',
 									}))
 								}
-								className='w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white'
+								className='w-full p-2 border rounded-md dark:bg-[#1A1A24] dark:text-white'
 							>
 								<option value='monday'>Monday</option>
 								<option value='sunday'>Sunday</option>
@@ -266,8 +266,8 @@ export const ChangeProfile = (userData: User) => {
 								}
 								className={`relative w-12 h-6 rounded-full transition-colors ${
 									settings.notifications
-										? 'bg-orange-500 dark:bg-emerald-500'
-										: 'bg-gray-300 dark:bg-gray-600'
+										? 'bg-indigo-500 dark:bg-emerald-500'
+										: 'bg-gray-300 dark:bg-white/10'
 								}`}
 							>
 								<span

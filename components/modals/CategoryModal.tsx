@@ -93,11 +93,11 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 					ariaHideApp={false}
 					style={{
 						overlay: {
-							backgroundColor: 'rgba(100, 0, 0, 0.45)',
+							backgroundColor: 'rgba(0,0,0,0.5)',
 							display: 'flex',
 							justifyContent: 'center',
 							zIndex: '1000',
-							backdropFilter: 'blur(2px)',
+							backdropFilter: 'blur(4px)',
 						},
 						content: {
 							position: 'relative',
@@ -105,7 +105,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 							padding: '0',
 							border: 'none',
 							background: 'none',
-							borderRadius: '5px',
+							borderRadius: '12px',
 							maxWidth: '600px',
 							width: '100%',
 						},
@@ -116,7 +116,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className='bg-orange-200 p-2 py-3 md:p-5 md:mx-2 md:mt-10 dark:text-white dark:bg-slate-600 rounded-md'
+						className='bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/[0.08] rounded-xl p-4 md:p-6 md:mx-2 md:mt-10 text-gray-900 dark:text-gray-100'
 					>
 						{!showManage ? (
 							<form onSubmit={handleSubmit(onSubmit)}>
@@ -142,7 +142,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 										size='sm'
 										variant='outline'
 										type='button'
-										className='text-orange-800 w-full hover:text-white'
+										className='w-full'
 									>
 										Close
 									</Button>
@@ -180,12 +180,12 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 									{categories.map(cat => (
 										<div
 											key={cat.name}
-											className='flex items-center justify-between bg-orange-100 dark:bg-slate-700 rounded p-2'
+											className='flex items-center justify-between bg-gray-50 dark:bg-white/5 rounded p-2'
 										>
 											{editingName === cat.name ? (
 												<div className='flex items-center gap-2 flex-1'>
 													<input
-														className='flex-1 p-1 rounded border dark:bg-slate-600 dark:text-white text-sm'
+														className='flex-1 p-1 rounded border dark:bg-white/5 dark:text-gray-100 text-sm'
 														value={newName}
 														onChange={e => setNewName(e.target.value)}
 														onKeyDown={e => {
@@ -215,7 +215,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 														<Button
 															variant='ghost'
 															size='icon'
-															className='w-7 h-7 hover:bg-orange-300 dark:hover:bg-slate-600'
+															className='w-7 h-7 hover:bg-gray-100 dark:hover:bg-white/10'
 															onClick={() => {
 																setEditingName(cat.name)
 																setNewName(cat.name)
@@ -241,7 +241,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 								</div>
 								<Button
 									variant='outline'
-									className='w-full mt-3 text-orange-800 hover:text-white'
+									className='w-full mt-3 text-gray-900 dark:text-white hover:text-white'
 									onClick={() => setShowManage(false)}
 								>
 									Back to create

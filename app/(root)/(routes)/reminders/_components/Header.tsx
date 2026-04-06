@@ -22,14 +22,14 @@ export const Header: React.FC<HeaderProps> = ({
 	isMobile,
 }) => (
 	<div className='flex justify-between g-2 '>
-		<h4 className='text-[26px] md:text-[38px] font-bold tracking-wide'>
+		<h4 className='text-2xl font-bold tracking-wide'>
 			Reminders!
 		</h4>
 		<div className='relative w-full flex justify-end'>
 			<Button
 				variant='outline'
 				size={isMobile ? 'sm' : 'lg'}
-				className='text-orange-700 hover:text-orange-100 hover:border-background col-span-full'
+				className='text-indigo-600 dark:text-indigo-400 hover:text-gray-100 hover:border-background col-span-full'
 				onClick={onTogglePopup}
 				ref={refButton}
 			>

@@ -39,7 +39,7 @@ export const ReminderItem: FC<ReminderItemProps> = ({
 			initial={{ y: 20, opacity: 0 }}
 			animate={{ y: 0, opacity: 1 }}
 			className={`p-2 rounded-md shadow-md text-left ${
-				isExpired ? 'bg-red-500' : 'bg-orange-400 dark:bg-slate-600'
+				isExpired ? 'bg-red-500' : 'bg-indigo-500 dark:bg-[#1A1A24]'
 			}`}
 		>
 			{isEditiable ? (
@@ -64,7 +64,7 @@ export const ReminderItem: FC<ReminderItemProps> = ({
 			) : (
 				<p className=' text-base md:text-sm text-gray-500 dark:text-gray-300 mt-1 mb-5'>
 					{!isExpired ? (
-						<span className='font-medium text-orange-100 dark:text-slate-300'>
+						<span className='font-medium text-gray-100 dark:text-slate-300'>
 							Date&time: {new Date(reminder.time).toLocaleString()}
 						</span>
 					) : (

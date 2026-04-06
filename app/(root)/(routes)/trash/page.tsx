@@ -39,7 +39,7 @@ const TrashPage = () => {
 					'pb-24 sm:pb-20': isMobile,
 				})}
 			>
-				<h4 className='text-[30px] md:text-[38px] font-bold tracking-wide'>
+				<h4 className='text-2xl font-bold tracking-wide'>
 					Trash Can!
 				</h4>
 				{tasks.length > 0 ? (
@@ -56,7 +56,7 @@ const TrashPage = () => {
 						))}
 					</ul>
 				) : (
-					<p className='text-[30px] flex flex-col items-center justify-center font-extrabold drop-shadow-lg py-10 gap-2'>
+					<p className='text-xl flex flex-col items-center justify-center font-extrabold drop-shadow-lg py-10 gap-2'>
 						Trash is empty!
 						<Trash2 className='w-20 h-20' />
 					</p>

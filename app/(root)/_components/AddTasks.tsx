@@ -31,7 +31,7 @@ export const AddTasks: FC<AddTasksProps> = ({ kanban, wrap }) => {
 		<>
 			<div
 				className={cn(
-					'flex flex-col items-center justify-center w-full rounded-md border-[3px] gap-2 relative drop-shadow-xl border-gray-100 bg-gray-100/20 dark:bg-slate-600/20 dark:border-gray-300',
+					'flex flex-col items-center justify-center w-full rounded-md border-[3px] gap-2 relative drop-shadow-xl border-gray-100 bg-gray-100/20 dark:bg-[#1A1A24]/20 dark:border-gray-300',
 					kanban && 'min-h-[181px] py-2',
 					wrap && 'py-0'
 				)}
@@ -41,7 +41,7 @@ export const AddTasks: FC<AddTasksProps> = ({ kanban, wrap }) => {
 						<Button
 							variant='add'
 							size='add'
-							className='w-36 dark:bg-slate-500 dark:hover:bg-slate-500/70'
+							className='w-36 dark:bg-white/10 dark:hover:bg-slate-500/70'
 							onClick={openCategoryModal}
 						>
 							<Plus className='text-slate-600 dark:text-white w-7 h-7' />

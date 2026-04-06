@@ -42,7 +42,7 @@ const ProfilePage = () => {
 					}
 				)}
 			>
-				<div className='w-full flex flex-col items-center bg-orange-400/60 dark:bg-gray-700/60 shadow-lg rounded-lg p-6 gap-4'>
+				<div className='w-full flex flex-col items-center bg-white/80 dark:bg-white/5 dark:bg-white/5 shadow-lg rounded-lg p-6 gap-4'>
 					<div className='flex flex-col items-center'>
 						{isImage ? (
 							<div className='w-[100px] h-[100px] md:w-[150px] md:h-[150px] rounded-full overflow-hidden shadow-lg'>
@@ -53,19 +53,19 @@ const ProfilePage = () => {
 								/>
 							</div>
 						) : (
-							<div className='w-[100px] h-[100px] md:w-[150px] md:h-[150px] rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center'>
+							<div className='w-[100px] h-[100px] md:w-[150px] md:h-[150px] rounded-full bg-gray-300 dark:bg-[#1A1A24] flex items-center justify-center'>
 								<p className='text-red-600 font-bold'>No Avatar</p>
 							</div>
 						)}
 
-						<h2 className='text-2xl md:text-3xl text-orange-800 dark:text-white font-bold mt-4'>
+						<h2 className='text-2xl md:text-3xl text-gray-900 dark:text-white dark:text-white font-bold mt-4'>
 							{userData?.name}
 						</h2>
 						<p className='text-[13px] md:text-sm text-gray-700 dark:text-gray-400'>
 							{userData?.country}
 						</p>
 
-						<span className='mt-2 px-4 py-1 text-sm font-semibold text-white bg-orange-600 dark:bg-slate-900 rounded-full'>
+						<span className='mt-2 px-4 py-1 text-sm font-semibold text-white bg-indigo-600 dark:bg-slate-900 rounded-full'>
 							{userData?.role}
 						</span>
 					</div>
@@ -75,9 +75,9 @@ const ProfilePage = () => {
 							variant='add'
 							size='lg'
 							className={cn('rounded-l-lg font-medium px-6 py-2 border-none', {
-								'bg-orange-500 hover:bg-orange-500 dark:bg-slate-900 text-white':
+								'bg-indigo-500 hover:bg-indigo-500 dark:bg-slate-900 text-white':
 									activeTab === 'profile',
-								'bg-orange-200 hover:bg-orange-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200':
+								'bg-gray-50 hover:bg-gray-50 dark:bg-[#1A1A24] text-gray-800 dark:text-gray-200':
 									activeTab !== 'profile',
 							})}
 							onClick={() => handleTabChange('profile')}
@@ -88,9 +88,9 @@ const ProfilePage = () => {
 							variant='add'
 							size='lg'
 							className={cn('rounded-l-lg font-medium px-6 py-2 border-none', {
-								'bg-orange-500 hover:bg-orange-500 dark:bg-slate-900 text-white':
+								'bg-indigo-500 hover:bg-indigo-500 dark:bg-slate-900 text-white':
 									activeTab === 'change',
-								'bg-orange-200 hover:bg-orange-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200':
+								'bg-gray-50 hover:bg-gray-50 dark:bg-[#1A1A24] text-gray-800 dark:text-gray-200':
 									activeTab !== 'change',
 							})}
 							onClick={() => handleTabChange('change')}

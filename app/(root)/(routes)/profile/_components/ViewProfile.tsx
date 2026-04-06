@@ -8,7 +8,7 @@ export const ViewProfile = (data: User) => {
 
 	return (
 		<div className='w-full flex flex-col gap-4'>
-			<div className='w-full bg-orange-100 dark:bg-gray-800 shadow-lg rounded-lg p-3 sm:p-6'>
+			<div className='w-full bg-gray-50 dark:bg-[#1A1A24] shadow-lg rounded-lg p-3 sm:p-6'>
 				<h4 className='text-lg sm:text-xl font-bold mb-4'>
 					Profile Information
 				</h4>
@@ -33,7 +33,7 @@ export const ViewProfile = (data: User) => {
 			</div>
 
 			{stats && (
-				<div className='w-full bg-orange-100 dark:bg-gray-800 shadow-lg rounded-lg p-3 sm:p-6'>
+				<div className='w-full bg-gray-50 dark:bg-[#1A1A24] shadow-lg rounded-lg p-3 sm:p-6'>
 					<h4 className='text-lg sm:text-xl font-bold mb-4'>
 						Activity Overview
 					</h4>
@@ -74,7 +74,7 @@ const StatCard = ({
 	value: string | number
 	icon: string
 }) => (
-	<div className='bg-orange-200/60 dark:bg-slate-700/60 rounded-lg p-3 text-center'>
+	<div className='bg-white dark:bg-white/5 dark:bg-white/5 rounded-lg p-3 text-center'>
 		<div className='text-xl mb-1'>{icon}</div>
 		<p className='text-lg font-bold'>{value}</p>
 		<p className='text-xs text-slate-600 dark:text-slate-400'>{label}</p>

@@ -2,7 +2,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 export const ReminderPageSkeleton: React.FC = () => {
 	return (
-		<SkeletonTheme baseColor='#fde183' highlightColor='#fff4dd'>
+		<SkeletonTheme baseColor='#E5E7EB' highlightColor='#F3F4F6'>
 			<div className='grid grid-cols-7 gap-1'>
 				{Array.from({ length: 30 }).map((_, idx) => (
 					<div key={idx} className='p-1 border rounded shadow-sm'>

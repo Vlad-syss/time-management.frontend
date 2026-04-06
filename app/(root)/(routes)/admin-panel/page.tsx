@@ -56,7 +56,7 @@ export default function AdminPanelPage() {
 
 	return (
 		<div className='flex flex-col gap-6 p-6  min-h-screen'>
-			<h4 className='pt-8 text-[30px] md:text-[38px] font-bold tracking-wide'>
+			<h4 className='pt-8 text-2xl font-bold tracking-wide'>
 				Admin Panel
 			</h4>
 
@@ -96,7 +96,7 @@ export default function AdminPanelPage() {
 					]}
 				/>
 
-				<div className='bg-orange-100 dark:bg-slate-600 rounded-lg shadow p-4'>
+				<div className='bg-gray-50 dark:bg-[#1A1A24] rounded-lg shadow p-4'>
 					<h5 className='font-bold text-lg mb-2'>Task Status Distribution</h5>
 					<ResponsiveContainer width='100%' height={250}>
 						<PieChart>
@@ -127,7 +127,7 @@ export default function AdminPanelPage() {
 						placeholder='Search tasks...'
 						value={searchQuery}
 						onChange={e => setSearchQuery(e.target.value)}
-						className='border w-min bg-orange-400/20 font-medium placeholder:font-bold rounded px-3 py-1'
+						className='border w-min bg-gray-100 dark:bg-white/5 font-medium placeholder:font-bold rounded px-3 py-1'
 					/>
 				</div>
 				<Table
@@ -171,7 +171,7 @@ export default function AdminPanelPage() {
 										task.status.completed
 											? 'bg-green-600 text-white'
 											: task.status.archived
-											? 'bg-orange-600 text-white'
+											? 'bg-indigo-600 text-white'
 											: 'bg-blue-600 text-white'
 									}`}
 								>

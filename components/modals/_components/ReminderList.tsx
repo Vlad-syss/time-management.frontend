@@ -22,7 +22,7 @@ const ReminderList = ({
 	if (isPending) {
 		return (
 			<div className='flex justify-center items-center h-full py-4 pr-3'>
-				<div className='loader border-t-4 border-orange-400 border-solid rounded-full w-8 h-8 animate-spin'></div>
+				<div className='loader border-t-4 border-indigo-500 border-solid rounded-full w-8 h-8 animate-spin'></div>
 				<p className='ml-2 text-gray-600 dark:text-gray-300'>
 					Loading reminders...
 				</p>

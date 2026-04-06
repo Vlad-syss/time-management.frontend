@@ -7,7 +7,7 @@ interface StatsSectionProps {
 
 export const StatsSection: React.FC<StatsSectionProps> = ({ title, stats }) => (
 	<div className='mb-4 col-span-2'>
-		<h4 className='text-2xl font-bold text-orange-900 dark:text-slate-100 '>
+		<h4 className='text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 '>
 			{title}
 		</h4>
 		<div className='text-sm font-semibold space-y-1 grid grid-col-0 sm:grid-cols-2 md:grid-cols-3 gap-2 w-full'>

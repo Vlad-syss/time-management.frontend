@@ -115,8 +115,8 @@ export const Calendar: React.FC<CalendarProps> = ({
 				<div
 					className={
 						isMobile
-							? 'flex flex-col items-stretch gap-[2px] bg-orange-400 dark:bg-gray-800'
-							: 'grid grid-cols-7 gap-[1px] bg-orange-400 dark:bg-gray-800'
+							? 'flex flex-col items-stretch gap-[2px] bg-indigo-500 dark:bg-[#1A1A24]'
+							: 'grid grid-cols-7 gap-[1px] bg-indigo-500 dark:bg-[#1A1A24]'
 					}
 				>
 					{(activeSorts.alphabetical || activeSorts.time) && isMobile
@@ -124,7 +124,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 								return (
 									<div
 										className={cn(
-											'flex flex-col group relative items-start p-2 bg-orange-100 dark:bg-slate-700 gap-1 min-h-[80px] transition-transform duration-150'
+											'flex flex-col group relative items-start p-2 bg-gray-50 dark:bg-[#1A1A24] gap-1 min-h-[80px] transition-transform duration-150'
 										)}
 									>
 										<span className='text-sm font-medium mb-1'>

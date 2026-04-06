@@ -2,7 +2,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 export const ResultPageSkeleton = () => {
 	return (
-		<SkeletonTheme baseColor='#fde183' highlightColor='#fff4dd'>
+		<SkeletonTheme baseColor='#E5E7EB' highlightColor='#F3F4F6'>
 			<div className='flex flex-col gap-5'>
 				<p className='grid grid-cols-7 grid-rows-2 gap-x-4 gap-y-2 mt-3 w-full'>
 					<span className='col-span-5 row-span-2'>

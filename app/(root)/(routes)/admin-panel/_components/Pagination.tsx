@@ -16,7 +16,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 	<div className='flex justify-between items-center mt-4'>
 		<Button
 			variant='secondary'
-			className='disabled:opacity-50 dark:bg-slate-700 hover:dark:bg-slate-600'
+			className='disabled:opacity-50 dark:bg-[#1A1A24] hover:dark:bg-[#1A1A24]'
 			onClick={onPrevious}
 			disabled={currentPage === 1}
 		>
@@ -27,7 +27,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 		</span>
 		<Button
 			variant='secondary'
-			className='disabled:opacity-50 dark:bg-slate-700 hover:dark:bg-slate-600'
+			className='disabled:opacity-50 dark:bg-[#1A1A24] hover:dark:bg-[#1A1A24]'
 			onClick={onNext}
 			disabled={currentPage === totalPages}
 		>

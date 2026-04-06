@@ -14,14 +14,14 @@ export const CalendarHeader: React.FC<{
 		<div className='flex items-center gap-[2px] h-7 md:h-10 bg-slate-100'>
 			<Button
 				onClick={onPreviousMonth}
-				className=' h-7 md:h-10 rounded-none dark:bg-slate-700 dark:hover:bg-slate-800'
+				className=' h-7 md:h-10 rounded-none dark:bg-[#1A1A24] dark:hover:bg-slate-800'
 				variant='secondary'
 			>
 				<ArrowLeft className=' w-5 md:w-6' />
 			</Button>
 			<Button
 				onClick={onNextMonth}
-				className=' h-7 md:h-10 rounded-none dark:bg-slate-700 dark:hover:bg-slate-800'
+				className=' h-7 md:h-10 rounded-none dark:bg-[#1A1A24] dark:hover:bg-slate-800'
 				variant='secondary'
 			>
 				<ArrowRight className=' w-5 md:w-6' />

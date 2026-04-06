@@ -42,10 +42,10 @@ export const CalendarCellMobile: FC<CalendarCellMobileProps> = ({
 			className={cn(
 				'flex flex-col group relative items-start p-2 min-h-[80px] transition-transform duration-150',
 				{
-					'bg-orange-200 dark:bg-gray-800': isToday,
-					'bg-orange-100 dark:bg-slate-700 hover:bg-orange-200 dark:hover:bg-slate-800':
+					'bg-gray-50 dark:bg-[#1A1A24]': isToday,
+					'bg-gray-50 dark:bg-[#1A1A24] hover:bg-gray-50 dark:hover:bg-slate-800':
 						!isToday && day.getMonth() === currentMonth.getMonth(),
-					'bg-gray-200 dark:bg-gray-700 text-gray-500':
+					'bg-gray-200 dark:bg-[#1A1A24] text-gray-500':
 						day.getMonth() !== currentMonth.getMonth(),
 				}
 			)}

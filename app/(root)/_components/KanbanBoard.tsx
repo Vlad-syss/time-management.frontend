@@ -196,7 +196,7 @@ export const KanbanBoard: FC<BoardsProps> = ({
 			</SortableContext>
 			<DragOverlay>
 				{activeTaskId && tasks ? (
-					<div className='bg-white dark:bg-slate-700 rounded-md shadow-lg p-3 opacity-80 border-2 border-orange-400'>
+					<div className='bg-white dark:bg-[#1A1A24] rounded-md shadow-lg p-3 opacity-80 border-2 border-indigo-400'>
 						<p className='font-semibold'>
 							{tasks.find(t => t._id === activeTaskId)?.title}
 						</p>

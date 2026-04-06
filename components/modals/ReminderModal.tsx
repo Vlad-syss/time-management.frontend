@@ -35,24 +35,25 @@ export const ReminderModal = ({ isOpen, onClose }: ReminderModalProps) => {
 				<Modal
 					isOpen={isOpen}
 					onRequestClose={onClose}
-					contentLabel='Confirmation Modal'
+					contentLabel='Reminder Modal'
 					ariaHideApp={false}
 					style={{
 						overlay: {
-							backgroundColor: 'rgba(0, 0, 0, 0.5)',
+							backgroundColor: 'rgba(0,0,0,0.5)',
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',
 							zIndex: '1000',
 							overflowY: 'auto',
+							backdropFilter: 'blur(4px)',
 						},
 						content: {
 							position: 'absolute',
 							padding: '0',
 							border: 'none',
 							background: 'none',
-							borderRadius: isMobile ? '0px' : '5px',
-							width: isMobile ? '100%' : '450px',
+							borderRadius: isMobile ? '0px' : '12px',
+							width: isMobile ? '100%' : '420px',
 							height: isMobile ? '100%' : '500px',
 							top: isMobile ? '0' : '20px',
 							right: isMobile ? '0' : '10px',
@@ -63,35 +64,37 @@ export const ReminderModal = ({ isOpen, onClose }: ReminderModalProps) => {
 					}}
 				>
 					<motion.div
-						initial={{ scale: 0.9, opacity: 0 }}
+						initial={{ scale: 0.95, opacity: 0 }}
 						animate={{ scale: 1, opacity: 1 }}
-						exit={{ scale: 0.9, opacity: 0 }}
+						exit={{ scale: 0.95, opacity: 0 }}
 						transition={{ duration: 0.2 }}
-						className='relative bg-orange-300 h-full p-2 pr-0 shadow-xl dark:text-white dark:bg-slate-700 rounded-lg flex flex-col items-left md'
+						className='relative bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/[0.08] h-full p-4 pr-2 rounded-xl flex flex-col'
 					>
 						<Button
 							variant='ghost'
 							size='icon'
 							onClick={onClose}
-							className='absolute right-1 z-10 top-1 w-7 h-7 p-0 hover:bg-red-500 hover:text-white dark:hover:bg-slate-600'
+							className='absolute right-2 z-10 top-2 w-7 h-7'
 						>
-							<X className='w-5 h-5' />
+							<X className='w-4 h-4 text-gray-400' />
 						</Button>
-						<div className='flex items-center justify-between mr-8'>
-							<h2 className='mb-1 uppercase text-xl md:text-lg drop-shadow-xl text-orange-700 dark:text-slate-300 font-bold tracking-widest'>
-								Reminders:
+
+						<div className='flex items-center justify-between pr-8 mb-3'>
+							<h2 className='text-lg font-bold text-gray-900 dark:text-white'>
+								Reminders
 							</h2>
 							{count > 0 && (
 								<Button
 									variant='ghost'
 									size='sm'
 									onClick={markAllRead}
-									className='text-xs text-orange-700 dark:text-slate-300 hover:bg-orange-400/30 dark:hover:bg-slate-600'
+									className='text-xs text-indigo-500 dark:text-indigo-400'
 								>
 									Mark all read
 								</Button>
 							)}
 						</div>
+
 						<ReminderList
 							isPending={isPending}
 							isError={isError}
@@ -100,12 +103,13 @@ export const ReminderModal = ({ isOpen, onClose }: ReminderModalProps) => {
 							updateReminder={updateReminder}
 							isMobile={isMobile}
 						/>
+
 						<div className='relative mt-auto mr-2'>
 							<Button
-								className='flex w-full text-lg py-6 items-center gap-2 font-medium'
+								className='flex w-full items-center gap-2'
 								onClick={() => setShowPopup(!showPopup)}
 							>
-								Add new
+								Add reminder
 							</Button>
 							{showPopup && (
 								<AddReminderPopup

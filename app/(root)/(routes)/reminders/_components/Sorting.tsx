@@ -29,11 +29,11 @@ export const Sorting: React.FC = () => {
 				onClick={handleSortAlphabetical}
 				variant='secondary'
 				className={cn(
-					'flex items-center text-sm font-medium space-x-2 px-4 py-1 border-2 border-orange-500 dark:border-slate-400',
+					'flex items-center text-sm font-medium space-x-2 px-4 py-1 border-2 border-indigo-500 dark:border-slate-400',
 					{
-						'dark:bg-slate-400/20 bg-orange-500/20  hover:bg-orange-500/50  dark:hover:bg-slate-400/50':
+						'dark:bg-slate-400/20 bg-indigo-500/15  hover:bg-indigo-500/50  dark:hover:bg-slate-400/50':
 							!isAZAscending,
-						'bg-orange-500 dark:bg-slate-400': isAZAscending,
+						'bg-indigo-500 dark:bg-slate-400': isAZAscending,
 					}
 				)}
 			>
@@ -50,11 +50,11 @@ export const Sorting: React.FC = () => {
 				onClick={handleSortTime}
 				variant='secondary'
 				className={cn(
-					'flex items-center text-sm font-medium space-x-2 px-4 py-1 border-2 border-orange-500 dark:border-slate-400',
+					'flex items-center text-sm font-medium space-x-2 px-4 py-1 border-2 border-indigo-500 dark:border-slate-400',
 					{
-						'dark:bg-slate-400/20 bg-orange-500/20  hover:bg-orange-500/50  dark:hover:bg-slate-400/50':
+						'dark:bg-slate-400/20 bg-indigo-500/15  hover:bg-indigo-500/50  dark:hover:bg-slate-400/50':
 							!isTimeAscending,
-						'bg-orange-500 dark:bg-slate-400': isTimeAscending,
+						'bg-indigo-500 dark:bg-slate-400': isTimeAscending,
 					}
 				)}
 			>

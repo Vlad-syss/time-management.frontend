@@ -20,7 +20,7 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 	onClose,
 }) => {
 	const width = useWidth()
-	const isMobile = width < 640 // Adapt for screens smaller than 640px (mobile)
+	const isMobile = width < 640
 	const searchParams = useSearchParams()
 	const taskId = searchParams.get('taskId') || ''
 	const { data, isPending } = useGetTaskById(taskId)
@@ -39,17 +39,23 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 	const endTime = new Date(end || '')
 
 	const getStatus = () => {
-		if (status?.isArchiving && !status?.archived) return 'isArchiving'
-		if (status?.completed) return 'completed'
-		if (!status?.completed && !status?.archived) return 'on progress'
-		return 'archived'
+		if (status?.isArchiving && !status?.archived) return 'Expiring'
+		if (status?.completed) return 'Completed'
+		if (!status?.completed && !status?.archived) return 'In Progress'
+		return 'Archived'
+	}
+
+	const getStatusClass = () => {
+		if (status?.completed) return 'status-completed'
+		if (status?.archived || status?.isArchiving) return 'status-archived'
+		return 'status-active'
 	}
 
 	const formatteTime = (time: Date) =>
 		`${time.getDate()}-${time.getMonth() + 1}-${time.getFullYear()}`
 
-	const handleChange = (id: string, category?: string) => {
-		openModal(id, category)
+	const handleChange = (id: string) => {
+		openModal(id)
 	}
 
 	const handleArch = (id: string) => {
@@ -72,11 +78,12 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 					ariaHideApp={false}
 					style={{
 						overlay: {
-							backgroundColor: 'rgba(100, 0, 0, 0.45)',
+							backgroundColor: 'rgba(0,0,0,0.5)',
 							display: 'flex',
 							justifyContent: 'center',
+							alignItems: 'center',
 							zIndex: '1000',
-							backdropFilter: 'blur(2px)',
+							backdropFilter: 'blur(4px)',
 						},
 						content: {
 							position: 'relative',
@@ -84,11 +91,12 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 							padding: '0',
 							border: 'none',
 							background: 'none',
-							borderRadius: '5px',
-							maxWidth: isMobile ? '100%' : '650px', // Full screen for mobile
+							borderRadius: '12px',
+							maxWidth: isMobile ? '100%' : '550px',
 							width: '100%',
-							maxHeight: isMobile ? '90vh' : 'auto', // Modal height for mobile
-							overflowY: isMobile ? 'scroll' : 'visible', // Scroll on mobile
+							margin: '0 16px',
+							maxHeight: isMobile ? '90vh' : 'auto',
+							overflowY: isMobile ? 'scroll' : 'visible',
 						},
 					}}
 				>
@@ -97,129 +105,111 @@ export const ViewTaskModal: React.FC<ConfirmModalProps> = ({
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className={`bg-orange-200 p-4 md:p-6 dark:text-white dark:bg-slate-600 relative rounded-md border-2 dark:border-slate-300 border-red-400 ${
-							isMobile ? 'p-2' : ''
-						}`}
+						className='bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/[0.08] rounded-xl p-5 md:p-6 relative'
 					>
 						<Button
 							onClick={onClose}
 							size='icon'
 							variant='ghost'
-							className='absolute right-2 top-2 text-red-500 dark:text-white'
+							className='absolute right-3 top-3'
 						>
-							<X />
+							<X className='w-5 h-5 text-gray-400' />
 						</Button>
+
 						{!data && isPending ? (
-							<p>Loading...</p>
+							<p className='text-gray-400'>Loading...</p>
 						) : (
-							<div
-								className={`flex flex-col gap-4 items-start ${
-									isMobile ? 'text-sm' : 'text-base'
-								}`}
-							>
-								<h1
-									className={`font-bold dark:text-purple-300 text-orange-500 ${
-										isMobile ? 'text-2xl' : 'text-4xl'
-									}`}
-								>
-									{title}
-								</h1>
+							<div className='flex flex-col gap-4'>
+								<div className='flex items-start justify-between gap-4 pr-8'>
+									<h1 className='text-xl font-bold text-gray-900 dark:text-white'>
+										{title}
+									</h1>
+									<span className={`text-xs font-medium px-2.5 py-1 rounded-full shrink-0 ${getStatusClass()}`}>
+										{getStatus()}
+									</span>
+								</div>
 
-								<div className='flex flex-col gap-2 w-full'>
-									<p
-										className={`font-bold border-b pb-2 dark:border-purple-300 border-orange-500 ${
-											isMobile ? 'text-sm' : ''
-										}`}
-									>
-										Description:
-										<span className='block font-medium dark:text-green-400 text-sm'>
+								{description && (
+									<div className='border-b border-gray-100 dark:border-white/5 pb-3'>
+										<p className='text-xs font-medium text-gray-500 dark:text-gray-400 mb-1'>
+											Description
+										</p>
+										<p className='text-sm text-gray-700 dark:text-gray-300'>
 											{description}
-										</span>
-									</p>
+										</p>
+									</div>
+								)}
 
-									<div
-										className={`grid ${
-											isMobile ? 'grid-cols-1 gap-y-2' : 'grid-cols-2'
-										} w-full`}
-									>
-										<div className='font-bold'>
-											Category:
-											<span className='font-medium dark:text-teal-300'>
-												{' '}
-												{category?.name}
-											</span>
-										</div>
-										<div className='font-bold'>
-											Status:
-											<span className='font-medium dark:text-teal-300'>
-												{' '}
-												{getStatus()}
-											</span>
-										</div>
-										<div className='font-bold'>
-											Created at:
-											<span className='font-medium dark:text-teal-300'>
-												{' '}
-												{formatteTime(startTime)}
-											</span>
-										</div>
-										<div className='font-bold'>
-											End time:
-											<span className='font-medium dark:text-teal-300'>
-												{' '}
-												{formatteTime(endTime)}
-											</span>
-										</div>
+								<div className='grid grid-cols-2 gap-3 text-sm'>
+									<div>
+										<p className='text-xs font-medium text-gray-500 dark:text-gray-400'>
+											Category
+										</p>
+										<p className='font-medium text-gray-900 dark:text-white'>
+											{category?.name}
+										</p>
+									</div>
+									<div>
+										<p className='text-xs font-medium text-gray-500 dark:text-gray-400'>
+											Status
+										</p>
+										<p className='font-medium text-gray-900 dark:text-white'>
+											{getStatus()}
+										</p>
+									</div>
+									<div>
+										<p className='text-xs font-medium text-gray-500 dark:text-gray-400'>
+											Start
+										</p>
+										<p className='font-medium text-gray-900 dark:text-white'>
+											{formatteTime(startTime)}
+										</p>
+									</div>
+									<div>
+										<p className='text-xs font-medium text-gray-500 dark:text-gray-400'>
+											Deadline
+										</p>
+										<p className='font-medium text-gray-900 dark:text-white'>
+											{formatteTime(endTime)}
+										</p>
 									</div>
 								</div>
 
 								{!status?.archived && !status?.completed ? (
-									<div
-										className={`grid w-full ${
-											isMobile ? 'grid-cols-1' : 'grid-cols-3'
-										} gap-2 mt-3`}
-									>
+									<div className='grid grid-cols-3 gap-2 mt-2'>
 										<Button
 											onClick={() => handleArch(data?._id || '')}
-											variant='link'
-											className={`w-full ${
-												isMobile ? 'py-2' : ''
-											} text-red-50 bg-red-400 hover:bg-red-500`}
+											variant='destructive'
+											size='sm'
 										>
 											Archive
 										</Button>
 										<Button
 											onClick={() => handleChange(data?._id || '')}
-											variant='add'
-											className={`w-full ${
-												isMobile ? 'py-2' : ''
-											} text-gray-50 bg-gray-500/70 hover:bg-gray-300`}
+											variant='outline'
+											size='sm'
 										>
-											Change
+											Edit
 										</Button>
 										<Button
 											onClick={() => handleComp(data?._id || '')}
-											variant='add'
-											className={`w-full ${
-												isMobile ? 'py-2' : ''
-											} text-green-50 bg-green-500 hover:bg-green-600`}
+											size='sm'
 										>
 											Complete
 										</Button>
 									</div>
 								) : (
-									<div className='mt-6 w-full'>
+									<div className='mt-2'>
 										<Button
 											onClick={() => handleDelete(taskId)}
-											variant='add'
-											className={`w-full text-red-50 bg-red-500 hover:bg-red-600 ${
-												isMobile ? 'py-2' : ''
-											}`}
+											variant='destructive'
+											className='w-full'
+											size='sm'
 										>
-											Permanent Delete
+											Permanently Delete
 										</Button>
-										<p className='text-xs mt-1 text-gray-600 dark:text-white'>
-											Make sure you really want to delete the task.
+										<p className='text-xs mt-1 text-gray-500 dark:text-gray-400'>
+											This cannot be undone.
 										</p>
 									</div>
 								)}

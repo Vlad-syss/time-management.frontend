@@ -39,7 +39,7 @@ export const MiniProfileModal: FC<MiniProfileModalProps> = ({
 					ariaHideApp={false}
 					style={{
 						overlay: {
-							backgroundColor: 'rgba(100, 0, 0, 0)',
+							backgroundColor: 'transparent',
 							display: 'flex',
 							justifyContent: 'center',
 							zIndex: '1000',
@@ -51,36 +51,36 @@ export const MiniProfileModal: FC<MiniProfileModalProps> = ({
 							padding: '0',
 							border: 'none',
 							background: 'none',
-							borderRadius: '5px',
-							width: '250px',
-							height: '170px',
+							borderRadius: '12px',
+							width: '220px',
+							height: '140px',
 							transform: 'translate(-50%,0)',
 						},
 					}}
 				>
 					<motion.div
 						initial={{ y: -10, opacity: 0 }}
-						animate={{
-							y: 0,
-							opacity: 1,
-						}}
+						animate={{ y: 0, opacity: 1 }}
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.15 }}
-						className='bg-orange-200 p-1 py-2 md:p-2 md:mx-2 dark:text-white dark:bg-slate-600 rounded-lg'
+						className='bg-white dark:bg-[#1A1A24] border border-gray-200 dark:border-white/[0.08] rounded-xl p-1.5 shadow-elevated'
 					>
-						<div className='grid grid-cols-1 grid-rows-2 items-start font-medium text-sm'>
+						<div className='flex flex-col'>
 							<Link
 								href='/profile'
-								className='flex items-center gap-2 p-1 hover:bg-transparent/20'
+								onClick={onClose}
+								className='flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors'
 							>
-								<User className='w-5 h-5' />
+								<User className='w-4 h-4' />
 								View Profile
 							</Link>
 							<Link
 								href='profile?tabs=change'
-								className='flex items-center gap-2 p-1 border-t-2 border-white hover:bg-transparent/20'
+								onClick={onClose}
+								className='flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-t border-gray-100 dark:border-white/[0.06]'
 							>
-								<Pen className='w-4 h-4' /> Change Profile
+								<Pen className='w-4 h-4' />
+								Edit Profile
 							</Link>
 						</div>
 					</motion.div>

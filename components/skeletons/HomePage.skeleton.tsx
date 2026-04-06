@@ -2,7 +2,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 export const HomePageSkeleton = () => {
 	return (
-		<SkeletonTheme baseColor='#fde183' highlightColor='#fff4dd'>
+		<SkeletonTheme baseColor='#E5E7EB' highlightColor='#F3F4F6'>
 			<p className='p-5'>
 				<Skeleton height={50} width={200} className='mb-3 mx-3' />
 				<span>

@@ -41,14 +41,14 @@ const TasksPage = () => {
 				})}
 			>
 				<div className='flex justify-between w-full items-start gap-3 pb-3 border-b-[3px] border-destructive/50 dark:border-slate-300/50'>
-					<h4 className='text-[30px] md:text-[38px] font-bold tracking-wide'>
+					<h4 className='text-2xl font-bold tracking-wide'>
 						Tasks!
 					</h4>
 					<div className='grid gap-2 grid-rows-2 grid-cols-3'>
 						<Button
 							variant='outline'
 							size='lg'
-							className='text-orange-700 hover:text-orange-100 hover:border-background col-span-full'
+							className='text-indigo-600 dark:text-indigo-400 hover:text-gray-100 hover:border-background col-span-full'
 							onClick={() => openModal()}
 						>
 							Create new!
@@ -58,8 +58,8 @@ const TasksPage = () => {
 							variant='ghost'
 							onClick={handleKanban}
 							className={cn(
-								'text-red-600 rounded-xl hover:text-orange-200 col-start-2 dark:text-stone-300 dark:hover:bg-slate-600',
-								selected.kanban && 'text-orange-200 bg-accent dark:bg-slate-600'
+								'text-red-600 rounded-xl hover:text-indigo-200 col-start-2 dark:text-stone-300 dark:hover:bg-slate-600',
+								selected.kanban && 'text-indigo-200 bg-accent dark:bg-[#1A1A24]'
 							)}
 						>
 							<SquareKanban />
@@ -69,8 +69,8 @@ const TasksPage = () => {
 							variant='ghost'
 							onClick={handleWrap}
 							className={cn(
-								'text-red-600 rounded-xl hover:text-orange-200 dark:text-stone-300 dark:hover:bg-slate-600',
-								selected.wrap && 'text-orange-200 bg-accent dark:bg-slate-600'
+								'text-red-600 rounded-xl hover:text-indigo-200 dark:text-stone-300 dark:hover:bg-slate-600',
+								selected.wrap && 'text-indigo-200 bg-accent dark:bg-[#1A1A24]'
 							)}
 						>
 							<WrapText />

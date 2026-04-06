@@ -121,7 +121,7 @@ export const WrapItems: React.FC<SortableItemProps> = ({
 						<span>
 							{task.category.name}
 						</span>
-						<span className='w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600' />
+						<span className='w-1 h-1 rounded-full bg-gray-300 dark:bg-white/10' />
 						{isTaskCompleted ? (
 							<span className='text-emerald-500 font-medium'>Completed</span>
 						) : isTaskArchived ? (
