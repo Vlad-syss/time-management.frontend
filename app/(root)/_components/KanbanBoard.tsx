@@ -81,7 +81,7 @@ export const KanbanBoard: FC<BoardsProps> = ({
 			}
 			localStorage.setItem(
 				LOCAL_STORAGE_COLLAPSED_KEY,
-				JSON.stringify([...next])
+				JSON.stringify(Array.from(next))
 			)
 			return next
 		})
